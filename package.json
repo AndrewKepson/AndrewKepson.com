@@ -4,7 +4,12 @@
   "description": "Andrew Kepson is a digital marketer and Jamstack web developer building with headless WordPress. With a background in content writing and SEO, I jumped at the chance to do a web development bootcamp to learn JavaScript. Building Jamstack websites combines my interests in writing, SEO, and web development.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "start": "npm run develop",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
   },
   "keywords": [],
   "author": "",
