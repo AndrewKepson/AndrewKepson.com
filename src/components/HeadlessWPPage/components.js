@@ -1,0 +1,6 @@
+export * from './Header'
+export * from './Marketing'
+export * from './WhyChooseWP'
+export * from './Gatsby'
+export * from './HeadlessWpReact'
+export * from './HeadlessWPFAQs'
