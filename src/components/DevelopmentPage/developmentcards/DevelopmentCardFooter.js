@@ -9,7 +9,7 @@ const DevelopmentCardFooter = ({ project }) => (
     </div>
     <div className="m-2 flex w-full flex-none cursor-pointer justify-center bg-gray-500 p-6 text-base font-medium text-gray-100 transition-colors duration-150 hover:bg-gray-600 md:mx-2 lg:flex-1">
       <a href={project.github} target="_blank" rel="noreferrer">
-        View Code on GitHub
+        {project.github ? 'View Code on GitHub' : 'Code Unavailable'}
       </a>
     </div>
   </footer>
