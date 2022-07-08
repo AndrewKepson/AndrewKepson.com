@@ -8,12 +8,21 @@ export const CodePortfolio = [
     altText: "Filmpire home screen from Andrew Kepson's CodePortfolio.",
   },
   {
+    project: 'Carson Bluffs Self Storage',
+    github: null,
+    deployment: 'https://fountainstorage128.com/',
+    description: `This is a local business website built with Gatsby. As a migration from an older website, the site saw an immediate increase in organic traffic of 13.08% quarter over quarter.`,
+    photo: 'carson-bluffs-self-storage',
+    altText:
+      "A screenshot of Carson Bluffs Self Storage's website from Andrew Kepson's CodePortfolio.",
+  },
+  {
     project: 'Arcane Realty Investors',
     github:
       'https://github.com/AndrewKepson/Tailwind-Landing-Pages/blob/master/src/pages/arcane-realty-investors.js',
     deployment:
       'https://xenodochial-hamilton-5bed45.netlify.app/arcane-realty-investors',
-    description: `This is a landing page for a fictional investment firm, styled with Tailwind CSS and using Headless UI components.`,
+    description: `This is a landing page for a fictive digital realty investment firm, styled with Tailwind CSS and using Headless UI components.`,
     photo: 'Arcane-Realty-Investors',
     altText: 'Arcane Realty Investors landing page',
   },
