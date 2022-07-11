@@ -7,7 +7,7 @@ module.exports = {
     title: `Andrew Kepson`,
     description: `Andrew Kepson's personal website for portfolio pieces and blog posts.`,
     author: `Andrew Kepson`,
-    siteUrl: `https://andrewkepson.com`,
+    siteUrl: process.env.FRONT_END_URL,
   },
   trailingSlash: 'always',
   plugins: [
@@ -78,12 +78,19 @@ module.exports = {
         schema: {
           typePrefix: `Wp`,
         },
+        // searchAndReplace: [
+        //   {
+        //     search: process.env.WP_URL,
+        //     replace: process.env.FRONT_END_URL,
+        //   },
+        // ],
         html: {
           useGatsbyImage: true,
           generateWebpImages: true,
           imageMaxWidth: 800,
           imageQuality: 90,
           createStaticFiles: true,
+          placeholderType: `blurred`,
         },
         type: {
           Post: {
@@ -124,8 +131,8 @@ module.exports = {
         intensity: `blizzard`,
         duration: 7,
         season: {
-          start: new Date(`December 1, 2021 00:00:10`),
-          end: new Date(`December 31, 2021 23:59:50`),
+          start: new Date(`December 10, 2021 00:00:10`),
+          end: new Date(`December 30, 2021 23:59:50`),
         },
       },
     },
