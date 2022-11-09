@@ -3,7 +3,7 @@ const { slash } = require('gatsby-core-utils')
 
 module.exports.createPages = async ({
   graphql,
-  actions: { createPage, createRedirect },
+  actions: { createPage, createRedirect, createSlice },
 }) => {
   createRedirect({
     fromPath: '/blog/create-headless-wordpress-source-gatsby-wordpress-api/',
@@ -21,6 +21,27 @@ module.exports.createPages = async ({
     toPath: '/html-sitemap/',
     isPermanent: true,
   })
+
+  const slices = [
+    {
+      id: `header`,
+      componentPath: `./src/components/Header/Header.js`,
+      context: { headerContext: `headerContext` },
+    },
+    {
+      id: `footer`,
+      componentPath: `./src/components/Footer/Footer.js`,
+      context: { footerContext: `footerContext` },
+    },
+  ]
+
+  slices.forEach(slice =>
+    createSlice({
+      id: slice.id,
+      component: require.resolve(slice.componentPath),
+      context: slice.context,
+    })
+  )
 
   const result = await graphql(`
     {
