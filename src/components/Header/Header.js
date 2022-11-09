@@ -4,7 +4,7 @@ import { Popover, Transition } from '@headlessui/react'
 import { Nav } from './Nav'
 import { MobileNav } from './Mobilenav'
 
-export const Header = () => (
+const Header = () => (
   <header className="relative z-10 bg-white pb-6 sm:pt-6 md:pb-12">
     <Popover>
       {({ open }) => (
@@ -35,3 +35,5 @@ export const Header = () => (
     </Popover>
   </header>
 )
+
+export default Header
