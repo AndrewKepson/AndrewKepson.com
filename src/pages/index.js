@@ -2,6 +2,7 @@ import React from 'react'
 import { graphql } from 'gatsby'
 
 import { Layout, Seo, HomePageContent } from '../components/components'
+import { WebPageSchema } from '../components/Schema/WebPage'
 
 const IndexPage = ({
   data: {
@@ -28,6 +29,7 @@ const IndexPage = ({
       ogImgAltText={altText}
       twitterImg={twitterImg.src}
     />
+    <WebPageSchema />
     <HomePageContent />
     <div dangerouslySetInnerHTML={{ __html: schemaMarkup }} />
   </Layout>

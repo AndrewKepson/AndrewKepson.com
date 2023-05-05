@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6ba471f2-7b51-4610-b475-269fa7bee54c/deploy-status)](https://app.netlify.com/sites/fervent-leakey-b50709/deploys)
+
 # AndrewKepson.com
 
 This is my personal website. Currently it is built using Gatsby with WordPress as a headless CMS, and the styling is done using Tailwind CSS.

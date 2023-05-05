@@ -8,6 +8,7 @@ export const usePortraitPhoto = () => {
   } = useStaticQuery(graphql`
     {
       file(name: { eq: "802A3320" }) {
+        publicURL
         childImageSharp {
           gatsbyImageData(
             quality: 60
