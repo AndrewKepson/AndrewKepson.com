@@ -2,12 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import { useSiteMetadata } from '../hooks/useSiteMetadata'
+import { WebPageSchema } from './Schema/WebPage'
 
 export const Seo = ({
   title,
   description,
   meta = [],
   canonical,
+  schema,
   ogType = 'website',
   ogImg = '',
   ogImgAltText = '',
@@ -74,6 +76,14 @@ export const Seo = ({
     >
       <title>{title}</title>
       {canonical && <link rel="canonical" href={canonical} />}
+      {schema && (
+        <script type="application/ld+json">{JSON.stringify(schema)}</script>
+      )}
+      <WebPageSchema
+        name={title}
+        description={metaDescription}
+        url={canonical}
+      />
     </Helmet>
   )
 }
@@ -82,5 +92,6 @@ Seo.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   canonical: PropTypes.string,
+  schema: PropTypes.object,
   ogImage: PropTypes.string,
 }
