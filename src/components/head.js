@@ -1,4 +1,5 @@
 import React from 'react'
+import { Script } from 'gatsby'
 import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import { useSiteMetadata } from '../hooks/useSiteMetadata'
@@ -74,10 +75,33 @@ export const Seo = ({
         },
       ].concat(meta)}
     >
+      {typeof window !== 'undefined' &&
+        process.env.NODE_ENV === 'production' && (
+          <Script type="text/javascript">
+            {(function (c, l, a, r, i, t, y) {
+              c[a] =
+                c[a] ||
+                function () {
+                  ;(c[a].q = c[a].q || []).push(arguments)
+                }
+              t = l.createElement(r)
+              t.async = 1
+              t.src = 'https://www.clarity.ms/tag/' + i
+              y = l.getElementsByTagName(r)[0]
+              y.parentNode.insertBefore(t, y)
+            })(
+              window,
+              document,
+              'clarity',
+              'script',
+              `${process.env.CLARITY_TRACKING_ID}`
+            )}
+          </Script>
+        )}
       <title>{title}</title>
       {canonical && <link rel="canonical" href={canonical} />}
       {schema && (
-        <script type="application/ld+json">{JSON.stringify(schema)}</script>
+        <Script type="application/ld+json">{JSON.stringify(schema)}</Script>
       )}
       <WebPageSchema
         name={title}
