@@ -89,13 +89,7 @@ export const Seo = ({
               t.src = 'https://www.clarity.ms/tag/' + i
               y = l.getElementsByTagName(r)[0]
               y.parentNode.insertBefore(t, y)
-            })(
-              window,
-              document,
-              'clarity',
-              'script',
-              `${process.env.CLARITY_TRACKING_ID}`
-            )}
+            })(window, document, 'clarity', 'script', 'h1bbyuxxuy')}
           </Script>
         )}
       <title>{title}</title>
