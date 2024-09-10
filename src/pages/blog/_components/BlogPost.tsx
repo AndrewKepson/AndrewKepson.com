@@ -1,10 +1,10 @@
 import React from "react";
-import { Image } from "astro:assets";
 import Fade from "react-reveal/Fade";
 import { type FlattenedPost } from "@lib/wordPressAPI.types";
+import { formatDate } from "@lib/functions";
 
 // Assuming you have a default image imported
-import defaultImage from "@images/stock/headless-wordpress-blogging-stock.jpg";
+import defaultImage from "../../../assets/images/stock/headless-wordpress-blogging-stock.jpg";
 
 type BlogPostProps = {
 	post: FlattenedPost;
@@ -23,7 +23,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({ post, category }) => (
 								alt={post.featuredImage?.altText || "Writing before blogs."}
 								width="600"
 								height="400"
-								class="h-full w-full object-cover"
+								className="h-full w-full object-cover"
 							/>
 						</a>
 					</div>
@@ -35,14 +35,14 @@ export const BlogPost: React.FC<BlogPostProps> = ({ post, category }) => (
 						</span>
 					</div>
 					<h3 className="font-heading mb-3 font-semibold leading-tight hover:text-purple-400">
-						<a href={post.uri}>{post?.title}</a>
+						<a href={post?.uri}>{post?.title}</a>
 					</h3>
 					<p className="font-body mb-3" dangerouslySetInnerHTML={{ __html: post?.excerpt }} />
-					<a href={post.uri} className="text-sm font-bold text-purple-600 hover:text-purple-400">
+					<a href={post?.uri} className="text-sm font-bold text-purple-600 hover:text-purple-400">
 						Read more
 					</a>
 					<div className="mt-auto flex w-full items-center justify-end border-t py-3 text-xs text-gray-600">
-						<p>{post.date}</p>
+						<p>{formatDate(post?.date, "readable")}</p>
 					</div>
 				</div>
 			</div>

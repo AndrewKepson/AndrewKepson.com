@@ -29,6 +29,7 @@
 		"900-italic.css": "link:@fontsource/work-sans/900-italic.css",
 		"900.css": "link:@fontsource/work-sans/900.css",
 		"@astrojs/react": "^3.6.2",
+		"@astrojs/sitemap": "^3.1.6",
 		"@astrojs/tailwind": "^5.1.0",
 		"@fontsource/eb-garamond": "^5.0.20",
 		"@fontsource/roboto": "^5.0.15",
@@ -49,6 +50,7 @@
 		"react-dom": "^18.3.1",
 		"react-reveal": "^1.2.2",
 		"react-share": "^5.1.0",
+		"sharp": "^0.33.5",
 		"slugger": "^1.0.1",
 		"tailwindcss": "^3.4.10"
 	},

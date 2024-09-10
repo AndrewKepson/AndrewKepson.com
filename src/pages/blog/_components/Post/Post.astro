@@ -50,18 +50,18 @@ const { post } = Astro.props;
 					{post?.title}
 				</h1>
 				<div class="-mx-2 flex items-center">
-					<div class="w-auto px-2">
+					<div class="w-auto rounded-full px-2">
 						<Image
 							src={import("@images/andrew-kepson-2020-portrait.png")}
 							alt={`The author of this blog post, Andrew Kepson, standing in front of the Rocky Mountains in Colorado.`}
 							height="95"
 							width="95"
-							class="rounded-full"
+							class="rounded-sm shadow-sm"
 						/>
 					</div>
 					<div class="font-garamond w-auto px-2">
 						<h4 class="text-coolGray-800 text-base font-bold md:text-lg">Andrew Kepson</h4>
-						<p class="text-coolGray-500 text-base md:text-lg">{post?.date}</p>
+						<p class="text-coolGray-500 text-base md:text-lg">{formatDate(post?.date, "readable")}</p>
 					</div>
 				</div>
 			</div>
@@ -69,6 +69,7 @@ const { post } = Astro.props;
 		<div class="-mx-4 flex flex-wrap">
 			<aside class="w-full px-4 lg:mb-8 lg:w-4/12 xl:w-3/12">
 				<ShareButtons
+					client:load
 					url={`${siteUrl}${post?.uri}`}
 					title={post?.title}
 					excerpt={post?.excerpt}
@@ -102,10 +103,10 @@ const { post } = Astro.props;
 
 			<div class="w-full md:flex-1 lg:mt-6">
 				<article
-					class="font-garamond prose-headings:font-garamond prose mx-auto mb-16 max-w-full text-xl leading-relaxed text-gray-900 prose-headings:font-semibold prose-h1:text-center prose-h1:text-5xl prose-h1:text-gray-800 prose-h2:text-2xl prose-h2:text-gray-700 prose-h3:text-xl prose-h3:text-gray-600 prose-a:text-purple-600 prose-a:no-underline hover:prose-a:text-purple-500 prose-blockquote:border-purple-400 prose-blockquote:bg-gray-50 prose-blockquote:px-4 prose-blockquote:py-2 prose-blockquote:shadow-lg prose-img:shadow-xl md:w-2/3 md:text-2xl md:prose-h2:text-3xl md:prose-h3:text-2xl lg:prose-h2:text-4xl lg:prose-h3:text-3xl"
+					class="font-garamond prose-headings:font-garamond prose mx-auto mb-16 max-w-full text-xl leading-relaxed text-gray-900 prose-headings:font-semibold prose-h1:text-center prose-h1:text-5xl prose-h1:text-gray-800 prose-h2:text-2xl prose-h2:text-gray-700 prose-h3:text-xl prose-h3:text-gray-600 prose-a:text-purple-600 prose-a:no-underline hover:prose-a:text-purple-500 prose-blockquote:border-purple-400 prose-blockquote:bg-gray-50 prose-blockquote:px-4 prose-blockquote:py-2 prose-blockquote:shadow-lg prose-code:bg-gray-400 prose-code:p-5 prose-img:shadow-xl md:w-2/3 md:text-2xl md:prose-h2:text-3xl md:prose-h3:text-2xl lg:prose-h2:text-4xl lg:prose-h3:text-3xl"
 				>
 					<div set:html={post?.content} />
-					<div class="text-right">{post?.date}</div>
+					<div class="text-right">{formatDate(post?.date, "readable")}</div>
 				</article>
 				<p class="text-md font-garamond text-center text-gray-700 lg:text-lg">
 					This post is powered by headless WordPress.

@@ -1,0 +1,29 @@
+---
+import { Image } from "astro:assets";
+---
+
+<section class="py-18 my-10 snap-start snap-always px-4">
+	<div class="container grid grid-cols-1 justify-center gap-4 md:grid-cols-2">
+		<div>
+			<Image
+				src={import("@images/stock/colorado-springs-web-design.jpg")}
+				class="shadow-lg"
+				alt="I'm a web designer in Colorado Springs."
+			/>
+		</div>
+		<div class="mx-auto max-w-2xl text-gray-600">
+			<h2 class="font-roboto mb-8 text-2xl font-semibold text-gray-900 md:text-3xl lg:text-4xl">
+				Colorado Springs Web Design
+			</h2>
+			<p class="lead text-muted font-work-sans mb-8 md:text-xl">
+				Stand out like sandstone against the backdrop of the Rocky Mountains with a beautiful website. Modern
+				websites need to be accessible and fast on every kind of device to attract as many customers as
+				possible. It all starts with the design.
+			</p>
+			<p class="lead text-muted font-work-sans mb-8 md:text-xl">
+				Find website design in Colorado Springs to solve real problems for your business by making it easy for
+				potential customers to find you, learn about you, and get in touch.
+			</p>
+		</div>
+	</div>
+</section>

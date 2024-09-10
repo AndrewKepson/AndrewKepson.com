@@ -3,14 +3,16 @@ import tailwind from "@astrojs/tailwind";
 
 import react from "@astrojs/react";
 
+import sitemap from "@astrojs/sitemap";
+
 export default defineConfig({
-    integrations: [tailwind(), react()],
+    integrations: [tailwind(), react(), sitemap()],
     trailingSlash: "always",
     site: "https://andrewkepson.com",
-	image: {
-		domains: ["headless.andrewkepson.com"]
-	},
-    // prefetch: true,
+    image: {
+        domains: ["headless.andrewkepson.com"]
+    },
+    prefetch: true,
     compressHTML: true,
     experimental: {
         contentLayer: true,
