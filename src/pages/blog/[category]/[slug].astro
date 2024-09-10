@@ -1,13 +1,14 @@
 ---
 import Layout from "@components/layouts/Layout.astro";
-import Post from "./blog/_components/Post/Post.astro";
+import Post from "../_components/Post/Post.astro";
 import { allWordPressPosts } from "@lib/store";
 import slugger from "slugger";
 
 export async function getStaticPaths() {
 	return allWordPressPosts.map((post) => ({
 		params: {
-			uri: post?.uri,
+			category: slugger(post?.category),
+			slug: post?.slug,
 		},
 		props: {
 			post,
@@ -19,6 +20,6 @@ const { post } = Astro.props;
 console.log(post);
 ---
 
-<Layout title={post?.seo?.title} description={post?.seo?.description}>
+<Layout title={post?.seo?.title} description={post?.seo?.description} canonical={post?.uri}>
 	<Post post={post} />
 </Layout>

@@ -9,7 +9,7 @@ export const Tagline = () => {
 				<a className="hover:text-purple-500" href="/sitemap/sitemap-0.xml">
 					XML Sitemap
 				</a>
-				<a className="hover:text-purple-500" href="/html-sitemap">
+				<a className="hover:text-purple-500" href="/html-sitemap/">
 					HTML Sitemap
 				</a>
 			</div>

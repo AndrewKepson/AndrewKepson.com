@@ -4,6 +4,11 @@ import { allWordPressCategories } from "@lib/store";
 export const Sidebar = ({ selectedCategory, filterBySearch, filterByCategory, searchInput, onClear }) => {
 	const categories = allWordPressCategories;
 
+	const handleCategoryChange = (e) => {
+		const categoryUri = e.target.value;
+		filterByCategory(categoryUri);
+	};
+
 	return (
 		<aside className="hidden w-full p-4 lg:order-1 lg:block lg:w-5/12 xl:w-4/12">
 			<div className="sticky top-20 rounded-sm bg-opacity-70 p-6 shadow-lg">
@@ -36,10 +41,10 @@ export const Sidebar = ({ selectedCategory, filterBySearch, filterByCategory, se
 						<select
 							required=""
 							className="w-full appearance-none rounded border border-gray-300 py-4 pl-4 pr-10"
-							onChange={filterByCategory}
+							onChange={handleCategoryChange}
 							value={selectedCategory}
 						>
-							<option>Choose Category</option>
+							<option value="/blog">All Categories</option>
 							{categories.map((category) => (
 								<option key={category.id} value={category.uri} name={category.name}>
 									{category.name}
@@ -62,8 +67,8 @@ export const Sidebar = ({ selectedCategory, filterBySearch, filterByCategory, se
 
 					<div className="text-right">
 						<button
-							className="inline-block rounded-full bg-purple-600 px-6 py-2 text-center text-white shadow-lg hover:bg-purple-400"
-							type="submit"
+							className="inline-block rounded-sm bg-purple-600 px-6 py-2 text-center text-white shadow-lg hover:bg-purple-400"
+							type="button"
 							onClick={onClear}
 						>
 							Reset

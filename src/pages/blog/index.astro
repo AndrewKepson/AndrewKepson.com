@@ -1,10 +1,8 @@
 ---
-import { allWordPressCategories, allWordPressPosts } from "@lib/store";
+import { allWordPressPosts } from "@lib/store";
 
 import Layout from "@components/layouts/Layout.astro";
 import { BlogPageContent } from "./_components/BlogPageContent.tsx";
-
-console.log(allWordPressPosts.map((post) => ({ category: post.category, title: post.title, slug: post.slug, uri: post.uri })));
 ---
 
 <Layout>

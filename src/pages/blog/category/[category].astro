@@ -1,0 +1,25 @@
+---
+import Layout from "@components/layouts/Layout.astro";
+import { BlogPageContent } from "../_components/BlogPageContent";
+import { allWordPressCategories, allWordPressPosts } from "@lib/store";
+import slugger from "slugger";
+
+export async function getStaticPaths() {
+	return allWordPressCategories.map((category) => ({
+		params: {
+			category: slugger(category?.name),
+		},
+		props: {
+			category,
+			posts: allWordPressPosts.filter((post) => post?.category === category?.name),
+		},
+	}));
+}
+
+const { category, posts } = Astro.props;
+console.log(category);
+---
+
+<Layout title={""} description={""} canonical={category?.uri}>
+	<BlogPageContent client:load category={category?.name} posts={posts} />
+</Layout>

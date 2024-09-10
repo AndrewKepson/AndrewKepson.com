@@ -98,3 +98,21 @@ export const getHeadingsFromMarkdown = (html) => {
 
 	return headings;
 };
+
+export const formatDate = (dateString: string, format: "readable" | "ISO" = "readable"): string => {
+	const dateObj = new Date(dateString);
+
+	if (format === "readable") {
+		// Format as "Month Day, Year"
+		return dateObj.toLocaleDateString("en-US", {
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+		});
+	} else if (format === "ISO") {
+		// Format as ISO 8601
+		return dateObj.toISOString();
+	} else {
+		throw new Error("Invalid format. Use 'readable' or 'ISO'.");
+	}
+};

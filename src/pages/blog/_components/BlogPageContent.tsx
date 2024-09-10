@@ -4,7 +4,7 @@ import { type FlattenedPost } from "@lib/wordPressAPI.types";
 
 import { BlogPost } from "./BlogPost";
 import { Sidebar } from "./Sidebar";
-// import NothingHere from "./NothingHere.astro";
+import NothingHere from "./NothingHere.astro";
 
 type BlogPageContentProps = {
 	posts?: FlattenedPost[];
@@ -49,13 +49,12 @@ export const BlogPageContent: React.FC<BlogPageContentProps> = ({ posts = [], ca
 		}
 	};
 
-	const filterByCategory = (e) => {
-		e.preventDefault();
-		const { value } = e.target;
-
-		const newPath = value === "/blog" ? "/blog" : value;
-		window.history.pushState({}, "", newPath);
-		setCurrentPath(newPath);
+	const filterByCategory = (categoryUri: string) => {
+		if (categoryUri === "/blog" || categoryUri === "All Categories") {
+			window.location.href = "/blog/";
+		} else {
+			window.location.href = categoryUri;
+		}
 	};
 
 	const onClear = (e) => {
@@ -68,8 +67,7 @@ export const BlogPageContent: React.FC<BlogPageContentProps> = ({ posts = [], ca
 
 		setSearchInput("");
 
-		window.history.pushState({}, "", "/blog/");
-		setCurrentPath("/blog/");
+		window.location.href = "/blog/";
 	};
 
 	return (
@@ -90,7 +88,7 @@ export const BlogPageContent: React.FC<BlogPageContentProps> = ({ posts = [], ca
 							<BlogPost key={post.id} post={post} category={post?.category} />
 						))
 					) : (
-						<NothingHere />
+						<div></div>
 					)}
 					<div className="font-roboto text-center font-semibold">Powered by Headless WordPress</div>
 				</div>

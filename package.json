@@ -30,6 +30,7 @@
 		"900.css": "link:@fontsource/work-sans/900.css",
 		"@astrojs/react": "^3.6.2",
 		"@astrojs/tailwind": "^5.1.0",
+		"@fontsource/eb-garamond": "^5.0.20",
 		"@fontsource/roboto": "^5.0.15",
 		"@fontsource/work-sans": "^5.0.20",
 		"@headlessui/react": "^2.1.6",

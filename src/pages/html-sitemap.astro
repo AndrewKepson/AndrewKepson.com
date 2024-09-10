@@ -1,0 +1,66 @@
+---
+import { allWordPressPosts, allWordPressCategories } from "@lib/store";
+
+import Layout from "@components/layouts/Layout.astro";
+---
+
+<Layout>
+	<div class="grid h-full grid-cols-1 place-content-around text-xl text-gray-700">
+		<ul>
+			<li>
+				<a class="hover:text-purple-500" href="/"> Home </a>
+			</li>
+			<li>
+				<a class="hover:text-purple-500" href="/headless-wordpress-developer/">
+					Headless WordPress Developer
+				</a>
+			</li>
+			<li>
+				<a class="hover:text-purple-500" href="/colorado-springs-web-developer/">
+					Colorado Springs Web Developer
+				</a>
+			</li>
+			<li>
+				<a class="hover:text-purple-500" href="/about/"> About Me </a>
+			</li>
+			<li>
+				<a class="hover:text-purple-500" href="/blog/"> Blog </a>
+			</li>
+
+			<li>
+				<a class="hover:text-purple-500" href="/portfolio/"> Portfolio </a>
+			</li>
+			<li>
+				<a class="hover:text-purple-500" href="/development/"> Web Development Portfolio </a>
+			</li>
+			<li>
+				<a class="hover:text-purple-500" href="/contact/"> Contact Me </a>
+			</li>
+		</ul>
+
+		<p class="pb-5 pt-10 font-semibold">Blog Posts:</p>
+		<ul>
+			{
+				allWordPressPosts.map((post) => (
+					<li>
+						<a class="hover:text-purple-500" href={post?.uri}>
+							{post?.title}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+		<p class="pb-5 pt-10 font-semibold">Blog Categories:</p>
+		<ul>
+			{
+				allWordPressCategories.map((category) => (
+					<li>
+						<a class="hover:text-purple-500" href={category?.uri}>
+							{`Posts About ${category?.name}`}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</Layout>

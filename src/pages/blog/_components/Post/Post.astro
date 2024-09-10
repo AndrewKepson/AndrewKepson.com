@@ -6,111 +6,129 @@ interface Props {
 import { type FlattenedPost } from "@lib/wordPressAPI.types";
 import { Image } from "astro:assets";
 import { siteUrl } from "@lib/store";
-import { getHeadingsFromMarkdown, chooseCategoryColor, chooseTagColor } from "@lib/functions";
+import { getHeadingsFromMarkdown, chooseCategoryColor, chooseTagColor, formatDate } from "@lib/functions";
 
-import Layout from "@components/layouts/Layout.astro";
 import { ShareButtons } from "./ShareButtons";
 import TableOfContents from "./TableOfContents.astro";
-import ScrollToTop from "./ScrollToTop.astro";
 
 const { post } = Astro.props;
 ---
 
-<Layout>
-	<section class="bg-white">
-		<div class="container mx-auto px-4">
-			<div class="-mx-4 flex flex-wrap lg:items-center">
-				<div class="mb-8 w-full px-4 lg:mb-0 lg:w-1/2 2xl:w-5/12">
-					<div class="mx-auto max-w-max overflow-hidden rounded-lg md:ml-0">
-						<Image
-							id="featured-image"
-							src={post?.featuredImage?.url}
-							alt={post?.featuredImage?.altText}
-							loading="eager"
-							height="400"
-							width="400"
-						/>
-					</div>
-				</div>
-				<div class="w-full px-4 lg:w-1/2">
-					<div
-						class={`mb-6 inline-block rounded-full ${chooseCategoryColor(
-							post?.category
-						)} font-garamond px-2 font-medium shadow-md`}
-					>
-						{post?.category}
-					</div>
-					<div class="flex items-center">
-						<p class="inline-block font-medium text-purple-600">Andrew Kepson</p>
-						<span class="mx-1 text-violet-500">•</span>
-						<p class="inline-block font-medium text-purple-600">
-							{post?.date}
-						</p>
-					</div>
-					<h1
-						class="font-garamond mb-4 text-3xl font-normal leading-tight tracking-tighter text-gray-900 md:text-4xl lg:text-5xl"
-					>
-						{post?.title}
-					</h1>
-					<div class="-mx-2 flex items-center">
-						<div class="w-auto px-2">
-							<Image
-								src={import("@images/andrew-kepson-2020-portrait.png")}
-								alt={`The author of this blog post, Andrew Kepson, standing in front of the Rocky Mountains in Colorado.`}
-								height={95}
-								width={95}
-								quality={90}
-								class="rounded-full"
-							/>
-						</div>
-						<div class="font-garamond w-auto px-2">
-							<h4 class="text-coolGray-800 text-base font-bold md:text-lg">Andrew Kepson</h4>
-							<p class="text-coolGray-500 text-base md:text-lg">{post?.date}</p>
-						</div>
-					</div>
+<section id="post-wrapper" class="bg-white">
+	<div class="container mx-auto px-4">
+		<div class="-mx-4 flex flex-wrap lg:items-center">
+			<div class="mb-8 w-full px-4 lg:mb-0 lg:w-1/2 2xl:w-5/12">
+				<div class="mx-auto max-w-max overflow-hidden rounded-lg md:ml-0">
+					<Image
+						id="featured-image"
+						src={post?.featuredImage?.url}
+						alt={post?.featuredImage?.altText}
+						loading="eager"
+						height="400"
+						width="400"
+					/>
 				</div>
 			</div>
-			<div class="-mx-4 flex flex-wrap">
-				<aside class="w-full px-4 lg:mb-8 lg:w-4/12 xl:w-3/12">
-					<ShareButtons
-						url={`${siteUrl}${post?.uri}`}
-						title={post?.title}
-						excerpt={post?.excerpt}
-						hashtags={post?.tags}
-					/>
-					<span
-						class="text-coolGray-600 border-coolGray-200 font-roboto border-b text-center text-xl font-semibold"
-					>
-						Table of Contents
-					</span>
-					<TableOfContents headings={getHeadingsFromMarkdown(post?.content)} />
-					<div class="w-full px-2">
-						<span class="text-coolGray-800 text-base font-bold md:text-lg"> Tags: </span>
-						<div class="min-h-full w-full">
-							<ul class="flex flex-row flex-wrap gap-1">
-								{
-									post?.tags.map((tag) => (
-										<li>{/* <Tag tag={tag} color={chooseTagColor(tag)} /> */}</li>
-									))
-								}
-							</ul>
-						</div>
-					</div>
-				</aside>
-
-				<div class="w-full md:flex-1 lg:mt-6">
-					<article
-						class="font-garamond prose-headings:font-garamond prose mx-auto mb-16 max-w-full text-xl leading-relaxed text-gray-900 prose-headings:font-semibold prose-h1:text-center prose-h1:text-5xl prose-h1:text-gray-800 prose-h2:text-2xl prose-h2:text-gray-700 prose-h3:text-xl prose-h3:text-gray-600 prose-a:text-purple-600 prose-a:no-underline hover:prose-a:text-purple-500 prose-blockquote:border-purple-400 prose-blockquote:bg-gray-50 prose-blockquote:px-4 prose-blockquote:py-2 prose-blockquote:shadow-lg prose-img:shadow-xl md:w-2/3 md:text-2xl md:prose-h2:text-3xl md:prose-h3:text-2xl lg:prose-h2:text-4xl lg:prose-h3:text-3xl"
-					>
-						<div set:html={post?.content} />
-						<div class="text-right">{post?.date}</div>
-					</article>
-					<p class="text-md font-garamond text-center text-gray-700 lg:text-lg">
-						This post is powered by headless WordPress.
+			<div class="w-full px-4 lg:w-1/2">
+				<div
+					class={`mb-6 inline-block rounded-full ${chooseCategoryColor(
+						post?.category
+					)} font-garamond px-2 font-medium shadow-md`}
+				>
+					{post?.category}
+				</div>
+				<div class="flex items-center">
+					<p class="inline-block font-medium text-purple-600">Andrew Kepson</p>
+					<span class="mx-1 text-violet-500">•</span>
+					<p class="inline-block font-medium text-purple-600">
+						{formatDate(post?.date, "readable")}
 					</p>
 				</div>
-				<ScrollToTop />
+				<h1
+					class="font-garamond mb-4 text-3xl font-normal leading-tight tracking-tighter text-gray-900 md:text-4xl lg:text-5xl"
+				>
+					{post?.title}
+				</h1>
+				<div class="-mx-2 flex items-center">
+					<div class="w-auto px-2">
+						<Image
+							src={import("@images/andrew-kepson-2020-portrait.png")}
+							alt={`The author of this blog post, Andrew Kepson, standing in front of the Rocky Mountains in Colorado.`}
+							height="95"
+							width="95"
+							class="rounded-full"
+						/>
+					</div>
+					<div class="font-garamond w-auto px-2">
+						<h4 class="text-coolGray-800 text-base font-bold md:text-lg">Andrew Kepson</h4>
+						<p class="text-coolGray-500 text-base md:text-lg">{post?.date}</p>
+					</div>
+				</div>
 			</div>
 		</div>
-	</section>
-</Layout>
+		<div class="-mx-4 flex flex-wrap">
+			<aside class="w-full px-4 lg:mb-8 lg:w-4/12 xl:w-3/12">
+				<ShareButtons
+					url={`${siteUrl}${post?.uri}`}
+					title={post?.title}
+					excerpt={post?.excerpt}
+					hashtags={post?.tags}
+				/>
+				<span
+					class="text-coolGray-600 border-coolGray-200 font-roboto border-b text-center text-xl font-semibold"
+				>
+					Table of Contents
+				</span>
+				<TableOfContents headings={getHeadingsFromMarkdown(post?.content)} />
+				<div class="w-full px-2">
+					<span class="text-coolGray-800 text-base font-bold md:text-lg"> Tags: </span>
+					<div class="min-h-full w-full">
+						<ul class="flex flex-row flex-wrap gap-1">
+							{
+								post?.tags.map((tag) => (
+									<li>
+										<div
+											class={`rounded-sm text-gray-900 ${chooseTagColor(tag)} text-md font-work-sans m-1 flex h-full w-full items-center justify-center font-semibold shadow-sm`}
+										>
+											{tag}
+										</div>
+									</li>
+								))
+							}
+						</ul>
+					</div>
+				</div>
+			</aside>
+
+			<div class="w-full md:flex-1 lg:mt-6">
+				<article
+					class="font-garamond prose-headings:font-garamond prose mx-auto mb-16 max-w-full text-xl leading-relaxed text-gray-900 prose-headings:font-semibold prose-h1:text-center prose-h1:text-5xl prose-h1:text-gray-800 prose-h2:text-2xl prose-h2:text-gray-700 prose-h3:text-xl prose-h3:text-gray-600 prose-a:text-purple-600 prose-a:no-underline hover:prose-a:text-purple-500 prose-blockquote:border-purple-400 prose-blockquote:bg-gray-50 prose-blockquote:px-4 prose-blockquote:py-2 prose-blockquote:shadow-lg prose-img:shadow-xl md:w-2/3 md:text-2xl md:prose-h2:text-3xl md:prose-h3:text-2xl lg:prose-h2:text-4xl lg:prose-h3:text-3xl"
+				>
+					<div set:html={post?.content} />
+					<div class="text-right">{post?.date}</div>
+				</article>
+				<p class="text-md font-garamond text-center text-gray-700 lg:text-lg">
+					This post is powered by headless WordPress.
+				</p>
+			</div>
+			<!-- ! Scroll to Top Button -->
+			<a
+				class="fixed bottom-5 right-5 z-50 float-right cursor-pointer bg-gray-300 p-2 text-center shadow-sm hover:shadow-none"
+				href="#featured-image"
+			>
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+					<path
+						fillRule="evenodd"
+						d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
+						clipRule="evenodd"></path>
+				</svg>
+			</a>
+		</div>
+	</div>
+</section>
+
+<style>
+	#post-wrapper {
+		scroll-behavior: smooth;
+	}
+</style>

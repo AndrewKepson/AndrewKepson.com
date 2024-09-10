@@ -68,6 +68,9 @@ importers:
       '@astrojs/tailwind':
         specifier: ^5.1.0
         version: 5.1.0(astro@4.15.4(rollup@4.21.2)(typescript@5.6.2))(tailwindcss@3.4.10)
+      '@fontsource/eb-garamond':
+        specifier: ^5.0.20
+        version: 5.0.20
       '@fontsource/roboto':
         specifier: ^5.0.15
         version: 5.0.15
@@ -442,6 +445,9 @@ packages:
 
   '@floating-ui/utils@0.2.7':
     resolution: {integrity: sha512-X8R8Oj771YRl/w+c1HqAC1szL8zWQRwFvgDwT129k9ACdBoud/+/rX9V0qiMl6LWUdP9voC2nDVZYPMQQsb6eA==}
+
+  '@fontsource/eb-garamond@5.0.20':
+    resolution: {integrity: sha512-y9/lWPcAxo+ZDqEgVgP0UNF03nYHQX+xnV+CvVWEfH7wIODhQIPtSOqv7mC3F43LDsnapvTSdvBu4zDf0bEpAA==}
 
   '@fontsource/roboto@5.0.15':
     resolution: {integrity: sha512-352XiID9jfwmYaHpdmS3ocGJi3PA+vOm4HzJIRfSyPEyLP6dZN8iiEKUbdAfB5YXQO3YxO2KZpR+R28q2zMiYw==}
@@ -2607,6 +2613,8 @@ snapshots:
       tabbable: 6.2.0
 
   '@floating-ui/utils@0.2.7': {}
+
+  '@fontsource/eb-garamond@5.0.20': {}
 
   '@fontsource/roboto@5.0.15': {}
 
