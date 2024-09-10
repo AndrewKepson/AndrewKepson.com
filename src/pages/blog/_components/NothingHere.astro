@@ -1,0 +1,37 @@
+---
+import { Image } from "astro:assets";
+---
+
+<article class="mb-6 flex h-full rounded bg-white shadow-xl">
+	<div class="flex h-full flex-col flex-wrap">
+		<div class="w-full">
+			<figure>
+				<Image
+					src={import("@images/stock/headless-wordpress-blogging-stock.jpg")}
+					alt="Mountain lake in the autumn"
+				/>
+				<figcaption class="pl-2 text-sm">
+					Photo by{" "}
+					<a
+						href="https://unsplash.com/@reymark_franke?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+						rel="noreferrer noopener nofollow"
+						class="text-purple-600 hover:text-purple-500"
+					>
+						Reymark Franke
+					</a>{" "}
+					on Unsplash.
+				</figcaption>
+			</figure>
+		</div>
+		<div class="p-6">
+			<h3 class="font-heading text-3xl text-gray-800 md:text-5xl">Nothing to See Here Yet...</h3>
+			<div>
+				<p class="font-body text-2xl font-light text-gray-700">
+					Don't see what you're looking for?{" "}
+					<a href="/contact/" class="text-purple-600 hover:text-purple-500"> Contact me </a>{" "}
+					with your question. Maybe I'll answer with a blog post about it!
+				</p>
+			</div>
+		</div>
+	</div>
+</article>

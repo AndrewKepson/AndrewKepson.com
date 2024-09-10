@@ -1,4 +1,11 @@
-import { type PaginatedResponse, type QueryResult, type FlattenedPage } from "./wordPressAPI.types";
+import {
+	type PaginatedResponse,
+	type QueryResult,
+	type FlattenedPage,
+	type FlattenedPost,
+	type PostInCategory,
+	type Category,
+} from "./wordPressAPI.types";
 
 import dotenv from "dotenv";
 
@@ -196,21 +203,104 @@ export const getPageBySlug = async (slug) => {
 	return data?.page;
 };
 
-export const getAllPosts = async () => {
-	const data = await fetchWordPressAPI(`
-    {
-        posts {
-          edges {
-            node {
-              id
-              slug
-            }
-          }
-        }
-      }
-    `);
+export const getAllPosts = async (limit: number = Infinity): Promise<FlattenedPost[]> => {
+	const postQuery = (cursor: string | null) => `
+	  query GetAllPosts($cursor: String) {
+		posts(first: 100, after: $cursor) {
+		  edges {
+			node {
+			  id
+			  slug
+			  uri
+			  title
+			  featuredImage {
+				node {
+				  mediaItemUrl
+				  altText
+				}
+			  }
+			  date
+			  excerpt
+			  content(format: RENDERED)
+			  seo {
+				title
+				description
+				canonicalUrl
+				robots
+			  }
+			  tags {
+				edges {
+				  node {
+					name
+				  }
+				}
+			  }
+			  categories {
+				edges {
+				  node {
+					name
+				  }
+				}
+			  }
+			}
+			cursor
+		  }
+		  pageInfo {
+			hasNextPage
+			endCursor
+		  }
+		}
+	  }
+	`;
 
-	return data?.posts;
+	const postTransformer = (node: any): FlattenedPost => {
+		try {
+			return {
+				id: node.id || "",
+				slug: node.slug || "",
+				uri: node.uri || "",
+				title: node.title || "",
+				featuredImage: {
+					url: node.featuredImage?.node?.mediaItemUrl || "",
+					altText: node.featuredImage?.node?.altText || "",
+				},
+				date: node.date || "",
+				excerpt: node.excerpt || "",
+				content: node.content || "",
+				seo: {
+					title: node.seo?.title || "",
+					description: node.seo?.description || "",
+					canonicalUrl: node.seo?.canonicalUrl || "",
+					robots: node.seo?.robots || "",
+				},
+				tags: node.tags?.edges.map((edge: any) => edge.node.name) || [],
+				category: node.categories?.edges[0]?.node.name || undefined,
+			};
+		} catch (error) {
+			console.error("Error transforming post node:", error);
+			console.error("Problematic node:", JSON.stringify(node, null, 2));
+			throw new Error(`Failed to transform post node: ${error.message}`);
+		}
+	};
+
+	try {
+		const posts = await paginatedQuery<any, FlattenedPost>(postQuery, postTransformer, limit);
+		console.log(`Successfully fetched ${posts.length} posts`);
+		return posts;
+	} catch (error) {
+		console.error("Error in getAllPosts:", error);
+		if (error.response) {
+			console.error("Response data:", error.response.data);
+			console.error("Response status:", error.response.status);
+			console.error("Response headers:", error.response.headers);
+		} else if (error.request) {
+			console.error("No response received. Request:", error.request);
+		} else {
+			console.error("Error message:", error.message);
+		}
+		console.error("Error config:", error.config);
+		throw new Error(`Failed to fetch posts: ${error.message}`);
+	}
 };
 
 export const getPostBySlug = async (slug) => {
@@ -226,4 +316,104 @@ export const getPostBySlug = async (slug) => {
     `);
 
 	return data?.post;
+};
+
+export const getAllCategories = async (limit: number = Infinity): Promise<Category[]> => {
+	const categoryQuery = (cursor: string | null) => `
+	  query GetAllCategories($cursor: String) {
+		categories(first: 100, after: $cursor) {
+		  edges {
+			node {
+			  id
+			  uri
+			  name
+			  posts {
+				nodes {
+				  id
+				  title
+				  uri
+				  featuredImage {
+					node {
+					  altText
+					  mediaItemUrl
+					}
+				  }
+				  excerpt
+				  author {
+					node {
+					  name
+					}
+				  }
+				  categories {
+					nodes {
+					  name
+					}
+				  }
+				  tags {
+					nodes {
+					  name
+					}
+				  }
+				}
+			  }
+			}
+			cursor
+		  }
+		  pageInfo {
+			hasNextPage
+			endCursor
+		  }
+		}
+	  }
+	`;
+
+	const transformPost = (post: any): PostInCategory => ({
+		id: post.id,
+		title: post.title,
+		uri: post.uri,
+		featuredImage: post.featuredImage?.node
+			? {
+					altText: post.featuredImage.node.altText,
+					url: post.featuredImage.node.mediaItemUrl,
+				}
+			: undefined,
+		excerpt: post.excerpt,
+		author: post.author?.node?.name || undefined,
+		categories: post.categories?.nodes.map((cat: any) => cat.name) || undefined,
+		tags: post.tags?.nodes.map((tag: any) => tag.name) || undefined,
+	});
+
+	const categoryTransformer = (node: any): Category => {
+		try {
+			return {
+				id: node.id || "",
+				uri: node.uri || "",
+				name: node.name || "",
+				posts: node.posts?.nodes.map(transformPost) || [],
+			};
+		} catch (error) {
+			console.error("Error transforming category node:", error);
+			console.error("Problematic node:", JSON.stringify(node, null, 2));
+			throw new Error(`Failed to transform category node: ${error.message}`);
+		}
+	};
+
+	try {
+		const categories = await paginatedQuery<any, Category>(categoryQuery, categoryTransformer, limit);
+		console.log(`Successfully fetched ${categories.length} categories`);
+		return categories;
+	} catch (error) {
+		console.error("Error in getAllCategories:", error);
+		if (error.response) {
+			console.error("Response data:", error.response.data);
+			console.error("Response status:", error.response.status);
+			console.error("Response headers:", error.response.headers);
+		} else if (error.request) {
+			console.error("No response received. Request:", error.request);
+		} else {
+			console.error("Error message:", error.message);
+		}
+		console.error("Error config:", error.config);
+		throw new Error(`Failed to fetch categories: ${error.message}`);
+	}
 };

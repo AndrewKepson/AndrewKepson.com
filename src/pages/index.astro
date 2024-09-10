@@ -1,5 +1,10 @@
 ---
-import Layout from "../components/layouts/Layout.astro";
+import { allWordPressPosts } from "@lib/store";
+
+import Layout from "@components/layouts/Layout.astro";
+import Hero from "./_components/Hero.astro";
+import LatestBlogPosts from "./_components/LatestBlogPosts.astro";
+console.log(allWordPressPosts);
 ---
 
 <Layout
@@ -7,12 +12,12 @@ import Layout from "../components/layouts/Layout.astro";
 	description="This headless WordPress site is styled with TailwindCSS."
 	canonical="/"
 >
-	<section class="animate-fadeInUp">
-		<h1>Welcome to my Headless WordPress site.</h1>
-		<p class="animate-fadeInLeft">This headless WordPress site is styled with TailwindCSS.</p>
-	</section>
+	<div class="-mb-4 flex flex-wrap items-center text-gray-500 md:mb-0 lg:px-12 lg:pt-12">
+		<Hero />
+		<LatestBlogPosts />
+	</div>
 </Layout>
 
 <script>
-	console.log("Thank you for visiting my headless WordPress site.");
+	console.log("Thank you for visiting my headless WordPress site!");
 </script>

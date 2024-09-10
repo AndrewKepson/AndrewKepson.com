@@ -1,0 +1,24 @@
+---
+interface Props {
+	portfolio: string;
+	description: string;
+	link: string;
+}
+
+import WritingSVG from "./WritingSVG.astro";
+import DevSVG from "./DevSVG.astro";
+import ArtSVG from "./ArtSVG.astro";
+
+const { portfolio, description, link } = Astro.props;
+---
+
+<div class="w-full p-4 lg:w-1/3">
+	<div class="flex h-full flex-col place-content-around justify-between rounded-lg px-6 py-16 shadow-lg">
+		{portfolio === "Development" && <DevSVG />}
+		{portfolio === "Blog" && <WritingSVG />}
+		{portfolio === "Art" && <ArtSVG />}
+		<h5 class="mb-2 text-xl font-bold text-gray-900">{portfolio}</h5>
+		<p class="mb-4 text-lg">{description}</p>
+		<a href={link} class="text-purple-600 hover:text-purple-500"> Learn More </a>
+	</div>
+</div>

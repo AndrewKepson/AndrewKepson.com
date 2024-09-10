@@ -1,0 +1,32 @@
+---
+import Layout from "@components/layouts/Layout.astro";
+import PortfolioCard from "./_components/PortfolioCard.astro";
+
+const portfolioCardsData = [
+	{
+		portfolio: `Development`,
+		description: `I build websites and web applications. My primary technologies are
+        React, Node, Tailwind, and Gatsby.`,
+		link: `/development/`,
+	},
+	{
+		portfolio: `Blog`,
+		description: `Writing was my first love. I'm interested in topics in blockchain, digital marketing, and web development.`,
+		link: `/blog/`,
+	},
+];
+---
+
+<Layout>
+	<div class="flex flex-wrap justify-center">
+		{
+			portfolioCardsData.map((portfolioCard) => (
+				<PortfolioCard
+					portfolio={portfolioCard?.portfolio}
+					description={portfolioCard?.description}
+					link={portfolioCard?.link}
+				/>
+			))
+		}
+	</div>
+</Layout>

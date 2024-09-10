@@ -1,24 +1,54 @@
 {
-  "name": "astro-headless-wordpress-tailwind-starter",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@astrojs/tailwind": "^5.1.0",
-    "astro": "^4.15.4",
-    "dotenv": "^16.4.5",
-    "prettier": "^3.3.3",
-    "prettier-plugin-astro": "^0.13.0",
-    "prettier-plugin-tailwindcss": "^0.5.14",
-    "tailwindcss": "^3.4.10"
-  },
-  "devDependencies": {
-    "@tailwindcss/typography": "^0.5.15"
-  }
+	"name": "andrew-kepson",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro"
+	},
+	"dependencies": {
+		"100-italic.css": "link:@fontsource/work-sans/100-italic.css",
+		"100.css": "link:@fontsource/work-sans/100.css",
+		"200-italic.css": "link:@fontsource/work-sans/200-italic.css",
+		"200.css": "link:@fontsource/work-sans/200.css",
+		"300-italic.css": "link:@fontsource/work-sans/300-italic.css",
+		"300.css": "link:@fontsource/work-sans/300.css",
+		"400-italic.css": "link:@fontsource/work-sans/400-italic.css",
+		"400.css": "link:@fontsource/work-sans/400.css",
+		"500-italic.css": "link:@fontsource/work-sans/500-italic.css",
+		"500.css": "link:@fontsource/work-sans/500.css",
+		"600-italic.css": "link:@fontsource/work-sans/600-italic.css",
+		"600.css": "link:@fontsource/work-sans/600.css",
+		"700-italic.css": "link:@fontsource/work-sans/700-italic.css",
+		"700.css": "link:@fontsource/work-sans/700.css",
+		"800-italic.css": "link:@fontsource/work-sans/800-italic.css",
+		"800.css": "link:@fontsource/work-sans/800.css",
+		"900-italic.css": "link:@fontsource/work-sans/900-italic.css",
+		"900.css": "link:@fontsource/work-sans/900.css",
+		"@astrojs/react": "^3.6.2",
+		"@astrojs/tailwind": "^5.1.0",
+		"@fontsource/roboto": "^5.0.15",
+		"@fontsource/work-sans": "^5.0.20",
+		"@headlessui/react": "^2.1.6",
+		"@heroicons/react": "^2.1.5",
+		"@types/react": "^18.3.5",
+		"@types/react-dom": "^18.3.0",
+		"astro": "^4.15.4",
+		"dotenv": "^16.4.5",
+		"outline": "link:@heroicons/react/outline",
+		"prettier": "^3.3.3",
+		"prettier-plugin-astro": "^0.13.0",
+		"prettier-plugin-tailwindcss": "^0.5.14",
+		"prop-types": "^15.8.1",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"react-reveal": "^1.2.2",
+		"tailwindcss": "^3.4.10"
+	},
+	"devDependencies": {
+		"@tailwindcss/typography": "^0.5.15"
+	}
 }

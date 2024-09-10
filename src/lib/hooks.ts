@@ -1,4 +1,11 @@
-import { fetchWordPressAPI, getAllPages, getPageBySlug, getAllPosts, getPostBySlug } from "./wordPressAPI";
+import {
+	fetchWordPressAPI,
+	getAllPages,
+	getPageBySlug,
+	getAllPosts,
+	getPostBySlug,
+	getAllCategories,
+} from "./wordPressAPI";
 
 export const useWordPressAPI = {
 	fetchWordPressAPI,
@@ -6,4 +13,5 @@ export const useWordPressAPI = {
 	getPageBySlug,
 	getAllPosts,
 	getPostBySlug,
+	getAllCategories,
 };

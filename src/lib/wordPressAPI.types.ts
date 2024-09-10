@@ -34,3 +34,46 @@ export interface FlattenedPage {
 		};
 	};
 }
+
+export interface FlattenedPost {
+	id: string;
+	slug: string;
+	uri: string;
+	title: string;
+	featuredImage: {
+		url: string;
+		altText: string;
+	};
+	excerpt: string;
+	date: string;
+	content: string;
+	seo: {
+		title: string;
+		description: string;
+		canonicalUrl: string;
+		robots: string;
+	};
+	tags: string[];
+	category?: string;
+}
+
+export interface PostInCategory {
+	id: string;
+	title: string;
+	uri: string;
+	featuredImage?: {
+		altText?: string;
+		url?: string;
+	};
+	excerpt?: string;
+	author?: string;
+	categories?: string[];
+	tags?: string[];
+}
+
+export interface Category {
+	id: string;
+	uri: string;
+	name: string;
+	posts: PostInCategory[];
+}

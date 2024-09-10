@@ -1,0 +1,22 @@
+---
+import { Image } from "astro:assets";
+---
+
+<div class="mb-4 w-full px-2 text-xl md:mb-0 md:px-12 lg:w-1/2 lg:px-20 lg:text-lg">
+	<h1 class="font-roboto mb-6 animate-fadeInDown text-3xl font-semibold leading-tight text-gray-800 md:text-6xl">
+		I'm Andrew
+	</h1>
+
+	<p class="font-work-sans mb-4 animate-fadeInUp leading-relaxed text-gray-600">
+		Headless WordPress. SEO. Content. JavaScript. Focused on site speed and bridging the gap between web development
+		and marketing.
+	</p>
+</div>
+<div class="mb-4 w-full px-4 md:mb-0 lg:w-1/2">
+	<Image
+		src={import("@images/andrew-kepson-2020-portrait.png")}
+		loading="eager"
+		alt="Andrew Kepson in 2020"
+		class="rounded shadow-2xl animate-fadeInLeft"
+	/>
+</div>

@@ -1,0 +1,12 @@
+---
+import { allWordPressCategories, allWordPressPosts } from "@lib/store";
+
+import Layout from "@components/layouts/Layout.astro";
+import { BlogPageContent } from "./_components/BlogPageContent.tsx";
+
+console.log(allWordPressCategories);
+---
+
+<Layout>
+	<BlogPageContent client:load posts={allWordPressPosts} category="All Categories" />
+</Layout>
