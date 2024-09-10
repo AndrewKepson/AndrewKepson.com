@@ -1,0 +1,24 @@
+---
+import Layout from "@components/layouts/Layout.astro";
+import Post from "./blog/_components/Post/Post.astro";
+import { allWordPressPosts } from "@lib/store";
+import slugger from "slugger";
+
+export async function getStaticPaths() {
+	return allWordPressPosts.map((post) => ({
+		params: {
+			uri: post?.uri,
+		},
+		props: {
+			post,
+		},
+	}));
+}
+
+const { post } = Astro.props;
+console.log(post);
+---
+
+<Layout title={post?.seo?.title} description={post?.seo?.description}>
+	<Post post={post} />
+</Layout>
