@@ -1,9 +1,14 @@
 ---
+import { allWordPressPages } from "@lib/store";
+
 import Layout from "@components/layouts/Layout.astro";
 import Form from "./_components/Form.astro";
+import Testimonial from "./_components/Testimonial.astro";
+
+const pageData = allWordPressPages.find((page) => page.slug === "contact");
 ---
 
-<Layout>
+<Layout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/contact/">
 	<div>
 		<div>
 			<h1 class="font-roboto mb-4 animate-fadeInLeft text-3xl text-gray-800 md:text-6xl">Contact Me</h1>
@@ -12,7 +17,5 @@ import Form from "./_components/Form.astro";
 	<div class="animate-fadeInRight">
 		<Form />
 	</div>
-	<!-- <Fade bottom>
-		<Testimonials />
-	</Fade> -->
+	<Testimonial />
 </Layout>

@@ -1,13 +1,21 @@
 ---
+import { allWordPressPages } from "@lib/store";
+
 import Layout from "@components/layouts/Layout.astro";
 import Hero from "./_components/Hero.astro";
 import FAQs from "./_components/FAQs";
 import WhyChooseWP from "./_components/WhyChooseWP.astro";
 import Marketing from "./_components/Marketing.astro";
 import React from "./_components/React.astro";
+
+const pageData = allWordPressPages.find((page) => page.slug === "headless-wordpress-developer");
 ---
 
-<Layout>
+<Layout
+	title={pageData?.seo?.title}
+	description={pageData?.seo?.description}
+	canonical="/headless-wordpress-developer/"
+>
 	<Hero />
 	<WhyChooseWP />
 	<Marketing />

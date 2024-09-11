@@ -1,15 +1,17 @@
 ---
-import { allWordPressPosts } from "@lib/store";
+import { allWordPressPages } from "@lib/store";
 
 import Layout from "@components/layouts/Layout.astro";
 import Hero from "./_components/Hero.astro";
 import LatestBlogPosts from "./_components/LatestBlogPosts.astro";
-console.log(allWordPressPosts);
+
+const pageData = allWordPressPages.find(page => page.slug === "home");
+console.log(pageData);
 ---
 
 <Layout
-	title="Welcome to my Headless WordPress site."
-	description="This headless WordPress site is styled with TailwindCSS."
+	title={pageData?.seo?.title}
+	description={pageData?.seo?.description}
 	canonical="/"
 >
 	<div class="-mb-4 flex flex-wrap items-center text-gray-500 md:mb-0 lg:px-12 lg:pt-12">

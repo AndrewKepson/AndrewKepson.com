@@ -8,60 +8,6 @@ importers:
 
   .:
     dependencies:
-      100-italic.css:
-        specifier: link:@fontsource/work-sans/100-italic.css
-        version: link:@fontsource/work-sans/100-italic.css
-      100.css:
-        specifier: link:@fontsource/work-sans/100.css
-        version: link:@fontsource/work-sans/100.css
-      200-italic.css:
-        specifier: link:@fontsource/work-sans/200-italic.css
-        version: link:@fontsource/work-sans/200-italic.css
-      200.css:
-        specifier: link:@fontsource/work-sans/200.css
-        version: link:@fontsource/work-sans/200.css
-      300-italic.css:
-        specifier: link:@fontsource/work-sans/300-italic.css
-        version: link:@fontsource/work-sans/300-italic.css
-      300.css:
-        specifier: link:@fontsource/work-sans/300.css
-        version: link:@fontsource/work-sans/300.css
-      400-italic.css:
-        specifier: link:@fontsource/work-sans/400-italic.css
-        version: link:@fontsource/work-sans/400-italic.css
-      400.css:
-        specifier: link:@fontsource/work-sans/400.css
-        version: link:@fontsource/work-sans/400.css
-      500-italic.css:
-        specifier: link:@fontsource/work-sans/500-italic.css
-        version: link:@fontsource/work-sans/500-italic.css
-      500.css:
-        specifier: link:@fontsource/work-sans/500.css
-        version: link:@fontsource/work-sans/500.css
-      600-italic.css:
-        specifier: link:@fontsource/work-sans/600-italic.css
-        version: link:@fontsource/work-sans/600-italic.css
-      600.css:
-        specifier: link:@fontsource/work-sans/600.css
-        version: link:@fontsource/work-sans/600.css
-      700-italic.css:
-        specifier: link:@fontsource/work-sans/700-italic.css
-        version: link:@fontsource/work-sans/700-italic.css
-      700.css:
-        specifier: link:@fontsource/work-sans/700.css
-        version: link:@fontsource/work-sans/700.css
-      800-italic.css:
-        specifier: link:@fontsource/work-sans/800-italic.css
-        version: link:@fontsource/work-sans/800-italic.css
-      800.css:
-        specifier: link:@fontsource/work-sans/800.css
-        version: link:@fontsource/work-sans/800.css
-      900-italic.css:
-        specifier: link:@fontsource/work-sans/900-italic.css
-        version: link:@fontsource/work-sans/900-italic.css
-      900.css:
-        specifier: link:@fontsource/work-sans/900.css
-        version: link:@fontsource/work-sans/900.css
       '@astrojs/react':
         specifier: ^3.6.2
         version: 3.6.2(@types/react-dom@18.3.0)(@types/react@18.3.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@5.4.3)
@@ -1116,8 +1062,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  electron-to-chromium@1.5.18:
-    resolution: {integrity: sha512-1OfuVACu+zKlmjsNdcJuVQuVE61sZOLbNM4JAQ1Rvh6EOj0/EUKhMJjRH73InPlXSh8HIJk1cVZ8pyOV/FMdUQ==}
+  electron-to-chromium@1.5.19:
+    resolution: {integrity: sha512-kpLJJi3zxTR1U828P+LIUDZ5ohixyo68/IcYOHLqnbTPr/wdgn4i1ECvmALN9E16JPA6cvCG5UG79gVwVdEK5w==}
 
   emoji-regex@10.4.0:
     resolution: {integrity: sha512-EC+0oUMY1Rqm4O6LLrgjtYDvcVYTy7chDnM4Q7030tP4Kwj3u/pR6gP9ygnp2CJMK5Gq+9Q2oqmrFJAz01DXjw==}
@@ -3151,7 +3097,7 @@ snapshots:
   browserslist@4.23.3:
     dependencies:
       caniuse-lite: 1.0.30001660
-      electron-to-chromium: 1.5.18
+      electron-to-chromium: 1.5.19
       node-releases: 2.0.18
       update-browserslist-db: 1.1.0(browserslist@4.23.3)
 
@@ -3334,7 +3280,7 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  electron-to-chromium@1.5.18: {}
+  electron-to-chromium@1.5.19: {}
 
   emoji-regex@10.4.0: {}
 

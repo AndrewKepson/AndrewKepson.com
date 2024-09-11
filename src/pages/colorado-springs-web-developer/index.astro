@@ -1,12 +1,16 @@
 ---
+import { allWordPressPages } from "@lib/store";
+
 import Layout from "@components/layouts/Layout.astro";
 import Hero from "./_components/Hero.astro";
 import WebDesign from "./_components/WebDesign.astro";
 import HowItWorks from "./_components/HowItWorks.astro";
 import CTA from "./_components/CTA.astro";
+
+const pageData = allWordPressPages.find((page) => page.slug === "colorado-springs-web-developer");
 ---
 
-<Layout>
+<Layout title={pageData?.seo?.title} description={pageData?.seo?.description}>
 	<div class="snap-y snap-mandatory">
 		<Hero />
 		<WebDesign />

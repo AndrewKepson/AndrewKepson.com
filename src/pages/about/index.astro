@@ -1,10 +1,14 @@
 ---
+import { allWordPressPages } from "@lib/store";
 import { Image } from "astro:assets";
 
 import Layout from "@components/layouts/Layout.astro";
+
+const pageData = allWordPressPages.find((page) => page.slug === "about");
+console.log(pageData);
 ---
 
-<Layout>
+<Layout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/about/">
 	<section class="bg-white py-20 xl:pb-28 xl:pt-24">
 		<div class="container mx-auto px-4">
 			<div class="-mx-4 flex flex-wrap">
@@ -14,7 +18,7 @@ import Layout from "@components/layouts/Layout.astro";
 							<h3 class="font-roboto mb-4 text-3xl font-bold tracking-tighter text-gray-900 md:text-4xl">
 								About Andrew Kepson
 							</h3>
-							<p class="font-roboto text-lg font-semibold leading-8 text-gray-700 md:text-xl">
+							<p class="font-roboto text-2xl font-medium leading-8 text-gray-700 md:text-2xl">
 								Working at the intersection of web development &amp; marketing
 							</p>
 						</div>
@@ -30,55 +34,10 @@ import Layout from "@components/layouts/Layout.astro";
 						</div>
 					</div>
 				</div>
-				<div class="mb-5 w-full px-4 lg:mb-0 lg:w-1/2">
-					<p class="font-garamond mb-6 text-lg font-medium leading-7 text-gray-700 md:text-2xl">
-						I'm Andrew Kepson. I'm a web developer and digital marketer based in Colorado with a passion for
-						building exceptionally fast websites.
-					</p>
-					<h3 class="font-roboto mb-4 text-2xl font-semibold text-gray-800 lg:text-3xl">
-						How This All Started
-					</h3>
-					<p class="font-garamond mb-5 text-lg font-medium leading-7 text-gray-700 md:text-2xl">
-						I built my first website around 2003 using GeoCities to host web pages built purely with HTML. A
-						couple of years later, I was creating custom MySpace pages for myself &amp; a few friends with
-						CSS.
-					</p>
-					<p class="font-garamond text-lg font-medium leading-7 text-gray-700 md:text-2xl">
-						At the time I didn't realize the opportunities available in web development, and in college I
-						pursued my interests in writing and philosophy, earning my Bachelor of Arts as a double major in
-						English Literature &amp; Philosophy from the University of Colorado, Colorado Springs. After
-						looking for ways to make a living from writing, I discovered the world of content marketing,
-						writing blogs and other content for websites with a focus on burgeoning software technology
-						including blockchain.
-					</p>
-					<h3 class="font-roboto mb-4 text-2xl font-semibold text-gray-800 lg:text-3xl">
-						Moving into Digital Marketing
-					</h3>
-					<p class="font-garamond text-lg font-medium leading-7 text-gray-700 md:text-2xl">
-						After discovering the world of digital marketing as a content writer, I became interested in the
-						world of SEO, joining the team at one of the leading digital marketing firms in the United
-						States, SocialSEO. This gave me the opportunity to apply my writing skills and many other SEO
-						tactics every day working with a range of businesses, from small local companies to ecommerce
-						brands to large corporate enterprises and SaaS companies.
-					</p>
-					<p class="font-garamond mt-2 text-lg font-medium leading-7 text-gray-700 md:text-2xl">
-						Working in SEO also reignited my passion for web development, and I returned to school to attend
-						University of Denver's coding bootcamp, which is an intensive full stack web development program
-						focused on JavaScript development using the MERN stack.
-					</p>
-					<h3 class="font-roboto mb-4 text-2xl font-semibold text-gray-800 lg:text-3xl">Back to My Roots</h3>
-					<p class="font-garamond text-lg font-medium leading-7 text-gray-700 md:text-2xl">
-						Upon graduating from University of Denver, I continued improving my knowledge and skills in SEO
-						with a focus on SEO for React web applications, Core Web Vitals, and organic ecommerce growth.
-						Not satisfied with improving sites built by others, I made the decision to move into software
-						full time. Now I work as a{" "}
-						<a href="/headless-wordpress-developer/" class="text-purple-600 hover:text-purple-500">
-							headless Wordpress developer
-						</a>{" "}
-						building professional and fast websites that are set up to achieve results with SEO and easily maintained
-						by business owners and marketers.
-					</p>
-				</div>
+				<article
+					class="prose-p:font-garamond prose-h2:font-roboto mb-5 w-full px-4 prose-h2:mb-4 prose-h2:text-2xl prose-h2:font-semibold prose-h2:text-gray-800 prose-p:mb-6 prose-p:text-lg prose-p:font-medium prose-p:leading-7 prose-p:text-gray-700 prose-a:text-purple-600 prose-a:hover:text-purple-500 prose-p:md:text-2xl lg:mb-0 lg:w-1/2 prose-h2:lg:text-3xl"
+					set:html={pageData?.content}
+				/>
 				<div class="w-full px-4 lg:w-1/2">
 					<Image
 						src={import("@images/andrew-kepson-2020-portrait.png")}

@@ -17,9 +17,8 @@ export async function getStaticPaths() {
 }
 
 const { category, posts } = Astro.props;
-console.log(category);
 ---
 
-<Layout title={""} description={""} canonical={category?.uri}>
+<Layout title={`Blog Posts About ${category?.name}`} description={`Read articles about ${category?.name} written by Andrew Kepson.`} canonical={category?.uri}>
 	<BlogPageContent client:load category={category?.name} posts={posts} />
 </Layout>

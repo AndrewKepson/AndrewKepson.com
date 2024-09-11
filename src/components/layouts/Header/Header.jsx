@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Popover, Transition } from "@headlessui/react";
+import { Popover, PopoverPanel, Transition } from "@headlessui/react";
 
 import { Nav } from "./Nav";
 import { MobileNav } from "./MobileNav";
@@ -22,13 +22,13 @@ const Header = () => (
 						leaveFrom="opacity-100 scale-100"
 						leaveTo="opacity-0 scale-95"
 					>
-						<Popover.Panel
+						<PopoverPanel
 							focus
 							static
 							className="absolute inset-x-0 top-0 z-10 origin-top-right transform p-2 transition md:hidden"
 						>
 							<MobileNav />
-						</Popover.Panel>
+						</PopoverPanel>
 					</Transition>
 				</>
 			)}
