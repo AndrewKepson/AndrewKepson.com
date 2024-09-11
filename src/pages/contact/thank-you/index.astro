@@ -1,0 +1,26 @@
+---
+import { Image } from "astro:assets";
+
+import Layout from "@components/layouts/Layout.astro";
+---
+
+<Layout
+	title="Thank You for Contacting Andrew Kepson!"
+	description="Thank you for contacting Andrew Kepson! Please allow 24-48 hours for a response."
+>
+	<div class="flex h-full flex-col lg:mx-16">
+		<section class="flex w-full flex-col items-center justify-center bg-gray-800 p-4">
+			<h1 class="text-5xl text-gray-100">Thank You</h1>
+			<p class="mt-10 p-10 text-gray-100 md:p-0">Thank you for contacting me.&nbsp;</p>
+			<p class="hover:text-purple-400">
+				<a href="/">Return Home</a>
+			</p>
+		</section>
+		<Image
+			src={import("@images/stock/reymark-franke-colorado-meadow.jpeg")}
+			alt="Vail, Colorado"
+			loading="eager"
+			quality={90}
+		/>
+	</div>
+</Layout>
