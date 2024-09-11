@@ -59,10 +59,13 @@ const { title, description, canonical, ogImage, noIndex } = Astro.props;
 <!doctype html>
 <html lang="en">
 	<head>
-		<!-- Insert Google Tag Manager Here -->
-		<!-- {isProduction && ( -->
-		<!-- // Insert Tracking Scripts Here -->
-		<!-- )} -->
+		{isProduction && ( 
+			<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-5DQG8L9');</script>
+		 )}
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
 		<meta property="og:title" content={title} />
@@ -82,7 +85,15 @@ const { title, description, canonical, ogImage, noIndex } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body class="m-auto max-w-full">
-		<!-- Insert Google Tag Manager Here -->
+		<!-- Google Tag Manager (noscript) -->
+		<noscript
+			><iframe
+				src="https://www.googletagmanager.com/ns.html?id=GTM-5DQG8L9"
+				height="0"
+				width="0"
+				style="display:none;visibility:hidden"></iframe></noscript
+		>
+		<!-- End Google Tag Manager (noscript) -->
 		<div class="m-0 h-screen w-full overflow-x-hidden bg-white p-0">
 			<Header />
 			<div class="flex min-h-full flex-col px-4 text-gray-500 lg:px-16 lg:py-6">
