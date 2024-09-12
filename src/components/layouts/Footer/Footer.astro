@@ -1,5 +1,17 @@
 ---
-import ReactFooter from "./Footer";
+import IconLinks from "./IconLinks.astro";
 ---
 
-<ReactFooter />
+<footer class="pin-b w-full flex-col items-center justify-center bg-white p-4 pt-10 font-light text-gray-700">
+	<div class="-mx-4 flex flex-col-reverse">
+		<div class="py-4 text-sm">
+			<hr class="mx-8 mb-4 border-gray-700" />
+			<div class="-mx-4 flex flex-col flex-wrap items-center justify-center">
+				<p>&copy; {new Date().getFullYear()} by Andrew Kepson</p>
+				<a class="hover:text-purple-500" href="/sitemap-index.xml"> XML Sitemap </a>
+				<a class="hover:text-purple-500" href="/html-sitemap/"> HTML Sitemap </a>
+			</div>
+		</div>
+		<IconLinks />
+	</div>
+</footer>
