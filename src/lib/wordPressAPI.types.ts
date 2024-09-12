@@ -24,6 +24,7 @@ export interface FlattenedPage {
 	slug: string;
 	title: string;
 	content: string;
+	schemaMarkup: string;
 	seo: {
 		description: string;
 		title: string;

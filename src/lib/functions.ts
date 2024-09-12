@@ -116,3 +116,23 @@ export const formatDate = (dateString: string, format: "readable" | "ISO" = "rea
 		throw new Error("Invalid format. Use 'readable' or 'ISO'.");
 	}
 };
+
+export const stripSchemaMarkup = (schemaMarkup: string): string => {
+	const scriptContentRegex = /<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/i;
+
+	const match = schemaMarkup.match(scriptContentRegex);
+
+	if (match && match[1]) {
+		const jsonString = match[1].trim();
+
+		try {
+			const jsonObject = JSON.parse(jsonString);
+			return JSON.stringify(jsonObject, null, 2);
+		} catch (error) {
+			console.error("Error parsing JSON:", error);
+			return "Invalid JSON content";
+		}
+	}
+
+	return "No valid JSON-LD script found";
+};

@@ -5,6 +5,7 @@ export const pageSchema = z.object({
 	slug: z.string(),
 	title: z.string(),
 	content: z.string().optional(),
+	schemaMarkup: z.string().optional(),
 	seo: z
 		.object({
 			description: z.string().optional(),

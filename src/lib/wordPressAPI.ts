@@ -116,6 +116,9 @@ export const getAllPages = async (limit: number = Infinity): Promise<FlattenedPa
 			  slug
 			  title
 			  content(format: RENDERED)
+			  schemaMarkup {
+          		schemaMarkup
+}
 			  seo {
 				description
 				title
@@ -143,6 +146,7 @@ export const getAllPages = async (limit: number = Infinity): Promise<FlattenedPa
 				slug: node.slug || "",
 				title: node.title || "",
 				content: node.content || "",
+				schemaMarkup: node.schemaMarkup?.schemaMarkup || "",
 				seo: {
 					description: node.seo?.description || "",
 					title: node.seo?.title || "",
