@@ -19,7 +19,12 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 ---
 
-<Layout title={post?.seo?.title} description={post?.seo?.description} canonical={post?.uri}>
+<Layout
+	title={post?.seo?.title}
+	description={post?.seo?.description}
+	canonical={post?.uri}
+	ogImage={post?.seo?.ogImage}
+>
 	<Post post={post} />
 </Layout>
 

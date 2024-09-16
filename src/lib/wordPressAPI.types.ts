@@ -53,6 +53,7 @@ export interface FlattenedPost {
 		description: string;
 		canonicalUrl: string;
 		robots: string;
+		ogImage: string;
 	};
 	tags: string[];
 	category?: string;
