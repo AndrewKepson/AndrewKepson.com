@@ -231,6 +231,11 @@ export const getAllPosts = async (limit: number = Infinity): Promise<FlattenedPo
 				description
 				canonicalUrl
 				robots
+				openGraph {
+					image {
+						url
+					}
+				}
 			  }
 			  tags {
 				edges {
@@ -276,6 +281,7 @@ export const getAllPosts = async (limit: number = Infinity): Promise<FlattenedPo
 					description: node.seo?.description || "",
 					canonicalUrl: node.seo?.canonicalUrl || "",
 					robots: node.seo?.robots || "",
+					ogImage: node.seo?.openGraph?.image?.url || "",
 				},
 				tags: node.tags?.edges.map((edge: any) => edge.node.name) || [],
 				category: node.categories?.edges[0]?.node.name || undefined,

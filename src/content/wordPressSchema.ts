@@ -43,6 +43,7 @@ export const postSchema = z.object({
 			description: z.string().optional(),
 			canonicalUrl: z.string().optional(),
 			robots: z.union([z.string(), z.array(z.string())]).optional(),
+			ogImage: z.string().optional(),
 		})
 		.optional(),
 	tags: z.array(z.string()).optional(),

@@ -405,6 +405,29 @@ export default {
 				jackInTheBox: "jackInTheBox 1s ease-in-out forwards",
 				parallax: "parallax 10s linear infinite",
 			},
+			typography: (theme) => ({
+				DEFAULT: {
+					css: {
+						pre: {
+							color: theme("colors.gray.200"),
+							backgroundColor: theme("colors.gray.800"),
+						},
+						code: {
+							color: theme("colors.gray.200"),
+							backgroundColor: theme("colors.gray.800"),
+							padding: "0.25rem",
+							borderRadius: "0.25rem",
+							fontWeight: "400",
+						},
+						"code::before": {
+							content: '""',
+						},
+						"code::after": {
+							content: '""',
+						},
+					},
+				},
+			}),
 		},
 	},
 	plugins: [require("@tailwindcss/typography")],
