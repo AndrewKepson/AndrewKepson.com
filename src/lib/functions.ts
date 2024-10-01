@@ -20,6 +20,9 @@ export const chooseCategoryColor = (category) => {
 		case "Privacy First Marketing":
 			color = "bg-orange-200 text-orange-700";
 			break;
+		case "Automation":
+			color = "bg-blue-200 text-blue-600";
+			break;
 		default:
 			color = "bg-purple-200 text-purple-600";
 	}
@@ -65,6 +68,18 @@ export const chooseTagColor = (tag) => {
 			color = "bg-orange-300";
 			break;
 		case "NFTs":
+			color = "bg-green-300";
+			break;
+		case "Automation":
+			color = "bg-blue-400";
+			break;
+		case "Data Management":
+			color = "bg-orange-300";
+			break;
+		case "Forms":
+			color = "bg-teal-300";
+			break
+		case "Formstack":
 			color = "bg-green-300";
 			break;
 		default:
