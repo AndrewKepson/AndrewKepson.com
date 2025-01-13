@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require("tailwindcss/plugin");
+
 export default {
 	content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}", "./node_modules/flowbite/**/*.js"],
 	theme: {
@@ -8,6 +10,73 @@ export default {
 			garamond: "EB Garamond",
 		},
 		extend: {
+			colors: {
+				"deep-purple": {
+					50: "#eeecf5",
+					100: "#d3c6e8",
+					200: "#b8a1db",
+					300: "#9c7ccd",
+					400: "#7f59bf",
+					500: "#5E35B1",
+					600: "#5631a2",
+					700: "#4e2c93",
+					800: "#472885",
+					900: "#3f2477",
+					950: "#381f69",
+				},
+				teal: {
+					50: "#ebf1f0",
+					100: "#c5dcd7",
+					200: "#9ec7bf",
+					300: "#76b2a8",
+					400: "#4c9e91",
+					500: "#00897B",
+					600: "#007d71",
+					700: "#007266",
+					800: "#00675c",
+					900: "#005c52",
+					950: "#005149",
+				},
+				amber: {
+					50: "#fff5eb",
+					100: "#ffe9c8",
+					200: "#ffdca3",
+					300: "#ffcf7c",
+					400: "#ffc250",
+					500: "#FFB300",
+					600: "#e9a400",
+					700: "#d49500",
+					800: "#bf8600",
+					900: "#ab7800",
+					950: "#976a00",
+				},
+				offwhite: {
+					50: "#fefefe",
+					100: "#fcfcfc",
+					200: "#fafafa",
+					300: "#f8f8f8",
+					400: "#f7f7f7",
+					500: "#F5F5F5",
+					600: "#e0e0e0",
+					700: "#cccccc",
+					800: "#b8b8b8",
+					900: "#a4a4a4",
+					950: "#919191",
+				},
+				"dark-gray": {
+					50: "#ececec",
+					100: "#c3c3c3",
+					200: "#9c9c9c",
+					300: "#777777",
+					400: "#545454",
+					500: "#333333",
+					600: "#2f2f2f",
+					700: "#2a2a2a",
+					800: "#262626",
+					900: "#222222",
+					950: "#1e1e1e",
+				},
+			},
 			keyframes: {
 				fadeInUp: {
 					"0%": { opacity: 0, transform: "translateY(50px)" },
@@ -430,5 +499,51 @@ export default {
 			}),
 		},
 	},
-	plugins: [require("@tailwindcss/typography")],
+	plugins: [
+		require("@tailwindcss/typography"),
+		plugin(({ addComponents, addUtilities }) => {
+			addUtilities({
+				".kepson-transition": {
+					"transition-property": "all",
+					"transition-timing-function": "ease-out",
+					"transition-duration": "200ms",
+					"transition-delay": "75ms",
+				},
+			});
+			addComponents({
+				".img-base": {
+					"@apply rounded-xl shadow-xl": {},
+				},
+				".heading-one": {
+					"@apply font-roboto font-semibold leading-snug select-none text-4xl text-dark-gray-950 md:text-5xl lg:text-6xl":
+						{},
+				},
+				".heading-two": {
+					"@apply font-medium font-roboto leading-normal text-4xl text-dark-gray-500 md:text-5xl lg:text-6xl":
+						{},
+				},
+				".heading-three": {
+					"@apply font-light font-work-sans leading-normal text-3xl text-dark-gray-500 text-opacity-95 md:text-4xl lg:text-5xl":
+						{},
+				},
+				".heading-four": {
+					"@apply font-extralight font-work-sans leading-relaxed text-2xl text-dark-gray-500 md:text-3xl lg:text-4xl":
+						{},
+				},
+				".button-base": {
+					"@apply font-work-sans grid place-content-center px-8 py-4 rounded-sm shadow text-lg hover:shadow-none kepson-transition":
+						{},
+				},
+				".button-purple": {
+					"@apply button-base bg-deep-purple-500 text-offwhite-500 hover:bg-deep-purple-400": {},
+				},
+				".button-teal": {
+					"@apply button-base bg-teal-500 text-offwhite-500 hover:bg-teal-400": {},
+				},
+				".button-amber": {
+					"@apply button-base bg-amber-500 text-dark-gray-500 hover:bg-amber-400": {},
+				},
+			});
+		}),
+	],
 };

@@ -8,5 +8,7 @@ const pageData = allWordPressPages.find((page) => page.slug === "blog");
 ---
 
 <Layout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/blog/">
-	<BlogPageContent client:load posts={allWordPressPosts} category="All Categories" />
+	<div class="px-4 lg:px-12">
+		<BlogPageContent server:defer posts={allWordPressPosts} category="All Categories" />
+	</div>
 </Layout>
