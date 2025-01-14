@@ -1,8 +1,8 @@
 ---
 import Layout from "@components/layouts/Layout.astro";
-import { BlogPageContent } from "../_components/BlogPageContent";
 import { allWordPressCategories, allWordPressPosts } from "@lib/store";
 import slugger from "slugger";
+import BlogArchive from "../_components/BlogArchive.astro";
 
 export async function getStaticPaths() {
 	return allWordPressCategories.map((category) => ({
@@ -19,6 +19,10 @@ export async function getStaticPaths() {
 const { category, posts } = Astro.props;
 ---
 
-<Layout title={`Blog Posts About ${category?.name}`} description={`Read articles about ${category?.name} written by Andrew Kepson.`} canonical={category?.uri}>
-	<BlogPageContent client:load category={category?.name} posts={posts} />
+<Layout
+	title={`Blog Posts About ${category?.name}`}
+	description={`Read articles about ${category?.name} written by Andrew Kepson.`}
+	canonical={category?.uri}
+>
+	<BlogArchive category={category?.name} posts={posts} />
 </Layout>

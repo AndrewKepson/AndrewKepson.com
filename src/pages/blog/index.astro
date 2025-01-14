@@ -2,13 +2,11 @@
 import { allWordPressPages, allWordPressPosts } from "@lib/store";
 
 import Layout from "@components/layouts/Layout.astro";
-import { BlogPageContent } from "./_components/BlogPageContent.tsx";
+import BlogArchive from "./_components/BlogArchive.astro";
 
 const pageData = allWordPressPages.find((page) => page.slug === "blog");
 ---
 
 <Layout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/blog/">
-	<div class="px-4 lg:px-12">
-		<BlogPageContent server:defer posts={allWordPressPosts} category="All Categories" />
-	</div>
+	<BlogArchive posts={allWordPressPosts} category="All Categories" />
 </Layout>

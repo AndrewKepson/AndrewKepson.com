@@ -1,0 +1,25 @@
+---
+import type { FlattenedPost } from "@lib/wordPressAPI.types";
+
+import Sidebar from "./Sidebar.astro";
+import BlogPost from "./BlogPost.astro";
+
+interface Props {
+	posts: FlattenedPost[];
+	category: string;
+}
+
+const { posts, category } = Astro.props;
+---
+
+<div class="px-4 lg:px-12">
+	<div class="-mx-4 flex flex-wrap justify-center">
+		<Sidebar selectedCategory={category} searchInput="" />
+		<div class="w-full p-4 lg:w-7/12 xl:w-8/12">
+			<div>
+				{posts.length > 0 ? posts.map((post) => <BlogPost post={post} category={post.category} />) : <div />}
+				<div class="text-center font-roboto font-semibold">Powered by Headless WordPress</div>
+			</div>
+		</div>
+	</div>
+</div>
