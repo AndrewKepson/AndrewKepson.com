@@ -1,21 +1,18 @@
 ---
-import { allWordPressPages } from "@lib/store";
+import { getPageBySlug } from "@lib/wordPressAPI";
+import { getHeroContent } from "./_components/functions";
 import { stripSchemaMarkup } from "@lib/functions";
 
 import Layout from "@components/layouts/Layout.astro";
 import Hero from "./_components/Hero.astro";
 import LatestBlogPosts from "./_components/LatestBlogPosts.astro";
 
-const pageData = allWordPressPages.find((page) => page.slug === "home");
+const pageData = await getPageBySlug("home");
 ---
 
 <Layout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/">
-	<div class="-mb-4 flex flex-wrap items-center text-gray-500 md:mb-0 lg:px-12 lg:pt-12">
-		<Hero />
+	<div class="-mb-4 flex flex-wrap items-center text-gray-500 md:mb-0">
+		<Hero {...getHeroContent(pageData?.content)} />
 		<LatestBlogPosts />
 	</div>
 </Layout>
-
-<script>
-	console.log("Thank you for visiting my headless WordPress site!");
-</script>

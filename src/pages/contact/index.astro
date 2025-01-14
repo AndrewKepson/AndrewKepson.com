@@ -9,13 +9,15 @@ const pageData = allWordPressPages.find((page) => page.slug === "contact");
 ---
 
 <Layout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/contact/">
-	<div>
-		<div>
-			<h1 class="font-roboto mb-4 animate-fadeInLeft text-3xl text-gray-800 md:text-6xl">Contact Me</h1>
-		</div>
+	<div class="mx-w-2xl px-4 lg:px-12">
+		<section>
+			<div>
+				<h1 class="mb-4 animate-fadeInLeft font-roboto text-3xl text-gray-800 md:text-6xl">Contact Me</h1>
+			</div>
+		</section>
+		<section class="animate-fadeInRight">
+			<Form />
+		</section>
+		<Testimonial />
 	</div>
-	<div class="animate-fadeInRight">
-		<Form />
-	</div>
-	<Testimonial />
 </Layout>
