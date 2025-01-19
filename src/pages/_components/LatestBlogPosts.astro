@@ -23,6 +23,7 @@ const latestPosts = allWordPressPosts.slice(1, 5);
 						alt={latestPost.featuredImage?.altText}
 						height={250}
 						width={600}
+						loading="eager"
 					/><span
 						id="latest-post-category"
 						class="absolute right-0 top-0 rounded-bl-xl rounded-tr-xl bg-deep-purple-500 px-2 py-1 font-work-sans text-offwhite-500"
@@ -77,6 +78,7 @@ const latestPosts = allWordPressPosts.slice(1, 5);
 								alt={post.featuredImage?.altText}
 								height={300}
 								width={500}
+								loading="eager"
 							/>
 							<span class="absolute right-0 top-0 rounded-bl-xl rounded-tr-xl bg-deep-purple-500 px-2 py-1 font-work-sans text-offwhite-500">
 								{post?.category}
