@@ -27,7 +27,11 @@ export const Nav = () => (
 		</div>
 		<div className="hidden md:ml-10 md:block md:space-x-8 md:pr-4">
 			{navigation.map((item) => (
-				<a key={item.name} href={item.to} className="font-medium text-gray-700 hover:text-purple-600">
+				<a
+					key={item.name}
+					href={item.to}
+					className="font-work-sans font-medium text-dark-gray-700 kepson-transition hover:text-deep-purple-500"
+				>
 					{item.name}
 				</a>
 			))}
