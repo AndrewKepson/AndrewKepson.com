@@ -5,11 +5,11 @@ import { Nav } from "./Nav";
 import { MobileNav } from "./MobileNav";
 
 const Header = () => (
-	<header className="relative z-10 bg-white pb-6 sm:pt-6 md:pb-12">
+	<header className="sticky top-0 z-10 bg-white pb-6 shadow-md sm:pt-6 md:pb-12">
 		<Popover>
 			{({ open }) => (
 				<>
-					<div className="font-work-sans relative px-4 pt-6 text-xl sm:px-6 lg:px-8">
+					<div className="relative px-4 pt-6 font-work-sans text-xl sm:px-6 lg:px-8">
 						<Nav />
 					</div>
 					<Transition

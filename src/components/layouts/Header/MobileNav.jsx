@@ -14,11 +14,11 @@ const navigation = [
 ];
 
 export const MobileNav = () => (
-	<div className="font-work-sans h-screen overflow-hidden rounded-lg bg-gray-900 shadow-md ring-1 ring-black ring-opacity-5">
+	<div className="-mx-1 h-screen overflow-hidden rounded-lg bg-gray-900 font-work-sans shadow-md ring-1 ring-black ring-opacity-5">
 		<div className="flex items-center justify-between px-5 pt-4">
 			<Brand />
 			<div className="-mr-2">
-				<PopoverButton className="inline-flex items-center justify-center rounded-md p-2 text-gray-200 hover:text-gray-600  focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-600">
+				<PopoverButton className="inline-flex items-center justify-center rounded-md p-2 text-dark-gray-50 kepson-transition hover:text-deep-purple-500  focus:outline-none focus:ring-2 focus:ring-inset focus:ring-deep-purple-500">
 					<span className="sr-only">Close main menu</span>
 					<XMarkIcon className="h-6 w-6" aria-hidden="true" />
 				</PopoverButton>
@@ -29,7 +29,7 @@ export const MobileNav = () => (
 				<a
 					key={item.name}
 					href={item.to}
-					className="block rounded-md px-3 py-2 text-base  font-medium text-gray-200 hover:bg-gray-50 hover:text-gray-400"
+					className="block rounded-md px-3 py-2 font-work-sans  text-base font-medium  text-dark-gray-50 kepson-transition hover:text-offwhite-500"
 				>
 					{item.name}
 				</a>

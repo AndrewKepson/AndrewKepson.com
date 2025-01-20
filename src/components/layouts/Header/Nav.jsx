@@ -13,12 +13,12 @@ const navigation = [
 ];
 
 export const Nav = () => (
-	<nav className="relative flex items-center justify-between sm:h-10 lg:justify-start" aria-label="Global">
+	<nav className="relative flex items-center justify-between sm:h-10" aria-label="Global">
 		<div className="flex flex-shrink-0 flex-grow items-center lg:flex-grow-0">
 			<div className="flex w-full items-center justify-between md:w-auto">
 				<Brand />
 				<div className="-mr-2 flex items-center md:hidden">
-					<PopoverButton className=" inline-flex items-center justify-center rounded-md p-2 text-purple-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500">
+					<PopoverButton className=" inline-flex items-center justify-center rounded-md p-2 text-deep-purple-500 hover:bg-dark-gray-50 hover:text-deep-purple-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500">
 						<span className="sr-only">Open main menu</span>
 						<Bars3Icon className="h-6 w-6" aria-hidden="true" />
 					</PopoverButton>
