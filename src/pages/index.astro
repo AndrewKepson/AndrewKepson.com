@@ -11,7 +11,7 @@ const pageData = await getPageBySlug("home");
 ---
 
 <Layout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/">
-	<div class="-mb-4 flex flex-wrap items-center text-gray-500 md:mb-0">
+	<div class="-mb-4 flex flex-wrap items-center text-dark-gray-500 md:mb-0">
 		<Hero {...getHeroContent(pageData?.content)} />
 		<LatestBlogPosts />
 	</div>

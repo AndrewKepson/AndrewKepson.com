@@ -3,8 +3,8 @@ interface Props {
 	title: string;
 	description: string;
 	canonical: string;
-	ogImage: string;
-	noIndex: boolean;
+	ogImage?: string;
+	noIndex?: boolean;
 }
 
 import { isProduction, siteUrl } from "@lib/store.js";
@@ -94,15 +94,13 @@ const { title, description, canonical, ogImage, noIndex } = Astro.props;
 				style="display:none;visibility:hidden"></iframe></noscript
 		>
 		<!-- End Google Tag Manager (noscript) -->
-		<div class="m-0 h-screen w-full overflow-x-hidden bg-white p-0">
+		<div class="m-0 h-screen w-full overflow-x-hidden bg-offwhite-500 p-0">
 			<Header />
-			<div class="flex min-h-full flex-col text-gray-500 lg:py-6">
+			<main class="flex min-h-full flex-col text-dark-gray-500">
 				<div id="page-fade-wrapper">
-					<main>
-						<slot />
-					</main>
+					<slot />
 				</div>
-			</div>
+			</main>
 			<Footer />
 		</div>
 	</body>

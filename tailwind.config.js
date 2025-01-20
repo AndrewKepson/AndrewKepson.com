@@ -543,6 +543,9 @@ export default {
 				".button-amber": {
 					"@apply button-base bg-amber-500 text-dark-gray-500 hover:bg-amber-400": {},
 				},
+				".body-text": {
+					"@apply font-work-sans leading-relaxed mb-6 text-2xl text-dark-gray-500": {},
+				},
 			});
 		}),
 	],
