@@ -1,12 +1,12 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
 
 import react from "@astrojs/react";
+import tailwindcss from "@tailwindcss/vite";
 
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-	integrations: [tailwind(), react(), sitemap()],
+	integrations: [react(), sitemap(), tailwindcss()],
 	trailingSlash: "always",
 	site: "https://andrewkepson.com",
 	image: {
