@@ -6,7 +6,10 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-	integrations: [react(), sitemap(), tailwindcss()],
+	integrations: [react(), sitemap()],
+	vite: {
+		plugins: [tailwindcss()],
+	},
 	trailingSlash: "always",
 	site: "https://andrewkepson.com",
 	image: {
