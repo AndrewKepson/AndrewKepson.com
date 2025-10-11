@@ -14,7 +14,7 @@ const navigation = [
 
 export const Nav = () => (
 	<nav className="relative flex items-center justify-between sm:h-10" aria-label="Global">
-		<div className="flex flex-shrink-0 flex-grow items-center lg:flex-grow-0">
+		<div className="flex shrink-0 grow items-center lg:grow-0">
 			<div className="flex w-full items-center justify-between md:w-auto">
 				<Brand />
 				<div className="-mr-2 flex items-center md:hidden">

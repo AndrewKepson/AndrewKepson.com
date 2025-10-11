@@ -53,6 +53,9 @@ import "@fontsource/eb-garamond/500.css";
 import "@fontsource/eb-garamond/600.css";
 import "@fontsource/eb-garamond/700.css";
 
+// Global Styles with Tailwind v4
+import "../../styles/global.css";
+
 const { title, description, canonical, ogImage, noIndex } = Astro.props;
 ---
 
@@ -109,10 +112,6 @@ const { title, description, canonical, ogImage, noIndex } = Astro.props;
 </html>
 
 <style is:global>
-	@tailwind base;
-	@tailwind components;
-	@tailwind utilities;
-
 	html {
 		scroll-behavior: smooth;
 	}
@@ -138,7 +137,7 @@ const { title, description, canonical, ogImage, noIndex } = Astro.props;
 	}
 </style>
 
-<script>
+<script is:inline>
 	document.addEventListener("DOMContentLoaded", () => {
 		const wrapper = document.getElementById("page-fade-wrapper");
 
