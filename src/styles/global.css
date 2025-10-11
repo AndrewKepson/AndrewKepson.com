@@ -133,6 +133,66 @@
 	--color-dark-gray-950: #1e1e1e;
 }
 
+@layer base {
+	h1 {
+		@apply font-display text-secondary-500 text-5xl leading-tight font-semibold tracking-tight lg:text-6xl;
+	}
+
+	blockquote {
+		@apply font-body text-ink-400 bg-offwhite-500/40 [&_p]:font-body [&_cite]:font-display [&_cite]:text-secondary-400 border-secondary-500 my-8 rounded-[6px] rounded-l-[0px] border-l-4 py-4 pl-6 text-lg leading-relaxed italic [&_cite]:mt-3 [&_cite]:block [&_cite]:text-sm [&_cite]:not-italic [&_p]:italic;
+
+		& p {
+			@apply font-body italic;
+		}
+
+		& cite {
+			@apply font-display text-secondary-400 mt-3 block text-sm not-italic;
+		}
+	}
+}
+
+@layer utilities {
+	.theme-transition {
+		@apply transition-all duration-200 ease-in-out hover:translate-y-[1px] active:translate-y-[2px];
+	}
+
+	.button-base {
+		@apply font-display inline-block cursor-pointer rounded-[6px] px-8 py-4 text-center text-sm tracking-wide shadow-[0_4px_10px_rgba(0,0,0,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+	}
+
+	.button-primary {
+		@apply bg-primary-500 text-ink-500 hover:bg-primary-600;
+	}
+
+	.button-secondary {
+		@apply bg-secondary-500 text-offwhite-500 hover:bg-secondary-600;
+	}
+
+	.button-tertiary {
+		@apply bg-tertiary-500 hover:bg-tertiary-600 text-ink-400;
+	}
+
+	.button-quaternary {
+		@apply bg-quaternary-500 text-ink-500 hover:bg-quaternary-600;
+	}
+
+	.img-base {
+		@apply h-auto w-full rounded-[12px] object-cover shadow-[0_8px_20px_rgba(0,0,0,0.08)] brightness-[0.97] contrast-[1.03] transition-transform duration-300 ease-out;
+	}
+
+	.img-editorial {
+		@apply rounded-[12px] object-cover shadow-[0_8px_20px_rgba(0,0,0,0.05)];
+	}
+
+	.img-hero {
+		@apply from-primary-400/40 absolute inset-0 bg-gradient-to-t via-transparent to-transparent;
+	}
+
+	.img-dark {
+		@apply brightness-[0.9] contrast-[1.05];
+	}
+}
+
 /* Custom Keyframes */
 @keyframes fadeInUp {
 	0% {
@@ -591,11 +651,6 @@
 	transition-timing-function: ease-out;
 	transition-duration: 200ms;
 	transition-delay: 75ms;
-}
-
-/* Custom Component Classes */
-.img-base {
-	@apply rounded-xl shadow-xl;
 }
 
 .heading-one {
