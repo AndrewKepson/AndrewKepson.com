@@ -89,6 +89,7 @@ import "@fontsource/eb-garamond/700.css";
 import "../../styles/global.css";
 
 import Header from "@components/layouts/header.astro";
+import Footer from "@components/layouts/footer.astro";
 
 const { title, description, canonical, ogImage, noIndex } = Astro.props;
 ---
@@ -123,6 +124,9 @@ const { title, description, canonical, ogImage, noIndex } = Astro.props;
 	</head>
 	<body class="m-auto max-w-full">
         <Header />
-        <slot />
+        <main>
+            <slot />
+        </main>
+        <Footer />
     </body>
     </html>
