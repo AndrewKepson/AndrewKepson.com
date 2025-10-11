@@ -1,0 +1,128 @@
+<header class="bg-offwhite-500 text-ink-500 shadow-sm">
+	<nav
+		class="mx-auto flex max-w-7xl items-center justify-between px-8 py-4"
+		x-data="{ open: false, dropdown: false }"
+	>
+		<!-- Logo -->
+		<a href="/" class="font-display text-secondary-500 text-xl font-semibold tracking-tight"> Andrew Kepson </a>
+		<!-- Desktop Nav -->
+		<ul class="font-display text-secondary-500 hidden items-center gap-10 text-sm md:flex">
+			<li>
+				<a href="/" class="text-secondary-500 hover:text-quaternary-700 transition-colors">Home</a>
+			</li>
+			<li>
+				<a href="/about" class="hover:text-secondary-400 text-secondary-500 transition-colors">About</a>
+			</li>
+			<!-- Portfolio Dropdown -->
+			<li class="relative" x-data="{ open: false }">
+				<button
+					x-on:click="open = !open"
+					x-on:keydown.escape.window="open = false"
+					class="hover:text-quaternary-500 flex items-center gap-1 transition-colors"
+				>
+					<span>Portfolio</span>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="mt-[1px] h-4 w-4 transition-transform duration-200"
+						:class="open ? 'rotate-180' : ''"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+					</svg>
+				</button>
+				<!-- Dropdown Menu -->
+				<div
+					x-show="open"
+					x-transition.origin.top
+					x-on:click.away="open = false"
+					class="bg-offwhite-500 border-secondary-100 absolute left-0 z-50 mt-2 w-48 rounded-[8px] border py-2 shadow-md"
+				>
+					<a
+						href="/portfolio/development"
+						class="text-ink-400 hover:bg-primary-500 hover:text-ink-500 block px-4 py-2 text-sm transition"
+					>
+						Development
+					</a>
+					<a
+						href="/portfolio/writing"
+						class="text-ink-400 hover:bg-primary-500 hover:text-ink-500 block px-4 py-2 text-sm transition"
+					>
+						Writing
+					</a>
+					<a
+						href="/portfolio/marketing"
+						class="text-ink-400 hover:bg-primary-500 hover:text-ink-500 block px-4 py-2 text-sm transition"
+					>
+						Marketing
+					</a>
+				</div>
+			</li>
+			<li>
+				<a href="/blog" class="hover:text-quaternary-500 transition-colors">Blog</a>
+			</li>
+			<li>
+				<a href="/contact" class="hover:text-quaternary-500 transition-colors">Contact</a>
+			</li>
+		</ul>
+		<!-- Mobile Toggle -->
+		<button class="text-secondary-500 md:hidden" x-on:click="open = !open">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="h-6 w-6"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+				stroke-width="1.5"
+			>
+				<path x-show="!open" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+				<path x-show="open" stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+			</svg>
+		</button>
+	</nav>
+	<!-- Mobile Menu -->
+	<div class="border-secondary-100 border-t md:hidden" x-show="open" x-collapse.duration.250ms>
+		<ul class="font-display text-secondary-500 space-y-4 px-8 py-4 text-sm">
+			<li><a href="/" class="hover:text-quaternary-500 block transition-colors">Home</a></li>
+			<li><a href="/about" class="hover:text-quaternary-500 block transition-colors">About</a></li>
+			<li>
+				<details class="group">
+					<summary
+						class="hover:text-quaternary-500 flex cursor-pointer items-center justify-between transition-colors"
+					>
+						<span>Portfolio</span>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="mt-[1px] h-4 w-4 transition-transform duration-200 group-open:rotate-180"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"
+							></path>
+						</svg>
+					</summary>
+					<ul class="border-secondary-100 mt-2 ml-4 space-y-2 border-l pl-4">
+						<li>
+							<a href="/portfolio/development" class="text-ink-400 hover:text-quaternary-500 block"
+								>Development</a
+							>
+						</li>
+						<li>
+							<a href="/portfolio/writing" class="text-ink-400 hover:text-quaternary-500 block">Writing</a
+							>
+						</li>
+						<li>
+							<a href="/portfolio/marketing" class="text-ink-400 hover:text-quaternary-500 block"
+								>Marketing</a
+							>
+						</li>
+					</ul>
+				</details>
+			</li>
+			<li><a href="/blog" class="hover:text-quaternary-500 block transition-colors">Blog</a></li>
+			<li><a href="/contact" class="hover:text-quaternary-500 block transition-colors">Contact</a></li>
+		</ul>
+	</div>
+</header>

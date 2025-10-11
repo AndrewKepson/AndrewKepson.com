@@ -10,6 +10,7 @@
 		"astro": "astro"
 	},
 	"dependencies": {
+		"@astrojs/alpinejs": "^0.4.9",
 		"@astrojs/react": "^4.4.0",
 		"@astrojs/sitemap": "^3.6.0",
 		"@fontsource/eb-garamond": "^5.2.7",
@@ -20,8 +21,10 @@
 		"@fontsource/work-sans": "^5.2.8",
 		"@headlessui/react": "^2.2.9",
 		"@heroicons/react": "^2.2.0",
+		"@types/alpinejs": "^3.13.11",
 		"@types/react": "^18.3.26",
 		"@types/react-dom": "^18.3.7",
+		"alpinejs": "^3.15.0",
 		"astro": "^5.14.4",
 		"cheerio": "^1.1.2",
 		"dotenv": "^16.6.1",
