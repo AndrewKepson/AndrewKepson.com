@@ -1,0 +1,92 @@
+---
+interface Props {
+	title: string;
+	description: string;
+	canonical: string;
+	ogImage?: string;
+	noIndex?: boolean;
+}
+
+import { isProduction, siteUrl } from "@lib/store.js";
+
+// * Font Imports
+
+// Outfit
+import "@fontsource/outfit/100.css";
+import "@fontsource/outfit/200.css";
+import "@fontsource/outfit/300.css";
+import "@fontsource/outfit/400.css";
+import "@fontsource/outfit/500.css";
+import "@fontsource/outfit/600.css";
+import "@fontsource/outfit/700.css";
+import "@fontsource/outfit/800.css";
+import "@fontsource/outfit/900.css";
+
+// IBM Plex Sans
+import "@fontsource/ibm-plex-sans/100.css";
+import "@fontsource/ibm-plex-sans/100-italic.css";
+import "@fontsource/ibm-plex-sans/200.css";
+import "@fontsource/ibm-plex-sans/200-italic.css";
+import "@fontsource/ibm-plex-sans/300.css";
+import "@fontsource/ibm-plex-sans/300-italic.css";
+import "@fontsource/ibm-plex-sans/400.css";
+import "@fontsource/ibm-plex-sans/400-italic.css";
+import "@fontsource/ibm-plex-sans/500.css";
+import "@fontsource/ibm-plex-sans/500-italic.css";
+import "@fontsource/ibm-plex-sans/600.css";
+import "@fontsource/ibm-plex-sans/600-italic.css";
+import "@fontsource/ibm-plex-sans/700.css";
+import "@fontsource/ibm-plex-sans/700-italic.css";
+
+// Fira Code
+import "@fontsource/fira-code/300.css";
+import "@fontsource/fira-code/400.css";
+import "@fontsource/fira-code/500.css";
+import "@fontsource/fira-code/600.css";
+import "@fontsource/fira-code/700.css";
+
+// Roboto
+import "@fontsource/roboto/100.css";
+import "@fontsource/roboto/100-italic.css";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/300-italic.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/400-italic.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/500-italic.css";
+import "@fontsource/roboto/700.css";
+import "@fontsource/roboto/700-italic.css";
+import "@fontsource/roboto/900.css";
+import "@fontsource/roboto/900-italic.css";
+
+// Work Sans
+import "@fontsource/work-sans/100.css";
+import "@fontsource/work-sans/100-italic.css";
+import "@fontsource/work-sans/200.css";
+import "@fontsource/work-sans/200-italic.css";
+import "@fontsource/work-sans/300.css";
+import "@fontsource/work-sans/300-italic.css";
+import "@fontsource/work-sans/400.css";
+import "@fontsource/work-sans/400-italic.css";
+import "@fontsource/work-sans/500.css";
+import "@fontsource/work-sans/500-italic.css";
+import "@fontsource/work-sans/600.css";
+import "@fontsource/work-sans/600-italic.css";
+import "@fontsource/work-sans/700.css";
+import "@fontsource/work-sans/700-italic.css";
+import "@fontsource/work-sans/800.css";
+import "@fontsource/work-sans/800-italic.css";
+import "@fontsource/work-sans/900.css";
+import "@fontsource/work-sans/900-italic.css";
+
+// EB Garamond
+import "@fontsource/eb-garamond/400.css";
+import "@fontsource/eb-garamond/500.css";
+import "@fontsource/eb-garamond/600.css";
+import "@fontsource/eb-garamond/700.css";
+
+// Global Styles with Tailwind v4
+import "../../styles/global.css";
+
+const { title, description, canonical, ogImage, noIndex } = Astro.props;
+---

@@ -5,6 +5,9 @@
 	--font-work-sans: "Work Sans";
 	--font-roboto: "Roboto";
 	--font-garamond: "EB Garamond";
+	--font-display: "Outfit", sans-serif;
+	--font-body: "IBM Plex Sans", sans-serif;
+	--font-code: "Fira Code", monospace;
 }
 
 /* Custom Colors */

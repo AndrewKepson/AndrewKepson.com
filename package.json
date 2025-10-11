@@ -13,6 +13,9 @@
 		"@astrojs/react": "^4.4.0",
 		"@astrojs/sitemap": "^3.6.0",
 		"@fontsource/eb-garamond": "^5.2.7",
+		"@fontsource/fira-code": "^5.2.7",
+		"@fontsource/ibm-plex-sans": "^5.2.8",
+		"@fontsource/outfit": "^5.2.8",
 		"@fontsource/roboto": "^5.2.8",
 		"@fontsource/work-sans": "^5.2.8",
 		"@headlessui/react": "^2.2.9",
@@ -38,7 +41,7 @@
 		"tailwindcss": "^4.1.14"
 	},
 	"devDependencies": {
-    "@tailwindcss/typography": "^0.5.19",
-    "@tailwindcss/vite": "^4.0.0"
-  }
+		"@tailwindcss/typography": "^0.5.19",
+		"@tailwindcss/vite": "^4.0.0"
+	}
 }
