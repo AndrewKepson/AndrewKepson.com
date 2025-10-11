@@ -100,7 +100,9 @@ const { title, description, canonical, ogImage, noIndex } = Astro.props;
 		<div class="m-0 h-screen w-full overflow-x-hidden bg-offwhite-500 p-0">
 			<Header />
 			<main class="flex min-h-full flex-col text-dark-gray-500">
+				<div id="page-fade-wrapper">
 					<slot />
+				</div>
 			</main>
 			<Footer />
 		</div>
@@ -135,7 +137,7 @@ const { title, description, canonical, ogImage, noIndex } = Astro.props;
 	}
 </style>
 
-<script>
+<script is:inline>
 	document.addEventListener("DOMContentLoaded", () => {
 		const wrapper = document.getElementById("page-fade-wrapper");
 
