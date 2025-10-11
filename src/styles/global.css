@@ -9,6 +9,78 @@
 
 /* Custom Colors */
 @theme {
+	--color-primary-50: #faf9f8;
+	--color-primary-100: #f3f2ef;
+	--color-primary-200: #edece7;
+	--color-primary-300: #e7e5de;
+	--color-primary-400: #e0ded6;
+	--color-primary-500: #dad7cd;
+	--color-primary-600: #c8c5bc;
+	--color-primary-700: #b5b3ab;
+	--color-primary-800: #a4a19a;
+	--color-primary-900: #929089;
+	--color-primary-950: #817f79;
+
+	--color-secondary-50: #ecedee;
+	--color-secondary-100: #c6c9ce;
+	--color-secondary-200: #a2a7af;
+	--color-secondary-300: #7e8691;
+	--color-secondary-400: #5c6674;
+	--color-secondary-500: #3c4858;
+	--color-secondary-600: #374251;
+	--color-secondary-700: #323c49;
+	--color-secondary-800: #2d3642;
+	--color-secondary-900: #28303b;
+	--color-secondary-950: #232b34;
+
+	--color-tertiary-50: #fbf4f3;
+	--color-tertiary-100: #f8e4e1;
+	--color-tertiary-200: #f3d5d0;
+	--color-tertiary-300: #efc5bf;
+	--color-tertiary-400: #eab6ae;
+	--color-tertiary-500: #e4a79d;
+	--color-tertiary-600: #d19990;
+	--color-tertiary-700: #be8b83;
+	--color-tertiary-800: #ab7d76;
+	--color-tertiary-900: #997069;
+	--color-tertiary-950: #87635d;
+
+	--color-quaternary-50: #f3f5f8;
+	--color-quaternary-100: #e3e8ee;
+	--color-quaternary-200: #d2dbe5;
+	--color-quaternary-300: #c2cedb;
+	--color-quaternary-400: #b1c2d2;
+	--color-quaternary-500: #a1b5c9;
+	--color-quaternary-600: #93a6b8;
+	--color-quaternary-700: #8697a7;
+	--color-quaternary-800: #798897;
+	--color-quaternary-900: #6c7987;
+	--color-quaternary-950: #5f6b77;
+
+	--color-offwhite-50: #fefefe;
+	--color-offwhite-100: #fdfdfd;
+	--color-offwhite-200: #fdfdfc;
+	--color-offwhite-300: #fcfcfb;
+	--color-offwhite-400: #fbfbfa;
+	--color-offwhite-500: #fafaf9;
+	--color-offwhite-600: #e5e5e4;
+	--color-offwhite-700: #d0d0cf;
+	--color-offwhite-800: #bcbcbb;
+	--color-offwhite-900: #a8a8a7;
+	--color-offwhite-950: #949493;
+
+	--color-ink-50: #ebebeb;
+	--color-ink-100: #bebebe;
+	--color-ink-200: #929292;
+	--color-ink-300: #686868;
+	--color-ink-400: #414141;
+	--color-ink-500: #1e1e1e;
+	--color-ink-600: #1c1c1c;
+	--color-ink-700: #191919;
+	--color-ink-800: #171717;
+	--color-ink-900: #141414;
+	--color-ink-950: #121212;
+
 	--color-deep-purple-50: #eeecf5;
 	--color-deep-purple-100: #d3c6e8;
 	--color-deep-purple-200: #b8a1db;
