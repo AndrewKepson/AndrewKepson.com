@@ -1,44 +1,99 @@
 ---
-import { allWordPressPages } from "@lib/store";
+import { wordPressPagesBySlug, PORTRAIT_PHOTO } from "@lib/store";
 import { Image } from "astro:assets";
 
-import Layout from "@components/layouts/Layout.astro";
+import PrimaryLayout from "@components/layouts/primary-layout.astro";
+import Heading from "@components/ui/typography/heading.astro";
+import Button from "@components/ui/buttons/button.astro";
+import CenteredContent from "@components/content/centered-content.astro";
+import HeroWithImage from "@components/heroes/hero-with-image.astro";
+import Timeline from "./_components/timeline.astro";
+import Tools from "./_components/tools.astro";
 
-const pageData = allWordPressPages.find((page) => page.slug === "about");
+const pageData = wordPressPagesBySlug.get("about");
 ---
 
-<Layout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/about/">
-	<section class="bg-white py-20 xl:pb-28 xl:pt-24">
-		<div class="container mx-auto px-4">
-			<div class="-mx-4 flex flex-wrap">
-				<div class="mb-14 w-full px-4">
-					<div class="flex flex-wrap items-center justify-between">
-						<div class="mb-10 w-full lg:mb-0 lg:w-1/2">
-							<h3 class="heading-one mb-4">About Andrew Kepson</h3>
-							<p class="body-text font-semibold">
-								Working at the intersection of web development &amp; marketing
-							</p>
-						</div>
-						<div class="w-full lg:w-auto">
-							<div class="-mb-2 flex flex-wrap items-center lg:justify-center">
-								<a class="button-purple mb-2" href="/contact/"> Contact Me </a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<article
-					class="prose-p:body-text mb-5 w-full px-4 prose-h2:mb-4 prose-h2:font-roboto prose-h2:text-2xl prose-h2:font-semibold prose-h2:text-gray-800 prose-a:text-purple-600 prose-a:hover:text-purple-500 prose-p:md:text-2xl lg:mb-0 lg:w-1/2 prose-h2:lg:text-3xl"
-					set:html={pageData?.content}
-				/>
-				<div class="w-full px-4 lg:w-1/2">
-					<Image
-						src={import("@images/andrew-kepson-2020-portrait.png")}
-						class="w-full rounded-sm shadow-lg"
-						alt="Andrew Kepson is a web developer with extensive digital marketing experience based in Colorado"
-						loading="lazy"
-					/>
-				</div>
-			</div>
-		</div>
-	</section>
-</Layout>
+<PrimaryLayout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/about/">
+	<CenteredContent variant="offwhite">
+		<Heading
+			level={1}
+			text="About Andrew Kepson"
+			class="text-secondary-500 text-5xl leading-tight font-semibold lg:text-6xl"
+		/>
+		<p class="font-body text-ink-400 mx-auto max-w-2xl text-lg leading-relaxed">
+			I’m a web developer, automation engineer, and writer focused on clarity — building systems where structure
+			meets soul. My work blends modern design language, performance marketing, and technical precision.
+		</p>
+	</CenteredContent>
+	<HeroWithImage
+		variant="offwhite"
+		image={{
+			src: PORTRAIT_PHOTO.src,
+			alt: PORTRAIT_PHOTO.alt,
+		}}
+		imagePlacement="right"
+		mobileImagePlacement="top"
+	>
+		<Fragment slot="content">
+			<Heading
+				level={2}
+				text="Structure. Purpose. Integrity."
+				class="text-secondary-500 text-3xl leading-snug font-semibold"
+			/>
+			<p>
+				Over the last decade, I’ve worked at the intersection of design and development — crafting thoughtful
+				experiences that align function with philosophy. My projects are built with intention: every line of
+				code, every word, every pixel has to belong.
+			</p>
+			<p>
+				Today I lead projects that merge creative storytelling, technical depth, and strategic design systems.
+				Whether I’m writing essays on moral design or developing brand ecosystems, the goal remains the same —
+				to make clarity visible.
+			</p>
+		</Fragment>
+	</HeroWithImage>
+	<Timeline
+		heading={{ text: "My Career Journey" }}
+		items={[
+			{
+				title: "Software Engineer, Frontend",
+				date: "2024 - Present",
+				description:
+					"Building modern frontends with React at the world's leading form, workflow, and data activation company: Intellistack (previously known as Formstack).",
+			},
+			{
+				title: "Professional Services Consultant",
+				date: "2022 - 2024",
+				description:
+					"Built and scaled data collection and workflow automation solutions for a range of clients, with a focus on customized solutions for the financial services industry.",
+			},
+			{
+				title: 'Founder, <span class="text-red-500/80">Red Rocks Web Development</span>',
+				date: "2022 - Present",
+				description:
+					"Building a modern digital agency that emphasizes clean design systems, performance, and content strategy. Created the Red Rocks component library and a scalable website subscription model.",
+			},
+			{
+				title: "Search Engine Optimization Analyst",
+				date: "2019 - 2022",
+				description:
+					"Developed SEO strategies and implemented technical SEO best practices for a range of clients, with a focus on improving organic traffic and search engine rankings.",
+			},
+			{
+				title: "Freelance Writer",
+				date: "2018 - 2019",
+				description:
+					"Developed brand identities and written campaigns for small businesses and nonprofits. Focused on storytelling, SEO content, and design clarity that communicates purpose.",
+			},
+		]}
+	/>
+	<Tools heading={{ text: "Tools of the Trade" }} tools={[]} />
+	<CenteredContent variant="offwhite">
+		<Heading level={2} text="Let's Build Something Thoughtful" />
+		<p>
+			I collaborate with brands and individuals who care about integrity, design, and impact. If that’s you, let’s
+			connect.
+		</p>
+		<Button variant="secondary" text="Get in Touch" href="/contact/" class="w-fit place-self-center" />
+	</CenteredContent>
+</PrimaryLayout>

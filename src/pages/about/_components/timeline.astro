@@ -1,0 +1,50 @@
+---
+import type { HeadingProps } from "@lib/types";
+
+import Heading from "@components/ui/typography/heading.astro";
+
+export interface TimelineItem {
+	title: string;
+	date: string;
+	description: string;
+}
+
+export interface TimelineProps {
+	heading?: HeadingProps;
+	items: TimelineItem[];
+}
+
+const { heading, items } = Astro.props as TimelineProps;
+---
+
+<section class:list={["component-timeline", "bg-primary-500/50 px-8 py-24"]}>
+	<div class="mx-auto max-w-5xl">
+		{
+			heading && (
+				<Heading
+					level={2}
+					text={heading?.text}
+					class:list={[
+						"font-display text-secondary-500 mb-16 text-center text-3xl font-semibold",
+						heading?.class,
+					]}
+				/>
+			)
+		}
+		<div class="border-secondary-200 relative ml-4 space-y-12 border-l">
+			<!-- Item -->
+			{
+				items.map((item) => (
+					<div class="relative pl-8">
+						<div class="bg-secondary-500 absolute top-1 -left-[9px] h-4 w-4 rounded-full" />
+						<>
+							<h3 class="font-display text-secondary-500 text-xl font-semibold" set:html={item.title} />
+							<span class="font-body text-ink-300 mb-3 block text-sm">{item.date}</span>
+						</>
+						<p class="font-body text-ink-400 max-w-prose leading-relaxed" set:html={item.description} />
+					</div>
+				))
+			}
+		</div>
+	</div>
+</section>
