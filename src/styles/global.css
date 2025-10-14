@@ -1,6 +1,40 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
-/* Font Families */
+/* Outfit */
+@import "@fontsource/outfit/100.css";
+@import "@fontsource/outfit/200.css";
+@import "@fontsource/outfit/300.css";
+@import "@fontsource/outfit/400.css";
+@import "@fontsource/outfit/500.css";
+@import "@fontsource/outfit/600.css";
+@import "@fontsource/outfit/700.css";
+@import "@fontsource/outfit/800.css";
+@import "@fontsource/outfit/900.css";
+
+/* IBM Plex Sans */
+@import "@fontsource/ibm-plex-sans/100.css";
+@import "@fontsource/ibm-plex-sans/100-italic.css";
+@import "@fontsource/ibm-plex-sans/200.css";
+@import "@fontsource/ibm-plex-sans/200-italic.css";
+@import "@fontsource/ibm-plex-sans/300.css";
+@import "@fontsource/ibm-plex-sans/300-italic.css";
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/400-italic.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/500-italic.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-sans/600-italic.css";
+@import "@fontsource/ibm-plex-sans/700.css";
+@import "@fontsource/ibm-plex-sans/700-italic.css";
+
+/* Fira Code */
+@import "@fontsource/fira-code/300.css";
+@import "@fontsource/fira-code/400.css";
+@import "@fontsource/fira-code/500.css";
+@import "@fontsource/fira-code/600.css";
+@import "@fontsource/fira-code/700.css";
+
 @theme {
 	--font-work-sans: "Work Sans";
 	--font-roboto: "Roboto";
@@ -8,10 +42,7 @@
 	--font-display: "Outfit", sans-serif;
 	--font-body: "IBM Plex Sans", sans-serif;
 	--font-code: "Fira Code", monospace;
-}
 
-/* Custom Colors */
-@theme {
 	--color-primary-50: oklch(0.9826 0.0017 67.8);
 	--color-primary-100: oklch(0.9611 0.0041 91.45);
 	--color-primary-200: oklch(0.9425 0.0068 97.36);
@@ -151,8 +182,15 @@
 		@apply font-display text-secondary-400 text-lg font-medium tracking-wide uppercase lg:text-xl;
 	}
 
-	p {
+	p,
+	ul,
+	ol,
+	li {
 		@apply font-body text-ink-400 text-base leading-relaxed lg:text-lg;
+	}
+
+	:where(h1, h2, h3, h4, p, a, li, label, legend)::selection {
+		@apply bg-primary-500;
 	}
 
 	blockquote {
