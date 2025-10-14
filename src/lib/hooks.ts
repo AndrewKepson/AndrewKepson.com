@@ -5,6 +5,7 @@ import {
 	getAllPosts,
 	getPostBySlug,
 	getAllCategories,
+	getMediaItem,
 } from "./wordPressAPI";
 
 export const useWordPressAPI = {
@@ -14,4 +15,5 @@ export const useWordPressAPI = {
 	getAllPosts,
 	getPostBySlug,
 	getAllCategories,
+	getMediaItem,
 };

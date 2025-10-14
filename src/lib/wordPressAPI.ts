@@ -427,3 +427,20 @@ export const getAllCategories = async (limit: number = Infinity): Promise<Catego
 		throw new Error(`Failed to fetch categories: ${error.message}`);
 	}
 };
+
+export const getMediaItem = async (slug: string): Promise<{ src: string; alt: string }> => {
+	const data: { mediaItem: { id: string; mediaItemUrl: string; altText: string } } = await fetchWordPressAPI(`
+    {
+      mediaItem(id: "${slug}", idType: SLUG) {
+        id
+        mediaItemUrl
+		altText
+      }
+    }
+  `);
+
+	return {
+		src: data?.mediaItem?.mediaItemUrl,
+		alt: data?.mediaItem?.altText,
+	};
+};
