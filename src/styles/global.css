@@ -249,7 +249,7 @@
 }
 
 @layer components {
-	.component-centered-content {
+	:where(.component-centered-content, .component-hero-with-image) {
 		&.variant-offwhite {
 			@apply bg-offwhite-500 text-ink-500;
 
@@ -269,8 +269,12 @@
 		&.variant-secondary {
 			@apply bg-secondary-500 text-offwhite-500;
 
-			& :where(h1, h2, h3, h4, p, ul, ol, li) {
+			& :where(h1, h2, h3, h4) {
 				@apply text-offwhite-500;
+			}
+
+			& :where(p, ul, ol, li) {
+				@apply text-offwhite-600;
 			}
 		}
 

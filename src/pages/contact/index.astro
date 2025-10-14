@@ -1,11 +1,11 @@
 ---
-import { allWordPressPages } from "@lib/store";
+import { wordPressPagesBySlug } from "@lib/store";
 
 import PrimaryLayout from "@components/layouts/primary-layout.astro";
 import Testimonial from "./_components/Testimonial.astro";
 import ContactForm from "./_components/contact-form.astro";
 
-const pageData = allWordPressPages.find((page) => page.slug === "contact");
+const pageData = wordPressPagesBySlug.get("contact");
 ---
 
 <PrimaryLayout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/contact/">
