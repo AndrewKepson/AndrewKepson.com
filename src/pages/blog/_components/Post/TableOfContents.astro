@@ -6,7 +6,7 @@ interface Props {
 const { headings } = Astro.props;
 ---
 
-<ol class="border-coolGray-100 text-coolGray-300 hover:text-coolGray-500 border-b lg:mb-8 lg:pb-6">
+<ol class="font-body text-ink-400 space-y-2 text-sm leading-relaxed">
 	{
 		headings.map((heading) => (
 			<li class={heading.classes}>

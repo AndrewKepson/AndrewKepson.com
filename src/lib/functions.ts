@@ -99,8 +99,8 @@ export const getHeadingsFromMarkdown = (html) => {
 			const $el = $(element);
 			const isH2 = $el.is("h2");
 			const classes = isH2
-				? "text-md my-1 cursor-pointer font-garamond font-semibold text-gray-700 md:text-lg"
-				: "text-md my-1 cursor-pointer font-garamond font-semibold text-gray-600 md:text-md m-2";
+				? "text-md my-1 cursor-pointer font-display font-semibold text-ink-500 md:text-lg"
+				: "text-md my-1 cursor-pointer font-body font-semibold text-ink-400 md:text-md m-2";
 
 			return {
 				heading: $el.text(),

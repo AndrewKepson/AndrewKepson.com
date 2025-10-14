@@ -10,7 +10,7 @@ code.hljs {
 
 .hljs {
 	color: #abb2bf;
-	background: #282c34;
+	background: transparent;
 }
 
 .hljs-keyword,
