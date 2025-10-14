@@ -1,0 +1,25 @@
+---
+import PrimaryLayout from "@components/layouts/primary-layout.astro";
+import Sidebar from "./components/sidebar.astro";
+import ArticlesGrid from "./components/articles-grid.astro";
+import Pagination from "./components/pagination.astro";
+
+const { title, description, canonical, ogImage, noIndex } = Astro.props;
+---
+
+<PrimaryLayout title={title} description={description} canonical={canonical} ogImage={ogImage} noIndex={noIndex}>
+	<div class="mx-auto grid max-w-7xl gap-16 lg:grid-cols-[280px_1fr]">
+		<Sidebar />
+		<section class="space-y-12">
+			<header class="space-y-4 text-center lg:text-left">
+				<h1 class="font-display text-secondary-500 text-4xl leading-tight font-semibold">Latest Essays</h1>
+				<p class="font-body text-ink-400 max-w-prose text-lg leading-relaxed">
+					Explorations in design, culture, and moral imagination.
+				</p>
+			</header>
+			<ArticlesGrid />
+			<Pagination />
+		</section>
+	</div>
+</PrimaryLayout>
+---
