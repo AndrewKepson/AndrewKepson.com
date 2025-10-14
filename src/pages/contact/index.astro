@@ -1,23 +1,16 @@
 ---
 import { allWordPressPages } from "@lib/store";
 
-import Layout from "@components/layouts/Layout.astro";
-import Form from "./_components/Form.astro";
+import PrimaryLayout from "@components/layouts/primary-layout.astro";
 import Testimonial from "./_components/Testimonial.astro";
+import ContactForm from "./_components/contact-form.astro";
 
 const pageData = allWordPressPages.find((page) => page.slug === "contact");
 ---
 
-<Layout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/contact/">
-	<div class="mx-w-2xl px-4 lg:px-12 pt-6">
-		<section>
-			<div>
-				<h1 class="mb-4 animate-fadeInLeft font-roboto text-3xl text-gray-800 md:text-6xl">Contact Me</h1>
-			</div>
-		</section>
-		<section class="animate-fadeInRight">
-			<Form />
-		</section>
+<PrimaryLayout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/contact/">
+	<div class="mx-w-2xl px-4 pt-6 lg:px-12">
+		<ContactForm />
 		<Testimonial />
 	</div>
-</Layout>
+</PrimaryLayout>
