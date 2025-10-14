@@ -1,0 +1,22 @@
+[
+	{
+		"slug": "headless-wordpress",
+		"name": "Headless WordPress",
+		"description": "Headless WordPress is a modern approach to building websites that separates the frontend and backend of a website, allowing for more flexibility and control over the website's content and design."
+	},
+	{
+		"slug": "blockchain",
+		"name": "Blockchain",
+		"description": "Blockchain is a distributed ledger technology that allows for secure and transparent transactions without the need for intermediaries."
+	},
+	{
+		"slug": "automation",
+		"name": "Automation",
+		"description": "Automation is the process of using technology to automate tasks and processes."
+	},
+	{
+		"slug": "philosophy",
+		"name": "Philosophy",
+		"description": "Philosophy is the study of the fundamental nature of reality, existence, knowledge, values, reason, mind, and language."
+	}
+]
