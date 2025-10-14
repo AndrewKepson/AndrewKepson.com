@@ -5,7 +5,7 @@ import Layout from "@components/layouts/primary-layout.astro";
 import Heading from "@components/ui/typography/heading.astro";
 import Button from "@components/ui/buttons/button.astro";
 import HeroWithImage from "@components/heroes/hero-with-image.astro";
-import LatestBlogPosts from "./_components/LatestBlogPosts.astro";
+import LatestBlogPosts from "@components/content/latest-blog-posts.astro";
 
 const pageData = wordPressPagesBySlug.get("home");
 ---
@@ -31,8 +31,6 @@ const pageData = wordPressPagesBySlug.get("home");
 				<Button variant="secondary" text="Get in Touch" href="/contact/" />
 			</div>
 		</Fragment>
-		<div class="text-dark-gray-500 -mb-4 flex flex-wrap items-center md:mb-0">
-			<LatestBlogPosts />
-		</div>
 	</HeroWithImage>
+	<LatestBlogPosts />
 </Layout>

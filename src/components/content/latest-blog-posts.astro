@@ -1,0 +1,128 @@
+---
+import { getCollection } from "astro:content";
+import { formatDate } from "@lib/functions";
+import { Image } from "astro:assets";
+import Heading from "@components/ui/typography/heading.astro";
+
+const posts = await getCollection("posts");
+
+const latestPost = posts[0].data;
+const latestPosts = posts.slice(1, 5).map((post) => post.data);
+---
+
+<section id="latest-blog-posts" class:list={["component-latest-blog-posts", "bg-offwhite-500 text-ink-500 px-8 py-24"]}>
+	<div class="mx-auto max-w-7xl space-y-16">
+		<!-- Header -->
+		<header class="space-y-4 text-center">
+			<Heading
+				level={2}
+				text="Latest Blog Posts"
+				class="font-display text-secondary-500 text-4xl leading-tight font-semibold"
+			/>
+			<p class="font-body text-ink-400 mx-auto max-w-prose text-lg leading-relaxed">
+				Reflections on design, development, and the art of building with purpose.
+			</p>
+		</header>
+		<!-- Grid -->
+		<div class="grid gap-12 lg:grid-cols-3">
+			<!-- Latest Post -->
+			<article
+				class="group bg-offwhite-500 overflow-hidden rounded-[12px] shadow-md transition-all duration-300 hover:shadow-lg lg:col-span-2"
+			>
+				<div class="relative">
+					<Image
+						src={latestPost.featuredImage?.url}
+						alt={latestPost.featuredImage?.altText}
+						height={240}
+						width={800}
+						loading="eager"
+						class="img-card h-[24rem] w-full object-cover"
+					/>
+					<span
+						class="bg-secondary-500 text-offwhite-500 font-display absolute top-0 right-0 rounded-bl-[6px] px-3 py-1 text-xs"
+					>
+						{latestPost.category}
+					</span>
+					<span
+						class="bg-quaternary-500 text-ink-500 font-display absolute bottom-0 left-0 rounded-tr-[6px] px-3 py-1 text-xs"
+					>
+						{latestPost.tags?.join(", ")}
+					</span>
+				</div>
+				<div class="space-y-4 p-8">
+					<time class="font-body text-ink-300 block text-sm">{formatDate(latestPost.date, "readable")}</time>
+					<a href={latestPost.uri} class="group-hover:text-secondary-400 block transition-colors">
+						<h3 class="font-display text-secondary-500 text-2xl leading-snug">
+							{latestPost.title}
+						</h3>
+					</a>
+					<p class="font-body text-ink-400 leading-relaxed" set:html={latestPost.excerpt} />
+					<a
+						href={latestPost.uri}
+						class="font-display text-secondary-500 hover:text-quaternary-700 inline-flex items-center text-sm transition"
+					>
+						Read More <svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="ml-2 h-4 w-4"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"
+							></path>
+						</svg>
+					</a>
+				</div>
+			</article>
+
+			{
+				latestPosts.map((post) => (
+					<article class="group bg-offwhite-500 overflow-hidden rounded-[12px] shadow-md transition-all duration-300 hover:shadow-lg">
+						<div class="relative">
+							<Image
+								src={post.featuredImage?.url}
+								alt={post.featuredImage?.altText}
+								height={160}
+								width={600}
+								loading="eager"
+								class="img-card h-[16rem] w-full object-cover"
+							/>
+							<span class="bg-secondary-500 text-offwhite-500 font-display absolute top-0 right-0 rounded-bl-[6px] px-3 py-1 text-xs">
+								{post.category}
+							</span>
+						</div>
+						<div class="space-y-3 p-6">
+							<time class="font-body text-ink-300 block text-xs">
+								{formatDate(post.date, "readable")}
+							</time>
+							<a href={post.uri} class="group-hover:text-secondary-400 block transition-colors">
+								<h3 class="font-display text-secondary-500 text-xl leading-snug">{post.title}</h3>
+							</a>
+							<p class="font-body text-ink-400 text-sm leading-relaxed" set:html={post.excerpt} />
+							<a
+								href={post.uri}
+								class="font-display text-secondary-500 hover:text-quaternary-700 inline-flex items-center text-sm transition"
+							>
+								Read More{" "}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="ml-2 h-4 w-4"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M9 5l7 7-7 7"
+									/>
+								</svg>
+							</a>
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</div>
+</section>
