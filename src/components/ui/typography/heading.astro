@@ -1,0 +1,40 @@
+---
+import type { HeadingProps } from "@lib/types";
+
+interface Props extends HeadingProps {}
+
+const { id, text, level = 2, class: classes, highlight } = Astro.props as Props;
+---
+
+{
+	level === 1 && (
+		<h1 id={id} class:list={["component-heading-1", classes]}>
+			{text}
+			{highlight && <span class:list={["heading-highlight", highlight.class]}>{highlight.text}</span>}
+		</h1>
+	)
+}
+{
+	level === 2 && (
+		<h2 id={id} class:list={["component-heading-2", classes]}>
+			{text}
+			{highlight && <span class:list={["heading-highlight", highlight.class]}>{highlight.text}</span>}
+		</h2>
+	)
+}
+{
+	level === 3 && (
+		<h3 id={id} class:list={["component-heading-3", classes]}>
+			{text}
+			{highlight && <span class:list={["heading-highlight", highlight.class]}>{highlight.text}</span>}
+		</h3>
+	)
+}
+{
+	level === 4 && (
+		<h4 id={id} class:list={["component-heading-4", classes]}>
+			{text}
+			{highlight && <span class:list={["heading-highlight", highlight.class]}>{highlight.text}</span>}
+		</h4>
+	)
+}

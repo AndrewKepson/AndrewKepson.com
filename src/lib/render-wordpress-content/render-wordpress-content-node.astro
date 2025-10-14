@@ -1,0 +1,30 @@
+---
+import { Image } from "astro:assets";
+import Heading from "@components/ui/typography/heading.astro";
+import CodeSnippet from "@components/content/code-snippet.astro";
+
+import type { ParsedNode } from "@lib/render-wordpress-content/types";
+
+const { node } = Astro.props as { node: ParsedNode };
+console.log(node.type);
+---
+
+{
+	["h1", "h2", "h3", "h4"].includes(node.type) ? (
+		<Heading id={node.id} text={node.text ?? ""} level={parseInt(node.type.slice(1)) as 1 | 2 | 3 | 4} />
+	) : node.type === "image" && node.image ? (
+		<Image
+			src={node.image.src}
+			alt={node.image.alt}
+			width={node.image.width}
+			height={node.image.height}
+			loading={node.image.loading}
+			decoding={node.image.decoding}
+			class={node.image.class}
+		/>
+	) : node.type === "code" && node.code ? (
+		<CodeSnippet code={node.code} />
+	) : (
+		<Fragment set:html={node.html} />
+	)
+}
