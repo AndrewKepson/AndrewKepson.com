@@ -248,6 +248,50 @@
 	}
 }
 
+@layer components {
+	.component-centered-content {
+		&.variant-offwhite {
+			@apply bg-offwhite-500 text-ink-500;
+
+			& :where(h1, h2, h3, h4, p, ul, ol, li) {
+				@apply text-ink-500;
+			}
+		}
+
+		&.variant-primary {
+			@apply bg-primary-500 text-ink-500;
+
+			& :where(h1, h2, h3, h4, p, ul, ol, li) {
+				@apply text-ink-500;
+			}
+		}
+
+		&.variant-secondary {
+			@apply bg-secondary-500 text-offwhite-500;
+
+			& :where(h1, h2, h3, h4, p, ul, ol, li) {
+				@apply text-offwhite-500;
+			}
+		}
+
+		&.variant-tertiary {
+			@apply bg-tertiary-500 text-ink-500;
+
+			& :where(h1, h2, h3, h4, p, ul, ol, li) {
+				@apply text-ink-500;
+			}
+		}
+
+		&.variant-quaternary {
+			@apply bg-quaternary-500 text-ink-500;
+
+			& :where(h1, h2, h3, h4, p, ul, ol, li) {
+				@apply text-ink-500;
+			}
+		}
+	}
+}
+
 /* Custom Keyframes */
 @keyframes fadeInUp {
 	0% {
