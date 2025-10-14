@@ -1,13 +1,12 @@
 ---
 import type { HeadingProps, ImageProps } from "@lib/types";
-import { getMediaItem } from "@lib/wordPressAPI";
 import { Image } from "astro:assets";
 import Heading from "@components/ui/typography/heading.astro";
 
 export interface Tool {
 	name: string;
 	description: string;
-	image: ImageProps;
+	image?: ImageProps;
 }
 
 export interface ToolsProps {
@@ -16,8 +15,6 @@ export interface ToolsProps {
 }
 
 const { heading, tools } = Astro.props as ToolsProps;
-
-const astroLogo = await getMediaItem("astro-logo-light-gradient");
 ---
 
 <section class="bg-offwhite-500 text-ink-500 px-8 py-24">
@@ -44,101 +41,24 @@ const astroLogo = await getMediaItem("astro-logo-light-gradient");
 			{
 				tools.map((tool) => (
 					<article class="card bg-primary-500 rounded-[12px] p-8 shadow-md transition-all duration-300 hover:shadow-lg">
-						<Image
-							src={tool.image.src}
-							alt={tool.image.alt}
-							width={tool.image.width}
-							height={tool.image.height}
-							loading={tool.image.loading ?? "eager"}
-							fetchpriority={tool.image.fetchpriority ?? "high"}
-							decoding={tool.image.decoding ?? "sync"}
-							class="mb-4 h-16 w-16 object-contain opacity-90"
-						/>
-						<h3 class="font-display text-secondary-500 mb-2 text-xl">Astro</h3>
-						<p class="font-body text-ink-400 text-sm leading-relaxed">
-							The static-first framework that powers most of my projects — clean, fast, and perfect for
-							design-driven, content-heavy sites.
-						</p>
+						{tool.image && (
+							<Image
+								src={tool.image.src}
+								alt={tool.image.alt}
+								width={tool.image.width}
+								height={tool.image.height}
+								loading={tool.image.loading ?? "eager"}
+								fetchpriority={tool.image.fetchpriority ?? "high"}
+								decoding={tool.image.decoding ?? "sync"}
+								class="mb-4 h-16 w-16 object-contain opacity-90"
+							/>
+						)}
+
+						<h3 class="font-display text-secondary-500 mb-2 text-xl" set:html={tool.name} />
+						<p class="font-body text-ink-400 text-sm leading-relaxed" set:html={tool.description} />
 					</article>
 				))
 			}
-			<!-- Tool -->
-			<article
-				class="card bg-primary-500 rounded-[12px] p-8 shadow-md transition-all duration-300 hover:shadow-lg"
-			>
-				<Image
-					src={astroLogo.src}
-					alt={astroLogo.alt}
-					width={astroLogo.width ?? 80}
-					height={astroLogo.height ?? 80}
-					class="mb-4 h-16 w-16 object-contain opacity-90"
-				/>
-				<h3 class="font-display text-secondary-500 mb-2 text-xl">WordPress (Block + Headless)</h3>
-				<p class="font-body text-ink-400 text-sm leading-relaxed">
-					Still the most versatile CMS for editors — I build custom block themes and headless setups for
-					effortless publishing and scale.
-				</p>
-			</article>
-			<!-- Tool -->
-			<article
-				class="card bg-primary-500 rounded-[12px] p-8 shadow-md transition-all duration-300 hover:shadow-lg"
-			>
-				<img
-					src="https://placehold.co/80x80?text=Formstack"
-					alt="Formstack logo"
-					class="mb-4 h-16 w-16 object-contain opacity-90"
-				/>
-				<h3 class="font-display text-secondary-500 mb-2 text-xl">Formstack Suite</h3>
-				<p class="font-body text-ink-400 text-sm leading-relaxed">
-					A powerful automation platform for data collection, document generation, and secure workflows —
-					perfect for modern business systems.
-				</p>
-			</article>
-			<!-- Tool -->
-			<article
-				class="card bg-primary-500 rounded-[12px] p-8 shadow-md transition-all duration-300 hover:shadow-lg"
-			>
-				<img
-					src="https://placehold.co/80x80?text=Intellistack"
-					alt="Intellistack Streamline logo"
-					class="mb-4 h-16 w-16 object-contain opacity-90"
-				/>
-				<h3 class="font-display text-secondary-500 mb-2 text-xl">Intellistack Streamline</h3>
-				<p class="font-body text-ink-400 text-sm leading-relaxed">
-					Proprietary workflow optimization platform used for integrations, lead routing, and internal
-					automation — my go-to for scaling efficiency.
-				</p>
-			</article>
-			<!-- Tool -->
-			<article
-				class="card bg-primary-500 rounded-[12px] p-8 shadow-md transition-all duration-300 hover:shadow-lg"
-			>
-				<img
-					src="https://placehold.co/80x80?text=Alpine.js"
-					alt="Alpine.js logo"
-					class="mb-4 h-16 w-16 object-contain opacity-90"
-				/>
-				<h3 class="font-display text-secondary-500 mb-2 text-xl">Alpine.js</h3>
-				<p class="font-body text-ink-400 text-sm leading-relaxed">
-					A lightweight JavaScript framework for progressive interactivity. Perfect for enhancing static
-					builds with declarative behavior.
-				</p>
-			</article>
-			<!-- Tool -->
-			<article
-				class="card bg-primary-500 rounded-[12px] p-8 shadow-md transition-all duration-300 hover:shadow-lg"
-			>
-				<img
-					src="https://placehold.co/80x80?text=Tailwind"
-					alt="Tailwind CSS logo"
-					class="mb-4 h-16 w-16 object-contain opacity-90"
-				/>
-				<h3 class="font-display text-secondary-500 mb-2 text-xl">Tailwind CSS</h3>
-				<p class="font-body text-ink-400 text-sm leading-relaxed">
-					My styling foundation — a utility-first framework that lets me design in code while maintaining
-					consistent tokens and semantics.
-				</p>
-			</article>
 		</div>
 		<!-- Closing Line -->
 		<footer class="pt-8 text-center">

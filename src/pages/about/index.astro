@@ -1,6 +1,6 @@
 ---
 import { wordPressPagesBySlug, PORTRAIT_PHOTO } from "@lib/store";
-import { Image } from "astro:assets";
+import { getMediaItem } from "@lib/wordPressAPI";
 
 import PrimaryLayout from "@components/layouts/primary-layout.astro";
 import Heading from "@components/ui/typography/heading.astro";
@@ -11,6 +11,10 @@ import Timeline from "./_components/timeline.astro";
 import Tools from "./_components/tools.astro";
 
 const pageData = wordPressPagesBySlug.get("about");
+
+const astroLogo = await getMediaItem("astro-logo-light-gradient");
+const wordpressLogo = await getMediaItem("461", "DATABASE_ID");
+const typescriptLogo = await getMediaItem("474", "DATABASE_ID");
 ---
 
 <PrimaryLayout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/about/">
@@ -87,7 +91,44 @@ const pageData = wordPressPagesBySlug.get("about");
 			},
 		]}
 	/>
-	<Tools heading={{ text: "Tools of the Trade" }} tools={[]} />
+	<Tools
+		heading={{ text: "Tools of the Trade" }}
+		tools={[
+			{
+				name: "Astro",
+				description:
+					"The static-first framework that powers most of my projects — clean, fast, and perfect for design-driven, content-heavy sites.",
+				image: {
+					src: astroLogo.src,
+					alt: astroLogo.alt,
+					width: astroLogo.width,
+					height: astroLogo.height,
+				},
+			},
+			{
+				name: "WordPress",
+				description:
+					"Still the most versatile CMS for editors — I build custom block themes and headless setups for effortless publishing and scale. This site is built with headless WordPress.",
+				image: {
+					src: wordpressLogo.src,
+					alt: wordpressLogo.alt,
+					width: wordpressLogo.width,
+					height: wordpressLogo.height,
+				},
+			},
+			{
+				name: "TypeScript",
+				description:
+					"The programming language that powers most of my projects — clean, fast, and perfect for design-driven, content-heavy sites.",
+				image: {
+					src: typescriptLogo.src,
+					alt: typescriptLogo.alt,
+					width: typescriptLogo.width,
+					height: typescriptLogo.height,
+				},
+			},
+		]}
+	/>
 	<CenteredContent variant="offwhite">
 		<Heading level={2} text="Let's Build Something Thoughtful" />
 		<p>

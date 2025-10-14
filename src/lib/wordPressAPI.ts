@@ -428,13 +428,27 @@ export const getAllCategories = async (limit: number = Infinity): Promise<Catego
 	}
 };
 
-export const getMediaItem = async (slug: string): Promise<{ src: string; alt: string }> => {
-	const data: { mediaItem: { id: string; mediaItemUrl: string; altText: string } } = await fetchWordPressAPI(`
+export const getMediaItem = async (
+	slug: string,
+	idType: "SLUG" | "URI" | "DATABASE_ID" = "SLUG"
+): Promise<{ src: string; alt: string; width: number; height: number }> => {
+	const data: {
+		mediaItem: {
+			id: string;
+			mediaItemUrl: string;
+			altText: string;
+			mediaDetails: { width: number; height: number };
+		};
+	} = await fetchWordPressAPI(`
     {
-      mediaItem(id: "${slug}", idType: SLUG) {
+      mediaItem(id: "${slug}", idType: ${idType}) {
         id
         mediaItemUrl
 		altText
+		mediaDetails {
+			width
+			height
+    	}
       }
     }
   `);
@@ -442,5 +456,7 @@ export const getMediaItem = async (slug: string): Promise<{ src: string; alt: st
 	return {
 		src: data?.mediaItem?.mediaItemUrl,
 		alt: data?.mediaItem?.altText,
+		width: data?.mediaItem?.mediaDetails?.width,
+		height: data?.mediaItem?.mediaDetails?.height,
 	};
 };
