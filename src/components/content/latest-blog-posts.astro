@@ -76,7 +76,7 @@ const latestPosts = posts.slice(1, 5).map((post) => post.data);
 			</article>
 
 			{
-				latestPosts.map((post) => (
+				latestPosts.map((post, index) => (
 					<article class="group bg-offwhite-500 overflow-hidden rounded-[12px] shadow-md transition-all duration-300 hover:shadow-lg">
 						<div class="relative">
 							<Image
@@ -84,7 +84,7 @@ const latestPosts = posts.slice(1, 5).map((post) => post.data);
 								alt={post.featuredImage?.altText}
 								height={160}
 								width={600}
-								loading="eager"
+								loading={index === 0 ? "eager" : "lazy"}
 								class="img-card h-[16rem] w-full object-cover"
 							/>
 							<span class="bg-secondary-500 text-offwhite-500 font-display absolute top-0 right-0 rounded-bl-[6px] px-3 py-1 text-xs">
