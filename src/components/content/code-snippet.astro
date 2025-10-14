@@ -1,0 +1,52 @@
+---
+export interface CodeSnippetProps {
+	title?: string;
+	code: string;
+	caption?: string;
+}
+
+const { title, code, caption } = Astro.props as CodeSnippetProps;
+---
+
+<figure
+	class="bg-primary-500 border-secondary-100 my-8 overflow-hidden rounded-[8px] border shadow-sm"
+	data-pg-collapsed
+>
+	<div class="border-secondary-100 bg-primary-400/50 flex items-center justify-between border-b px-4 py-2">
+		<span class="font-display text-secondary-500 text-xs tracking-wide">{title}</span>
+		<button
+			type="button"
+			class="font-body text-ink-300 hover:text-secondary-500 flex items-center gap-1 text-xs transition-colors"
+			data-copy-btn
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="h-4 w-4"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+			>
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8M8 12h8m-8-4h8"></path>
+			</svg>
+			Copy
+		</button>
+	</div>
+	<pre
+		class="font-code text-ink-400 overflow-x-auto px-6 py-4 text-sm leading-relaxed">
+		<code data-code>{code}</code>
+	</pre>
+	{caption && <figcaption class="font-body text-ink-300 px-6 pb-4 text-xs italic">{caption}</figcaption>}
+</figure>
+
+<script>
+	const script = document.currentScript;
+	const root = script && script.previousElementSibling;
+	if (root) {
+		const button = root.querySelector("[data-copy-btn]");
+		const codeEl = root.querySelector("[data-code]");
+		button?.addEventListener("click", () => {
+			const text = (codeEl && codeEl.textContent) || "";
+			navigator.clipboard && navigator.clipboard.writeText(text);
+		});
+	}
+</script>
