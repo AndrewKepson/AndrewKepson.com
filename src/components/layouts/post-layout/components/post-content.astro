@@ -1,0 +1,180 @@
+---
+import type { BlogPost } from "@lib/types";
+import { parseHTML } from "@lib/render-wordpress-content/process-wordpress-html";
+import RenderNode from "@lib/render-wordpress-content/render-wordpress-content-node.astro";
+
+interface Props {
+	post: BlogPost["data"];
+}
+
+const { post } = Astro.props;
+
+const parsedHTML = parseHTML(post?.content);
+---
+
+<article class="bg-offwhite-500 text-ink-500">
+	<!-- Hero -->
+	<header class="mx-auto max-w-5xl space-y-6 px-8 pt-32 pb-16 text-center">
+		<h1 class="font-display text-secondary-500 text-5xl leading-tight font-semibold lg:text-6xl">
+			{post?.title}
+		</h1>
+		<p class="font-body text-ink-400 mx-auto max-w-prose text-lg leading-relaxed">
+			How restraint, purpose, and moral clarity form the invisible structures that hold civilization upright.
+		</p>
+		<div class="bg-secondary-500 mx-auto mt-8 h-[2px] w-20 opacity-30"></div>
+	</header>
+	<!-- Hero Image -->
+	<div class="relative mx-auto mb-24 max-w-6xl overflow-hidden rounded-[12px] px-8">
+		<img
+			src="https://placehold.co/1200x700"
+			alt="Light filtering through an austere modern structure"
+			class="img-hero w-full rounded-[12px] object-cover brightness-[0.97] contrast-[1.03]"
+		/>
+	</div>
+	<!-- Body -->
+	<section
+		class="prose prose-p:font-body prose-p:text-ink-400 prose-p:text-lg prose-p:leading-relaxed prose-headings:font-display prose-h2:font-display prose-h2:text-secondary-500 prose-h2:mt-16 prose-h2:text-3xl prose-h2:leading-snug prose-h2:font-semibold prose-h3:text-secondary-500 prose-h3:text-2xl prose-h3:leading-snug prose-h3:font-medium prose-img:w-full prose-img:rounded-[12px] prose-img:object-cover mx-auto max-w-3xl space-y-10 px-8 pb-32"
+	>
+		{parsedHTML.map((node) => <RenderNode node={node} />)}
+	</section>
+
+	<!-- Author / Footer -->
+	<footer class="border-secondary-200 mt-24 space-y-4 border-t pt-12 pb-24 text-center">
+		<p class="font-body text-ink-300 text-sm tracking-wide uppercase">Written by</p>
+		<p class="font-display text-secondary-500 text-lg font-medium">Andrew Kepson</p>
+		<p class="font-body text-ink-400 text-sm">This post is powered by headless WordPress.</p>
+	</footer>
+</article>
+
+<style>
+	pre code.hljs {
+		display: block;
+		overflow-x: auto;
+		padding: 1em;
+	}
+
+	code.hljs {
+		padding: 3px 5px;
+	}
+
+	.hljs {
+		color: #abb2bf;
+		background: transparent;
+	}
+
+	.hljs-keyword,
+	.hljs-operator {
+		color: #c678dd;
+	}
+
+	.hljs-pattern-match {
+		color: #c678dd;
+	}
+
+	.hljs-pattern-match .hljs-constructor {
+		color: #61aeee;
+	}
+
+	.hljs-function {
+		color: #61aeee;
+	}
+
+	.hljs-function .hljs-params {
+		color: #a6b2c0;
+	}
+
+	.hljs-function .hljs-params .hljs-typing {
+		color: #ffd700;
+	}
+
+	.hljs-module-access .hljs-module {
+		color: #7e57c2;
+	}
+
+	.hljs-constructor {
+		color: #e5c07b;
+	}
+
+	.hljs-constructor .hljs-string {
+		color: #9ccc65;
+	}
+
+	.hljs-comment,
+	.hljs-quote {
+		color: #5c6370;
+		font-style: italic;
+	}
+
+	.hljs-doctag,
+	.hljs-formula {
+		color: #c678dd;
+	}
+
+	.hljs-section,
+	.hljs-name,
+	.hljs-selector-tag,
+	.hljs-deletion,
+	.hljs-subst {
+		color: #e06c75;
+	}
+
+	.hljs-literal {
+		color: #56b6c2;
+	}
+
+	.hljs-string,
+	.hljs-regexp,
+	.hljs-addition,
+	.hljs-attribute,
+	.hljs-meta .hljs-string {
+		color: #98c379;
+	}
+
+	.hljs-built_in,
+	.hljs-class .hljs-title,
+	.hljs-title.class_ {
+		color: #e5c07b;
+	}
+
+	.hljs-attr,
+	.hljs-variable,
+	.hljs-template-variable,
+	.hljs-type,
+	.hljs-selector-class,
+	.hljs-selector-attr,
+	.hljs-selector-pseudo,
+	.hljs-number {
+		color: #d19a66;
+	}
+
+	.hljs-symbol,
+	.hljs-bullet,
+	.hljs-link,
+	.hljs-meta,
+	.hljs-selector-id,
+	.hljs-title {
+		color: #61aeee;
+	}
+
+	.hljs-emphasis {
+		font-style: italic;
+	}
+
+	.hljs-strong {
+		font-weight: bold;
+	}
+
+	.hljs-link {
+		text-decoration: underline;
+	}
+</style>
+
+<script>
+	import hljs from "highlight.js";
+
+	document.addEventListener("DOMContentLoaded", (event) => {
+		document.querySelectorAll("pre code").forEach((el) => {
+			hljs.highlightElement(el as HTMLElement);
+		});
+	});
+</script>

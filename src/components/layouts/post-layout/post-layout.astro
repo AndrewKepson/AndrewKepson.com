@@ -1,0 +1,24 @@
+---
+import type { BlogPost } from "@lib/types";
+import PrimaryLayout from "@components/layouts/primary-layout.astro";
+import Sidebar from "./components/sidebar.astro";
+import PostContent from "./components/post-content.astro";
+
+interface Props {
+	title: string;
+	description: string;
+	canonical: string;
+	ogImage?: string;
+	noIndex?: boolean;
+	post: BlogPost["data"];
+}
+
+const { title, description, canonical, ogImage, noIndex, post } = Astro.props as Props;
+---
+
+<PrimaryLayout title={title} description={description} canonical={canonical} ogImage={ogImage} noIndex={noIndex}>
+	<div class="mx-auto grid max-w-7xl gap-16 lg:grid-cols-[300px_1fr]">
+		<Sidebar post={post} />
+		<PostContent post={post} />
+	</div>
+</PrimaryLayout>
