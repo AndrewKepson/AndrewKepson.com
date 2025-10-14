@@ -84,6 +84,7 @@
 	--color-ink-900: oklch(0.1913 0 0);
 	--color-ink-950: oklch(0.1822 0 0);
 
+	/* TODO: Remove Old Colors */
 	--color-deep-purple-50: #eeecf5;
 	--color-deep-purple-100: #d3c6e8;
 	--color-deep-purple-200: #b8a1db;
@@ -136,6 +137,22 @@
 @layer base {
 	h1 {
 		@apply font-display text-secondary-500 text-5xl leading-tight font-semibold tracking-tight lg:text-6xl;
+	}
+
+	h2 {
+		@apply font-display text-secondary-500 text-3xl leading-snug font-semibold lg:text-4xl;
+	}
+
+	h3 {
+		@apply font-display text-secondary-500 text-2xl leading-snug font-medium lg:text-3xl;
+	}
+
+	h4 {
+		@apply font-display text-secondary-400 text-lg font-medium tracking-wide uppercase lg:text-xl;
+	}
+
+	p {
+		@apply font-body text-ink-400 text-base leading-relaxed lg:text-lg;
 	}
 
 	blockquote {
