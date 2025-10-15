@@ -1,0 +1,82 @@
+---
+import type { BlogCategory, BlogPost, PaginationState } from "@lib/types";
+import { getCollection } from "astro:content";
+import ArchiveLayout from "@components/layouts/archive-layout/archive-layout.astro";
+import {
+	BLOG_PAGINATION_PAGE_SIZE,
+	buildPaginationPageUrl,
+	createPaginationState,
+	getCategoryPaginationBasePath,
+	sortPostsByDate,
+} from "@lib/functions";
+import slugger from "slugger";
+
+export async function getStaticPaths({ paginate }) {
+	const allWordPressCategories = await getCollection("categories");
+	const allWordPressPosts = await getCollection("posts");
+
+	return allWordPressCategories.flatMap((category) => {
+		const categorySlug = slugger(category?.data?.name);
+		const categoryPosts = sortPostsByDate(
+			allWordPressPosts.filter((post) => post?.data?.category === category?.data?.name)
+		);
+
+	const paginatedResults = paginate(categoryPosts.slice(BLOG_PAGINATION_PAGE_SIZE), {
+		pageSize: BLOG_PAGINATION_PAGE_SIZE,
+		params: {
+			category: categorySlug,
+		},
+	});
+
+		if (paginatedResults.length === 0) {
+			return [];
+		}
+
+		const totalPages = paginatedResults.length + 1;
+		const basePath = getCategoryPaginationBasePath(categorySlug);
+
+		return paginatedResults.map((result, index) => {
+			const currentPage = index + 2;
+			const pagePosts = result.props.page.data as BlogPost[];
+			const pagination = createPaginationState(basePath, currentPage, totalPages);
+
+			return {
+				params: {
+					category: categorySlug,
+					page: String(currentPage),
+				},
+				props: {
+					category,
+					posts: pagePosts,
+					pagination,
+				},
+			};
+		});
+	});
+}
+
+interface CategoryPageProps {
+	category: BlogCategory;
+	posts: BlogPost[];
+	pagination: PaginationState;
+}
+
+const { category, posts, pagination } = Astro.props as CategoryPageProps;
+const categorySlug = Astro.params.category ?? "";
+const basePath = getCategoryPaginationBasePath(categorySlug);
+
+const title = `Blog Posts About ${category?.data?.name} - Page ${pagination.currentPage}`;
+const baseDescription = `Read articles about ${category?.data?.name} written by Andrew Kepson.`;
+const description = `${baseDescription} (Page ${pagination.currentPage} of ${pagination.lastPage})`;
+const canonical = buildPaginationPageUrl(basePath, pagination.currentPage);
+---
+
+<ArchiveLayout
+	title={title}
+	description={description}
+	canonical={canonical}
+	posts={posts}
+	category={category?.data?.name}
+	pagination={pagination}
+	noIndex={pagination.currentPage > 1}
+/>

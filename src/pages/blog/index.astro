@@ -1,17 +1,35 @@
 ---
 import { getCollection } from "astro:content";
 import { wordPressPagesBySlug } from "@lib/store";
+import {
+	createPaginationState,
+	sortPostsByDate,
+	BLOG_INDEX_POST_COUNT,
+	BLOG_PAGINATION_PAGE_SIZE,
+	BLOG_PAGINATION_BASE_PATH,
+} from "@lib/functions";
 
 import ArchiveLayout from "@components/layouts/archive-layout/archive-layout.astro";
 
 const pageData = wordPressPagesBySlug.get("blog");
 const posts = await getCollection("posts");
+const sortedPosts = sortPostsByDate(posts);
+const indexPosts = sortedPosts.slice(0, BLOG_INDEX_POST_COUNT);
+
+const remainingPostsCount = Math.max(sortedPosts.length - indexPosts.length, 0);
+const paginatedPageCount =
+	remainingPostsCount > 0 ? Math.ceil(remainingPostsCount / BLOG_PAGINATION_PAGE_SIZE) : 0;
+const totalPages = paginatedPageCount + 1;
+
+const pagination =
+	totalPages > 1 ? createPaginationState(BLOG_PAGINATION_BASE_PATH, 1, totalPages) : undefined;
 ---
 
 <ArchiveLayout
 	title={pageData?.seo?.title}
 	description={pageData?.seo?.description}
 	canonical="/blog/"
-	posts={posts}
+	posts={indexPosts}
 	category="All Categories"
+	pagination={pagination}
 />

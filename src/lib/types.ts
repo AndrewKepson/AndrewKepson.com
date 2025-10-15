@@ -79,3 +79,16 @@ export type Page = CollectionEntry<"pages">;
 export type BlogPost = CollectionEntry<"posts">;
 
 export type BlogCategory = CollectionEntry<"categories">;
+
+export interface PaginationLinks {
+	first?: string;
+	prev?: string;
+	next?: string;
+	last?: string;
+}
+
+export interface PaginationState {
+	currentPage: number;
+	lastPage: number;
+	url: PaginationLinks;
+}

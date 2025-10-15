@@ -1,4 +1,5 @@
 import * as cheerio from "cheerio";
+import type { BlogPost, PaginationLinks, PaginationState } from "@lib/types";
 
 // * Utility Functions
 export const chooseCategoryColor = (category) => {
@@ -151,3 +152,64 @@ export const stripSchemaMarkup = (schemaMarkup: string): string => {
 
 	return "No valid JSON-LD script found";
 };
+
+// * Pagination Helpers
+const normalizePaginationBasePath = (basePath: string): string => {
+	if (!basePath) {
+		return "";
+	}
+
+	const trimmed = basePath.trim();
+	const withLeadingSlash = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
+	return withLeadingSlash.endsWith("/") ? withLeadingSlash.slice(0, -1) : withLeadingSlash;
+};
+
+export const BLOG_PAGINATION_BASE_PATH = "/blog";
+export const BLOG_INDEX_POST_COUNT = 6;
+export const BLOG_PAGINATION_PAGE_SIZE = 6;
+export const getCategoryPaginationBasePath = (categorySlug: string): string =>
+	normalizePaginationBasePath(`/blog/category/${categorySlug}`);
+
+export const sortPostsByDate = (posts: BlogPost[]): BlogPost[] =>
+	[...posts].sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+export const buildPaginationPageUrl = (basePath: string, pageNumber: number): string => {
+	const normalizedBase = normalizePaginationBasePath(basePath);
+
+	if (!normalizedBase) {
+		return pageNumber <= 1 ? "/" : `/${pageNumber}/`;
+	}
+
+	if (pageNumber <= 1) {
+		return `${normalizedBase}/`;
+	}
+
+	return `${normalizedBase}/${pageNumber}/`;
+};
+
+export const getPaginationNavUrls = (
+	basePath: string,
+	currentPage: number,
+	totalPages: number
+): PaginationLinks => {
+	if (totalPages <= 1) {
+		return {};
+	}
+
+	return {
+		first: buildPaginationPageUrl(basePath, 1),
+		prev: currentPage > 1 ? buildPaginationPageUrl(basePath, currentPage - 1) : undefined,
+		next: currentPage < totalPages ? buildPaginationPageUrl(basePath, currentPage + 1) : undefined,
+		last: totalPages > 1 ? buildPaginationPageUrl(basePath, totalPages) : undefined,
+	};
+};
+
+export const createPaginationState = (
+	basePath: string,
+	currentPage: number,
+	totalPages: number
+): PaginationState => ({
+	currentPage,
+	lastPage: Math.max(totalPages, 1),
+	url: getPaginationNavUrls(basePath, currentPage, totalPages),
+});
