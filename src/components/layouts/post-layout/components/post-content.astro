@@ -1,7 +1,14 @@
 ---
 import type { BlogPost } from "@lib/types";
 import { parseHTML } from "@lib/render-wordpress-content/process-wordpress-html";
+import { Image } from "astro:assets";
 import RenderNode from "@lib/render-wordpress-content/render-wordpress-content-node.astro";
+import Heading from "@components/ui/typography/heading.astro";
+import { getHeadingsFromMarkdown } from "@lib/functions";
+import TableOfContents from "./sidebar/table-of-contents.astro";
+import ShareButtons from "./sidebar/share-buttons.astro";
+import SubscribeForm from "./sidebar/subscribe-form.astro";
+import RelatedPosts from "./sidebar/related-posts.astro";
 
 interface Props {
 	post: BlogPost["data"];
@@ -10,30 +17,42 @@ interface Props {
 const { post } = Astro.props;
 
 const parsedHTML = parseHTML(post?.content);
+const headings = getHeadingsFromMarkdown(post?.content) ?? [];
 ---
 
-<article class="bg-offwhite-500 text-ink-500">
+<article class="bg-offwhite-500 text-ink-500 w-full min-w-0">
 	<!-- Hero -->
-	<header class="mx-auto max-w-5xl space-y-6 px-8 pt-32 pb-16 text-center">
-		<h1 class="font-display text-secondary-500 text-5xl leading-tight font-semibold lg:text-6xl">
-			{post?.title}
-		</h1>
+	<header class="mx-auto max-w-5xl space-y-6 px-4 pt-28 pb-16 text-center sm:px-8 sm:pt-32">
+		<Heading
+			level={1}
+			text={post?.title}
+			class="text-secondary-500 text-3xl leading-tight font-semibold md:text-5xl lg:text-6xl"
+		/>
 		<p class="font-body text-ink-400 mx-auto max-w-prose text-lg leading-relaxed">
 			How restraint, purpose, and moral clarity form the invisible structures that hold civilization upright.
 		</p>
 		<div class="bg-secondary-500 mx-auto mt-8 h-[2px] w-20 opacity-30"></div>
 	</header>
 	<!-- Hero Image -->
-	<div class="relative mx-auto mb-24 max-w-6xl overflow-hidden rounded-[12px] px-8">
-		<img
-			src="https://placehold.co/1200x700"
-			alt="Light filtering through an austere modern structure"
-			class="img-hero w-full rounded-[12px] object-cover brightness-[0.97] contrast-[1.03]"
+	<div class="relative mx-auto mb-24 max-w-6xl overflow-hidden rounded-[12px] px-4 sm:px-8">
+		<Image
+			src={post?.featuredImage?.url}
+			alt={post?.featuredImage?.altText}
+			width={1200}
+			height={700}
+			class="w-full rounded-[12px] object-cover brightness-[0.97] contrast-[1.03]"
 		/>
 	</div>
+	{
+		headings.length > 0 && (
+			<div class="mx-auto mb-16 w-full max-w-3xl px-4 sm:px-8 lg:hidden">
+				<TableOfContents headings={headings} />
+			</div>
+		)
+	}
 	<!-- Body -->
 	<section
-		class="prose prose-p:font-body prose-p:text-ink-400 prose-p:text-lg prose-p:leading-relaxed prose-headings:font-display prose-h2:font-display prose-h2:text-secondary-500 prose-h2:mt-16 prose-h2:text-3xl prose-h2:leading-snug prose-h2:font-semibold prose-h3:text-secondary-500 prose-h3:text-2xl prose-h3:leading-snug prose-h3:font-medium prose-img:w-full prose-img:rounded-[12px] prose-img:object-cover mx-auto max-w-3xl space-y-10 px-8 pb-32 prose-li:marker:text-secondary-500/50"
+		class="prose prose-p:font-body prose-p:text-ink-400 prose-p:text-lg prose-p:leading-relaxed prose-headings:font-display prose-h2:font-display prose-h2:text-secondary-500 prose-h2:mt-16 prose-h2:text-3xl prose-h2:leading-snug prose-h2:font-semibold prose-h3:text-secondary-500 prose-h3:text-2xl prose-h3:leading-snug prose-h3:font-medium prose-img:w-full prose-img:rounded-[12px] prose-img:object-cover prose-li:marker:text-secondary-500/50 mx-auto max-w-3xl space-y-10 px-4 sm:px-8"
 	>
 		{parsedHTML.map((node) => <RenderNode node={node} />)}
 	</section>
@@ -44,9 +63,50 @@ const parsedHTML = parseHTML(post?.content);
 		<p class="font-display text-secondary-500 text-lg font-medium">Andrew Kepson</p>
 		<p class="font-body text-ink-400 text-sm">This post is powered by headless WordPress.</p>
 	</footer>
+	<div class="mx-auto max-w-3xl space-y-12 px-4 pb-24 sm:px-8 lg:hidden">
+		<ShareButtons post={post} />
+		<SubscribeForm />
+		<RelatedPosts post={post} />
+	</div>
+	<button
+		type="button"
+		class="scroll-to-top theme-transition bg-secondary-500 text-offwhite-500 focus-visible:outline-secondary-500 right-6 bottom-6 z-50 cursor-pointer rounded-full p-4 shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+		data-scroll-top
+		data-visible="false"
+		aria-label="Scroll to top"
+	>
+		<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+			<path d="M12 19V5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+			></path>
+			<path
+				d="M5 12l7-7 7 7"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"></path>
+		</svg>
+		<span class="sr-only">Scroll to top</span>
+	</button>
+	<div aria-hidden="true" class="block h-1" data-scroll-top-sentinel></div>
 </article>
 
 <style>
+	.scroll-to-top {
+		position: fixed;
+		opacity: 0;
+		transform: translateY(12px);
+		pointer-events: none;
+		transition:
+			opacity 0.3s ease,
+			transform 0.3s ease;
+	}
+
+	.scroll-to-top[data-visible="true"] {
+		opacity: 1;
+		transform: translateY(0);
+		pointer-events: auto;
+	}
+
 	pre code.hljs {
 		display: block;
 		overflow-x: auto;
@@ -176,5 +236,50 @@ const parsedHTML = parseHTML(post?.content);
 		document.querySelectorAll("pre code").forEach((el) => {
 			hljs.highlightElement(el as HTMLElement);
 		});
+
+		const scrollButton = document.querySelector("[data-scroll-top]") as HTMLButtonElement | null;
+		const sentinel = document.querySelector("[data-scroll-top-sentinel]") as HTMLElement | null;
+
+		if (scrollButton) {
+			const computedStyles = window.getComputedStyle(scrollButton);
+			const baseBottom = parseFloat(computedStyles.bottom) || 24;
+			const dockSpacing = 16;
+
+			const adjustDocking = () => {
+				scrollButton.style.bottom = `${baseBottom}px`;
+
+				if (!sentinel) {
+					return;
+				}
+
+				const sentinelRect = sentinel.getBoundingClientRect();
+				const viewportHeight = window.innerHeight;
+
+				if (sentinelRect.top >= viewportHeight || sentinelRect.top <= 0) {
+					return;
+				}
+
+				const buttonRect = scrollButton.getBoundingClientRect();
+				const overlap = buttonRect.bottom + dockSpacing - sentinelRect.top;
+
+				if (overlap > 0) {
+					scrollButton.style.bottom = `${baseBottom + overlap}px`;
+				}
+			};
+
+			const toggleScrollButton = () => {
+				const shouldShow = window.scrollY > 320;
+				scrollButton.dataset.visible = shouldShow ? "true" : "false";
+				adjustDocking();
+			};
+
+			scrollButton.addEventListener("click", () => {
+				window.scrollTo({ top: 0, behavior: "smooth" });
+			});
+
+			toggleScrollButton();
+			window.addEventListener("scroll", toggleScrollButton, { passive: true });
+			window.addEventListener("resize", adjustDocking);
+		}
 	});
 </script>

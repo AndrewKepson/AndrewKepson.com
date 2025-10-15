@@ -1,9 +1,45 @@
-<div class="border-secondary-200 space-y-4 border-t pt-12">
-	<h3 class="font-display text-secondary-500 text-lg font-semibold">Related Essays</h3>
-	<ul class="font-body text-ink-400 space-y-3 text-sm">
-		<li><a href="#" class="hover:text-quaternary-700 underline-hover block">The Silence Between Ideas</a></li>
-		<li><a href="#" class="hover:text-quaternary-700 underline-hover block">The Ethics of Simplicity</a></li>
-		<li><a href="#" class="hover:text-quaternary-700 underline-hover block">On the Limits of Progress</a></li>
-		<li><a href="#" class="hover:text-quaternary-700 underline-hover block">The Geometry of Thought</a></li>
-	</ul>
-</div>
+---
+import { getCollection } from "astro:content";
+import type { BlogPost } from "@lib/types";
+
+interface Props {
+	post: BlogPost["data"];
+}
+
+const { post } = Astro.props as Props;
+const category = post?.category;
+
+const postsCollection = category ? await getCollection("posts") : [];
+
+const postsByCategory = postsCollection
+	.map(({ data }) => data)
+	.filter(
+		(relatedPost) =>
+			relatedPost?.category === category &&
+			relatedPost?.slug !== post?.slug,
+	)
+	.sort((a, b) => {
+		const dateA = a?.date ? new Date(a.date).getTime() : 0;
+		const dateB = b?.date ? new Date(b.date).getTime() : 0;
+		return dateB - dateA;
+	})
+	.slice(0, 5);
+---
+
+{postsByCategory.length > 0 && (
+	<div class="border-secondary-200 space-y-4 border-t py-12">
+		<h3 class="font-display text-secondary-500 text-lg font-semibold">Related Posts</h3>
+		<ul class="font-body text-ink-400 space-y-3 text-sm">
+			{postsByCategory.map((relatedPost) => (
+				<li>
+					<a
+						href={relatedPost.uri}
+						class="hover:text-quaternary-700 underline-hover block"
+					>
+						{relatedPost.title}
+					</a>
+				</li>
+			))}
+		</ul>
+	</div>
+)}
