@@ -1,0 +1,23 @@
+---
+interface TableOfContentsProps {
+	headings: { heading: string; key: number; classes: string; slug: string }[];
+}
+
+const { headings } = Astro.props as TableOfContentsProps;
+---
+
+<!-- Table of Contents -->
+<nav class="space-y-4" aria-label="Table of Contents">
+	<h2 class="font-display text-secondary-500 text-xl font-semibold">On This Page</h2>
+	<ul class="font-body text-ink-400 space-y-2 text-sm leading-relaxed">
+		{
+			headings.map((heading) => (
+				<li>
+					<a href={`#${heading.slug}`} class={heading.classes}>
+						{heading.heading}
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</nav>

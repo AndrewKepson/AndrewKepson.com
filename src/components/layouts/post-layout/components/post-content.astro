@@ -33,7 +33,7 @@ const parsedHTML = parseHTML(post?.content);
 	</div>
 	<!-- Body -->
 	<section
-		class="prose prose-p:font-body prose-p:text-ink-400 prose-p:text-lg prose-p:leading-relaxed prose-headings:font-display prose-h2:font-display prose-h2:text-secondary-500 prose-h2:mt-16 prose-h2:text-3xl prose-h2:leading-snug prose-h2:font-semibold prose-h3:text-secondary-500 prose-h3:text-2xl prose-h3:leading-snug prose-h3:font-medium prose-img:w-full prose-img:rounded-[12px] prose-img:object-cover mx-auto max-w-3xl space-y-10 px-8 pb-32"
+		class="prose prose-p:font-body prose-p:text-ink-400 prose-p:text-lg prose-p:leading-relaxed prose-headings:font-display prose-h2:font-display prose-h2:text-secondary-500 prose-h2:mt-16 prose-h2:text-3xl prose-h2:leading-snug prose-h2:font-semibold prose-h3:text-secondary-500 prose-h3:text-2xl prose-h3:leading-snug prose-h3:font-medium prose-img:w-full prose-img:rounded-[12px] prose-img:object-cover mx-auto max-w-3xl space-y-10 px-8 pb-32 prose-li:marker:text-secondary-500/50"
 	>
 		{parsedHTML.map((node) => <RenderNode node={node} />)}
 	</section>
