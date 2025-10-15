@@ -1,7 +1,7 @@
 ---
 import { allWordPressPages } from "@lib/store";
 
-import Layout from "@components/layouts/Layout.astro";
+import PrimaryLayout from "@components/layouts/primary-layout.astro";
 import Hero from "./_components/Hero.astro";
 import FAQs from "./_components/FAQs";
 import WhyChooseWP from "./_components/WhyChooseWP.astro";
@@ -11,7 +11,7 @@ import React from "./_components/React.astro";
 const pageData = allWordPressPages.find((page) => page.slug === "headless-wordpress-developer");
 ---
 
-<Layout
+<PrimaryLayout
 	title={pageData?.seo?.title}
 	description={pageData?.seo?.description}
 	canonical="/headless-wordpress-developer/"
@@ -21,4 +21,4 @@ const pageData = allWordPressPages.find((page) => page.slug === "headless-wordpr
 	<Marketing />
 	<React />
 	<FAQs client:visible />
-</Layout>
+</PrimaryLayout>

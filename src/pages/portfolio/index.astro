@@ -1,7 +1,7 @@
 ---
 import { allWordPressPages } from "@lib/store";
 
-import Layout from "@components/layouts/Layout.astro";
+import PrimaryLayout from "@components/layouts/primary-layout.astro";
 import PortfolioCard from "./_components/PortfolioCard.astro";
 
 const portfolioCardsData = [
@@ -21,7 +21,7 @@ const portfolioCardsData = [
 const pageData = allWordPressPages.find((page) => page.slug === "portfolio");
 ---
 
-<Layout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/portfolio/">
+<PrimaryLayout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/portfolio/">
 	<div class="flex flex-wrap justify-center">
 		{
 			portfolioCardsData.map((portfolioCard) => (
@@ -33,4 +33,4 @@ const pageData = allWordPressPages.find((page) => page.slug === "portfolio");
 			))
 		}
 	</div>
-</Layout>
+</PrimaryLayout>

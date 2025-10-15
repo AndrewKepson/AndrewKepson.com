@@ -1,10 +1,15 @@
 ---
 import { allWordPressPosts, allWordPressCategories } from "@lib/store";
 
-import Layout from "@components/layouts/Layout.astro";
+import PrimaryLayout from "@components/layouts/primary-layout.astro";
 ---
 
-<Layout title="HTML Sitemap - Andrew Kepson" description="HTML sitemap for AndrewKepson.com.">
+<PrimaryLayout
+	title="HTML Sitemap - Andrew Kepson"
+	description="HTML sitemap for AndrewKepson.com."
+	canonical="/html-sitemap/"
+	noIndex
+>
 	<div class="grid h-full grid-cols-1 place-content-around text-xl text-gray-700">
 		<ul>
 			<li>
@@ -38,7 +43,7 @@ import Layout from "@components/layouts/Layout.astro";
 			</li>
 		</ul>
 
-		<p class="pb-5 pt-10 font-semibold">Blog Posts:</p>
+		<p class="pt-10 pb-5 font-semibold">Blog Posts:</p>
 		<ul>
 			{
 				allWordPressPosts.map((post) => (
@@ -50,7 +55,7 @@ import Layout from "@components/layouts/Layout.astro";
 				))
 			}
 		</ul>
-		<p class="pb-5 pt-10 font-semibold">Blog Categories:</p>
+		<p class="pt-10 pb-5 font-semibold">Blog Categories:</p>
 		<ul>
 			{
 				allWordPressCategories.map((category) => (
@@ -63,4 +68,4 @@ import Layout from "@components/layouts/Layout.astro";
 			}
 		</ul>
 	</div>
-</Layout>
+</PrimaryLayout>
