@@ -89,12 +89,12 @@ importers:
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
-      react-reveal:
-        specifier: ^1.2.2
-        version: 1.2.2(react@18.3.1)
       react-share:
         specifier: ^5.2.2
         version: 5.2.2(react@18.3.1)
+      sharer.js:
+        specifier: ^0.5.3
+        version: 0.5.3
       sharp:
         specifier: ^0.33.5
         version: 0.33.5
@@ -1966,11 +1966,6 @@ packages:
     resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
     engines: {node: '>=0.10.0'}
 
-  react-reveal@1.2.2:
-    resolution: {integrity: sha512-JCv3fAoU6Z+Lcd8U48bwzm4pMZ79qsedSXYwpwt6lJNtj/v5nKJYZZbw3yhaQPPgYePo3Y0NOCoYOq/jcsisuw==}
-    peerDependencies:
-      react: ^15.3.0 || ^16.0.0
-
   react-share@5.2.2:
     resolution: {integrity: sha512-z0nbOX6X6vHHWAvXduNkYeJUKTKNpKM5Xpmc5a2BxjJhUWl+sE7AsSEMmYEUj2DuDjZr5m7KFIGF0sQPKcUN6w==}
     peerDependencies:
@@ -2064,6 +2059,9 @@ packages:
     resolution: {integrity: sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==}
     engines: {node: '>=10'}
     hasBin: true
+
+  sharer.js@0.5.3:
+    resolution: {integrity: sha512-Xi8nWppPSH3YbsqZlY0CnrxiY+QlSSoAlub0ai3Cyu2wZt0kWH405vIzoixDQb3n+BswuogZ5fwp4qL+448Ocw==}
 
   sharp@0.33.5:
     resolution: {integrity: sha512-haPVm1EkS9pgvHrQ/F3Xy+hgcuMV0Wm9vfIBSiwZ05k+xgb0PkBQpGsAA/oWdDobNaZTH5ppvHtzCFbnSEwHVw==}
@@ -4418,11 +4416,6 @@ snapshots:
 
   react-refresh@0.17.0: {}
 
-  react-reveal@1.2.2(react@18.3.1):
-    dependencies:
-      prop-types: 15.8.1
-      react: 18.3.1
-
   react-share@5.2.2(react@18.3.1):
     dependencies:
       classnames: 2.5.1
@@ -4585,6 +4578,8 @@ snapshots:
   semver@6.3.1: {}
 
   semver@7.7.3: {}
+
+  sharer.js@0.5.3: {}
 
   sharp@0.33.5:
     dependencies:
