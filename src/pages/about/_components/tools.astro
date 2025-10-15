@@ -15,6 +15,22 @@ export interface ToolsProps {
 }
 
 const { heading, tools } = Astro.props as ToolsProps;
+
+interface ToolWithId extends Tool {
+	id: string;
+}
+
+const toSlug = (value: string): string =>
+	value
+		.toLowerCase()
+		.trim()
+		.replace(/[^a-z0-9]+/g, "-")
+		.replace(/^-+|-+$/g, "");
+
+const toolsWithIds: ToolWithId[] = tools.map((tool, index) => ({
+	...tool,
+	id: `${index}-${toSlug(tool.name)}`,
+}));
 ---
 
 <section class="bg-offwhite-500 text-ink-500 px-8 py-24">
@@ -36,11 +52,115 @@ const { heading, tools } = Astro.props as ToolsProps;
 			</p>
 		</header>
 		<!-- Tools Grid -->
-		<div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+		<div
+			class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3"
+			x-data="{
+				draggedId: null,
+				hoveredId: null,
+				dragStart(event) {
+					const current = event.currentTarget;
+					this.draggedId = current.dataset.toolId;
+					this.hoveredId = null;
+					if (event.dataTransfer) {
+						event.dataTransfer.effectAllowed = 'move';
+						try {
+							event.dataTransfer.setData('text/plain', this.draggedId);
+						} catch (error) {
+							/* noop: some browsers block setData during drag */
+						}
+					}
+				},
+				dragEnter(event) {
+					const targetId = event.currentTarget.dataset.toolId;
+					if (!this.draggedId || this.draggedId === targetId) return;
+					this.hoveredId = targetId;
+				},
+				dragLeave(event) {
+					if (this.hoveredId === event.currentTarget.dataset.toolId) {
+						this.hoveredId = null;
+					}
+				},
+				dragOver(event) {
+					if (!this.draggedId) return;
+					event.preventDefault();
+					if (event.dataTransfer) {
+						event.dataTransfer.dropEffect = 'move';
+					}
+				},
+				drop(event) {
+					event.preventDefault();
+					event.stopPropagation();
+					const targetEl = event.currentTarget;
+					const targetId = targetEl.dataset.toolId;
+					if (!this.draggedId || this.draggedId === targetId) {
+						this.resetDragState();
+						return;
+					}
+					const draggedEl = [...this.$refs.grid.children].find(
+						(child) => child.dataset.toolId === this.draggedId
+					);
+					if (!draggedEl) {
+						this.resetDragState();
+						return;
+					}
+					const children = [...this.$refs.grid.children];
+					const targetIndex = children.indexOf(targetEl);
+					const draggedIndex = children.indexOf(draggedEl);
+					if (draggedIndex < targetIndex) {
+						this.$refs.grid.insertBefore(draggedEl, targetEl.nextSibling);
+					} else {
+						this.$refs.grid.insertBefore(draggedEl, targetEl);
+					}
+					this.resetDragState();
+				},
+				dragEnd() {
+					this.resetDragState();
+				},
+				dragOverGrid(event) {
+					if (!this.draggedId) return;
+					event.preventDefault();
+				},
+				dropOnGrid(event) {
+					event.preventDefault();
+					if (!this.draggedId) return;
+					const draggedEl = [...this.$refs.grid.children].find(
+						(child) => child.dataset.toolId === this.draggedId
+					);
+					if (!draggedEl || draggedEl === this.$refs.grid.lastElementChild) {
+						this.resetDragState();
+						return;
+					}
+					this.$refs.grid.appendChild(draggedEl);
+					this.resetDragState();
+				},
+				resetDragState() {
+					this.draggedId = null;
+					this.hoveredId = null;
+				}
+			}"
+			x-ref="grid"
+			x-on:dragover="dragOverGrid($event)"
+			x-on:drop="dropOnGrid($event)"
+		>
 			<!-- Tool -->
 			{
-				tools.map((tool) => (
-					<article class="card bg-primary-500 rounded-[12px] p-8 shadow-md transition-all duration-300 hover:shadow-lg">
+				toolsWithIds.map((tool) => (
+					<article
+						class="card bg-primary-500 rounded-[12px] p-8 shadow-md transition-all duration-300 hover:shadow-lg cursor-move select-none"
+						draggable="true"
+						data-tool-id={tool.id}
+						x-on:dragstart="dragStart($event)"
+						x-on:dragenter="dragEnter($event)"
+						x-on:dragover="dragOver($event)"
+						x-on:dragleave="dragLeave($event)"
+						x-on:drop="drop($event)"
+						x-on:dragend="dragEnd($event)"
+						x-bind:aria-grabbed="draggedId === $el.dataset.toolId"
+						x-bind:class="{
+							'ring-2 ring-secondary-500 ring-offset-4 ring-offset-offwhite-500': hoveredId === $el.dataset.toolId,
+							'cursor-grabbing opacity-80': draggedId === $el.dataset.toolId
+						}"
+					>
 						{tool.image && (
 							<Image
 								src={tool.image.src}

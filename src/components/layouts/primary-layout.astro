@@ -5,6 +5,7 @@ interface Props {
 	canonical: string;
 	ogImage?: string;
 	noIndex?: boolean;
+	schemaMarkup?: string;
 }
 
 import { isProduction, siteUrl } from "@lib/store.js";
@@ -57,7 +58,7 @@ import "../../styles/global.css";
 import Header from "@components/layouts/header.astro";
 import Footer from "@components/layouts/footer.astro";
 
-const { title, description, canonical, ogImage, noIndex } = Astro.props;
+const { title, description, canonical, ogImage, noIndex, schemaMarkup } = Astro.props;
 ---
 
 <!doctype html>
@@ -87,6 +88,7 @@ const { title, description, canonical, ogImage, noIndex } = Astro.props;
 		{noIndex && <meta name="robots" content="noindex" />}
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		{schemaMarkup ? <Fragment set:html={schemaMarkup} /> : null}
 	</head>
 	<body class="m-auto max-w-full">
         <Header />
