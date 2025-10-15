@@ -1,6 +1,7 @@
 ---
 import type { BlogPost } from "@lib/types";
 import { Image } from "astro:assets";
+import Heading from "@components/ui/typography/heading.astro";
 
 export interface ArticlesGridProps {
 	posts: BlogPost[];
@@ -23,9 +24,13 @@ const { posts } = Astro.props as ArticlesGridProps;
 					/>
 				</a>
 				<div class="space-y-4 p-8">
-					<h2 class="font-display text-secondary-500 group-hover:text-secondary-400 text-2xl leading-snug transition">
-						{post.data.title}
-					</h2>
+					<a href={post.data.uri}>
+						<Heading
+							level={2}
+							text={post.data.title}
+							class="font-display text-secondary-500 group-hover:text-secondary-400 text-2xl leading-snug transition"
+						/>
+					</a>
 					<p class="font-body text-ink-400 text-sm leading-relaxed" set:html={post.data.excerpt} />
 					<a
 						href={post.data.uri}

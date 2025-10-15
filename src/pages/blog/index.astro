@@ -1,12 +1,17 @@
 ---
-import { allWordPressPages, allWordPressPosts } from "@lib/store";
+import { getCollection } from "astro:content";
+import { wordPressPagesBySlug } from "@lib/store";
 
-import Layout from "@components/layouts/Layout.astro";
-import BlogArchive from "./_components/BlogArchive.astro";
+import ArchiveLayout from "@components/layouts/archive-layout/archive-layout.astro";
 
-const pageData = allWordPressPages.find((page) => page.slug === "blog");
+const pageData = wordPressPagesBySlug.get("blog");
+const posts = await getCollection("posts");
 ---
 
-<Layout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/blog/">
-	<BlogArchive posts={allWordPressPosts} category="All Categories" />
-</Layout>
+<ArchiveLayout
+	title={pageData?.seo?.title}
+	description={pageData?.seo?.description}
+	canonical="/blog/"
+	posts={posts}
+	category="All Categories"
+/>

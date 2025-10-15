@@ -1,6 +1,7 @@
 ---
 import type { BlogPost } from "@lib/types";
 import PrimaryLayout from "@components/layouts/primary-layout.astro";
+import Heading from "@components/ui/typography/heading.astro";
 import Sidebar from "./components/sidebar.astro";
 import ArticlesGrid from "./components/articles-grid.astro";
 import Pagination from "./components/pagination.astro";
@@ -32,9 +33,11 @@ const { title, description, canonical, ogImage, noIndex, schemaMarkup, posts, ca
 		<Sidebar />
 		<section class="space-y-12">
 			<header class="space-y-4 text-center lg:text-left">
-				<h1 class="font-display text-secondary-500 text-4xl leading-tight font-semibold">
-					Latest Essays about {category}
-				</h1>
+				<Heading
+					level={1}
+					text={category !== "All Categories" ? `Latest Posts about ${category}` : "Latest Posts"}
+					class="font-display text-secondary-500 text-4xl leading-tight font-semibold"
+				/>
 				<p class="font-body text-ink-400 max-w-prose text-lg leading-relaxed">
 					Explorations in design, culture, and moral imagination.
 				</p>
