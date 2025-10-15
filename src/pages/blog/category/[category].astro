@@ -1,17 +1,19 @@
 ---
-import Layout from "@components/layouts/Layout.astro";
-import { allWordPressCategories, allWordPressPosts } from "@lib/store";
+import { getCollection } from "astro:content";
+import ArchiveLayout from "@components/layouts/archive-layout/archive-layout.astro";
+import { allWordPressPosts } from "@lib/store";
 import slugger from "slugger";
-import BlogArchive from "../_components/BlogArchive.astro";
 
 export async function getStaticPaths() {
+	const allWordPressCategories = await getCollection("categories");
+
 	return allWordPressCategories.map((category) => ({
 		params: {
-			category: slugger(category?.name),
+			category: slugger(category?.data?.name),
 		},
 		props: {
 			category,
-			posts: allWordPressPosts.filter((post) => post?.category === category?.name),
+			posts: allWordPressPosts.filter((post) => post?.category === category?.data?.name),
 		},
 	}));
 }
@@ -19,10 +21,10 @@ export async function getStaticPaths() {
 const { category, posts } = Astro.props;
 ---
 
-<Layout
-	title={`Blog Posts About ${category?.name}`}
-	description={`Read articles about ${category?.name} written by Andrew Kepson.`}
-	canonical={category?.uri}
->
-	<BlogArchive category={category?.name} posts={posts} />
-</Layout>
+<ArchiveLayout
+	title={`Blog Posts About ${category?.data?.name}`}
+	description={`Read articles about ${category?.data?.name} written by Andrew Kepson.`}
+	canonical={category?.data?.uri}
+	posts={posts}
+	category={category?.data?.name}
+/>
