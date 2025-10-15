@@ -2,13 +2,18 @@
 import type { ThemeVariant } from "@lib/types";
 
 interface CenteredContentProps {
+	id?: string;
 	variant?: ThemeVariant;
+	class?: string;
 }
 
-const { variant = "offwhite" } = Astro.props as CenteredContentProps;
+const { id, variant = "offwhite", class: classes } = Astro.props as CenteredContentProps;
 ---
 
-<section class:list={["component-centered-content", `variant-${variant}`, "w-full px-8 py-24 text-center"]}>
+<section
+	id={id}
+	class:list={["component-centered-content", `variant-${variant}`, "w-full px-8 py-24 text-center", classes]}
+>
 	<div class:list={["block-content", "mx-auto max-w-3xl space-y-6"]}>
 		<slot />
 	</div>
