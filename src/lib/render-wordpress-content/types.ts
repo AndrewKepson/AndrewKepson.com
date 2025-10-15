@@ -16,6 +16,26 @@ export interface ParsedNode {
 		loading?: "lazy" | "eager";
 		decoding?: "async" | "sync";
 		class?: string;
+		sizes?: string;
+	};
+	gallery?: {
+		class?: string;
+		attributes?: Record<string, string>;
+		images: Array<{
+			src: string;
+			alt: string;
+			width?: number;
+			height?: number;
+			loading?: "lazy" | "eager";
+			decoding?: "async" | "sync";
+			class?: string;
+			sizes?: string;
+			wrapperClass?: string;
+			wrapperAttributes?: Record<string, string>;
+			captionHtml?: string;
+			linkHref?: string;
+			linkAttributes?: Record<string, string>;
+		}>;
 	};
 	code?: string;
 }
@@ -23,4 +43,5 @@ export interface ParsedNode {
 export enum WP_BLOCK_CLASSES {
 	IMAGE = "wp-block-image",
 	CODE = "wp-block-code",
+	GALLERY = "wp-block-gallery",
 }

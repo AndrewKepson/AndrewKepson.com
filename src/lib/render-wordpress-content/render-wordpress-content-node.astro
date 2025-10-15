@@ -20,7 +20,38 @@ const { node } = Astro.props as { node: ParsedNode };
 			loading={node.image.loading}
 			decoding={node.image.decoding}
 			class={node.image.class}
+			sizes={node.image.sizes}
 		/>
+	) : node.type === "gallery" && node.gallery ? (
+		<figure class={node.gallery.class ?? undefined} {...(node.gallery.attributes ?? {})}>
+			{node.gallery.images.map((image) => {
+				const imageElement = (
+					<Image
+						src={image.src}
+						alt={image.alt}
+						width={image.width}
+						height={image.height}
+						loading={image.loading}
+						decoding={image.decoding}
+						class={image.class}
+						sizes={image.sizes}
+					/>
+				);
+
+				return (
+					<figure class={image.wrapperClass ?? undefined} {...(image.wrapperAttributes ?? {})}>
+						{image.linkHref ? (
+							<a href={image.linkHref} {...(image.linkAttributes ?? {})}>
+								{imageElement}
+							</a>
+						) : (
+							imageElement
+						)}
+						{image.captionHtml && <figcaption set:html={image.captionHtml} />}
+					</figure>
+				);
+			})}
+		</figure>
 	) : node.type === "code" && node.code ? (
 		<CodeSnippet code={node.code} />
 	) : (
