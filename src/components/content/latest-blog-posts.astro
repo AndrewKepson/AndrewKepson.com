@@ -29,26 +29,28 @@ const latestPosts = posts.slice(1, 5).map((post) => post.data);
 			<article
 				class="group bg-offwhite-500 overflow-hidden rounded-[12px] shadow-md transition-all duration-300 hover:shadow-lg lg:col-span-2"
 			>
-				<div class="relative">
-					<Image
-						src={latestPost.featuredImage?.url}
-						alt={latestPost.featuredImage?.altText}
-						height={240}
-						width={800}
-						loading="eager"
-						class="img-card h-[24rem] w-full object-cover"
-					/>
-					<span
-						class="bg-secondary-500 text-offwhite-500 font-display absolute top-0 right-0 rounded-bl-[6px] px-3 py-1 text-xs"
-					>
-						{latestPost.category}
-					</span>
-					<span
-						class="bg-quaternary-500 text-ink-500 font-display absolute bottom-0 left-0 rounded-tr-[6px] px-3 py-1 text-xs"
-					>
-						{latestPost.tags?.join(", ")}
-					</span>
-				</div>
+				<a href={latestPost.uri}>
+					<div class="relative">
+						<Image
+							src={latestPost.featuredImage?.url}
+							alt={latestPost.featuredImage?.altText}
+							height={240}
+							width={800}
+							loading="eager"
+							class="img-card h-[24rem] w-full object-cover"
+						/>
+						<span
+							class="bg-secondary-500 text-offwhite-500 font-display absolute top-0 right-0 rounded-bl-[6px] px-3 py-1 text-xs"
+						>
+							{latestPost.category}
+						</span>
+						<span
+							class="bg-quaternary-500 text-ink-500 font-display absolute bottom-0 left-0 rounded-tr-[6px] px-3 py-1 text-xs"
+						>
+							{latestPost.tags?.join(", ")}
+						</span>
+					</div>
+				</a>
 				<div class="space-y-4 p-8">
 					<time class="font-body text-ink-300 block text-sm">{formatDate(latestPost.date, "readable")}</time>
 					<a href={latestPost.uri} class="group-hover:text-secondary-400 block transition-colors">
@@ -78,19 +80,21 @@ const latestPosts = posts.slice(1, 5).map((post) => post.data);
 			{
 				latestPosts.map((post, index) => (
 					<article class="group bg-offwhite-500 overflow-hidden rounded-[12px] shadow-md transition-all duration-300 hover:shadow-lg">
-						<div class="relative">
-							<Image
-								src={post.featuredImage?.url}
-								alt={post.featuredImage?.altText}
-								height={160}
-								width={600}
-								loading={index === 0 ? "eager" : "lazy"}
-								class="img-card h-[16rem] w-full object-cover"
-							/>
-							<span class="bg-secondary-500 text-offwhite-500 font-display absolute top-0 right-0 rounded-bl-[6px] px-3 py-1 text-xs">
-								{post.category}
-							</span>
-						</div>
+						<a href={post.uri}>
+							<div class="relative">
+								<Image
+									src={post.featuredImage?.url}
+									alt={post.featuredImage?.altText}
+									height={160}
+									width={600}
+									loading={index === 0 ? "eager" : "lazy"}
+									class="img-card h-[16rem] w-full object-cover"
+								/>
+								<span class="bg-secondary-500 text-offwhite-500 font-display absolute top-0 right-0 rounded-bl-[6px] px-3 py-1 text-xs">
+									{post.category}
+								</span>
+							</div>
+						</a>
 						<div class="space-y-3 p-6">
 							<time class="font-body text-ink-300 block text-xs">
 								{formatDate(post.date, "readable")}
