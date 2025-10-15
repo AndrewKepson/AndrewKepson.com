@@ -78,7 +78,7 @@ export const chooseTagColor = (tag) => {
 			break;
 		case "Forms":
 			color = "bg-teal-300";
-			break
+			break;
 		case "Formstack":
 			color = "bg-green-300";
 			break;
@@ -89,18 +89,18 @@ export const chooseTagColor = (tag) => {
 	return color;
 };
 
-export const getHeadingsFromMarkdown = (html) => {
-	// Load the HTML into cheerio
+export const getHeadingsFromMarkdown = (
+	html: string
+): { heading: string; key: number; classes: string; slug: string }[] => {
 	const $ = cheerio.load(html);
 
-	// Select all h2 and h3 elements
 	const headings = $("h2, h3")
 		.map((index, element) => {
 			const $el = $(element);
 			const isH2 = $el.is("h2");
 			const classes = isH2
-				? "text-md my-1 cursor-pointer font-display font-semibold text-ink-500 md:text-lg"
-				: "text-md my-1 cursor-pointer font-body font-semibold text-ink-400 md:text-md m-2";
+				? "text-md my-1 cursor-pointer font-display font-normal text-ink-500 md:text-lg hover:text-secondary-400 theme-transition"
+				: "text-base my-1 cursor-pointer font-body font-light text-ink-400 md:text-md m-2 hover:text-secondary-400 theme-transition";
 
 			return {
 				heading: $el.text(),
@@ -109,7 +109,7 @@ export const getHeadingsFromMarkdown = (html) => {
 				slug: $el.attr("id"),
 			};
 		})
-		.get(); // Convert cheerio object to a plain array
+		.get();
 
 	return headings;
 };
