@@ -3,7 +3,6 @@ import { allWordPressPages } from "@lib/store";
 
 import PrimaryLayout from "@components/layouts/primary-layout.astro";
 import Hero from "./_components/Hero.astro";
-import FAQs from "./_components/FAQs";
 import WhyChooseWP from "./_components/WhyChooseWP.astro";
 import Marketing from "./_components/Marketing.astro";
 import React from "./_components/React.astro";
@@ -20,5 +19,4 @@ const pageData = allWordPressPages.find((page) => page.slug === "headless-wordpr
 	<WhyChooseWP />
 	<Marketing />
 	<React />
-	<FAQs client:visible />
 </PrimaryLayout>

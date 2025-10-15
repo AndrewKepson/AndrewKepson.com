@@ -1,7 +1,6 @@
 import { defineConfig } from "astro/config";
 import { fileURLToPath } from "node:url";
 
-import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 
 import sitemap from "@astrojs/sitemap";
@@ -9,7 +8,7 @@ import sitemap from "@astrojs/sitemap";
 import alpinejs from "@astrojs/alpinejs";
 
 export default defineConfig({
-	integrations: [react(), sitemap(), alpinejs()],
+	integrations: [sitemap(), alpinejs()],
 	vite: {
 		plugins: [tailwindcss()],
 		resolve: {
