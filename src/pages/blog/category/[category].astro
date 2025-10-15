@@ -1,11 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 import ArchiveLayout from "@components/layouts/archive-layout/archive-layout.astro";
-import { allWordPressPosts } from "@lib/store";
 import slugger from "slugger";
 
 export async function getStaticPaths() {
 	const allWordPressCategories = await getCollection("categories");
+	const allWordPressPosts = await getCollection("posts");
 
 	return allWordPressCategories.map((category) => ({
 		params: {
@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 		},
 		props: {
 			category,
-			posts: allWordPressPosts.filter((post) => post?.category === category?.data?.name),
+			posts: allWordPressPosts.filter((post) => post?.data?.category === category?.data?.name),
 		},
 	}));
 }
