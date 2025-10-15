@@ -36,7 +36,7 @@ const { heading, items } = Astro.props as TimelineProps;
 			{
 				items.map((item) => (
 					<div class="relative pl-8">
-						<div class="bg-secondary-500 absolute top-1 -left-[9px] h-4 w-4 rounded-full" />
+						<div class="bg-secondary-500 absolute top-0 -left-[9px] h-4 w-4 rounded-full" />
 						<>
 							<h3 class="font-display text-secondary-500 text-xl font-semibold" set:html={item.title} />
 							<span class="font-body text-ink-300 mb-3 block text-sm">{item.date}</span>
