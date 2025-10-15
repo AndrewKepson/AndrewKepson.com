@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config";
+import { fileURLToPath } from "node:url";
 
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
@@ -11,6 +12,11 @@ export default defineConfig({
 	integrations: [react(), sitemap(), alpinejs()],
 	vite: {
 		plugins: [tailwindcss()],
+		resolve: {
+			alias: {
+				"@icons": fileURLToPath(new URL("./src/assets/icons", import.meta.url)),
+			},
+		},
 	},
 	trailingSlash: "always",
 	site: "https://andrewkepson.com",

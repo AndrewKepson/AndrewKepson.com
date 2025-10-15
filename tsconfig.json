@@ -9,6 +9,9 @@
       "@components/*": [
         "src/components/*"
       ],
+      "@icons/*": [
+        "src/assets/icons/*"
+      ],
       "@lib/*": [
         "src/lib/*"
       ]
