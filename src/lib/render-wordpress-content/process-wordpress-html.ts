@@ -74,3 +74,38 @@ export function parseHTML(html: string): ParsedNode[] {
 
 	return nodes;
 }
+
+export function processSchemaMarkup(schemaMarkup: string): string {
+	if (!schemaMarkup?.trim()) {
+		return "";
+	}
+
+	const $ = cheerio.load(schemaMarkup);
+	const scripts: string[] = [];
+
+	$("script[type='application/ld+json']").each((_, scriptEl) => {
+		const $script = $(scriptEl);
+		const rawJson = $script.html() ?? "";
+		let minifiedJson = rawJson.trim();
+
+		if (minifiedJson) {
+			try {
+				minifiedJson = JSON.stringify(JSON.parse(minifiedJson));
+			} catch {
+				minifiedJson = minifiedJson.replace(/\s+/g, " ").trim();
+			}
+		}
+
+		$script.html(minifiedJson);
+		scripts.push($.html(scriptEl));
+	});
+
+	if (scripts.length === 0) {
+		return schemaMarkup
+			.replace(/^<p>/i, "")
+			.replace(/<\/p>$/i, "")
+			.trim();
+	}
+
+	return scripts.join("\n");
+}
