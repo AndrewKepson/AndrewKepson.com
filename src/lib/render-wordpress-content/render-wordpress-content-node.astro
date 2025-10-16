@@ -4,6 +4,7 @@ import Heading from "@components/ui/typography/heading.astro";
 import CodeSnippet from "@components/content/code-snippet.astro";
 import Button from "@components/ui/buttons/button.astro";
 import CenteredContent from "@components/content/centered-content.astro";
+import Blockquote from "@components/ui/typography/blockquote.astro";
 
 import type { ParsedNode } from "@lib/render-wordpress-content/types";
 
@@ -71,6 +72,12 @@ const RenderNode = Astro.self;
 				<RenderNode node={child} />
 			))}
 		</CenteredContent>
+	) : node.type === "blockquote" && node.blockquote ? (
+		<Blockquote citation={node.blockquote.citation ?? ""}>
+			{node.blockquote.content.map((child) => (
+				<RenderNode slot="quote" node={child} />
+			))}
+		</Blockquote>
 	) : node.type === "code-snippet" && node.codeSnippet ? (
 		<CodeSnippet
 			title={node.codeSnippet.title}

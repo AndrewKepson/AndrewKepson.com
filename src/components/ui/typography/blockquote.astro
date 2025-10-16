@@ -1,0 +1,24 @@
+---
+export interface BlockquoteProps {
+	citation?: string;
+}
+
+const { citation } = Astro.props as BlockquoteProps;
+---
+
+<blockquote
+	class:list={[
+		"component-blockquote",
+		"font-body text-ink-400 bg-offwhite-500/40 [&_p]:font-body [&_cite]:font-display [&_cite]:text-secondary-400 border-secondary-500 my-8 rounded-[6px] rounded-l-[0px] border-l-4 py-4 pl-6 text-lg leading-relaxed italic [&_cite]:mt-3 [&_cite]:block [&_cite]:text-sm [&_cite]:not-italic [&_p]:italic",
+	]}
+>
+	<div class="block-content">
+		<slot name="quote">
+			<p>
+				“Simplicity in moral design is not the absence of depth — it is the refinement of purpose until only
+				truth remains.”
+			</p>
+		</slot>
+	</div>
+	{citation && <cite>— {citation}</cite>}
+</blockquote>

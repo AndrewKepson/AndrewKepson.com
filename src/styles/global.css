@@ -212,7 +212,7 @@
 	}
 
 	.button-base {
-		@apply font-display inline-block cursor-pointer rounded-[6px] px-8 py-4 text-center text-sm tracking-wide no-underline shadow-[0_4px_10px_rgba(0,0,0,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+		@apply font-display inline-block cursor-pointer rounded-[6px] px-8 py-4 text-center text-sm tracking-wide shadow-[0_4px_10px_rgba(0,0,0,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
 	}
 
 	.button-primary {

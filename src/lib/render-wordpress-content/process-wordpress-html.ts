@@ -186,6 +186,31 @@ export function processWpCenteredContentBlock($: cheerio.CheerioAPI, el: unknown
 	};
 }
 
+export function processWpBlockquote($: cheerio.CheerioAPI, el: unknown): ParsedNode | null {
+	const $blockquote = $(el as any);
+	const contentWrapper = $blockquote.find(".block-content").first();
+	const citationText = $blockquote.find("cite").first().text().trim() || undefined;
+
+	const contentCollection = contentWrapper.length
+		? contentWrapper.children()
+		: $blockquote.children().filter((_, node) => node.tagName !== "cite");
+
+	const quoteNodes = parseWpChildren(
+		$,
+		contentCollection.filter((_, node) => (node as CheerioElement).type === "tag")
+	);
+
+	return {
+		type: "blockquote",
+		html: $.html(el as any),
+		blockquote: {
+			id: $blockquote.attr("id")?.trim() || undefined,
+			citation: citationText,
+			content: quoteNodes,
+		},
+	};
+}
+
 export function processWpGalleryBlock($: cheerio.CheerioAPI, el: unknown): ParsedNode | null {
 	const $gallery = $(el as any);
 	const containerEl = $gallery.get(0);
@@ -328,6 +353,11 @@ function parseWpElement($: cheerio.CheerioAPI, el: CheerioElement): ParsedNode |
 	// Gallery Blocks
 	if ($el.hasClass(WP_BLOCK_CLASSES.GALLERY)) {
 		return processWpGalleryBlock($, el);
+	}
+
+	// Blockquote Blocks
+	if ($el.hasClass(WP_BLOCK_CLASSES.BLOCKQUOTE)) {
+		return processWpBlockquote($, el);
 	}
 
 	// Code Snippet Blocks

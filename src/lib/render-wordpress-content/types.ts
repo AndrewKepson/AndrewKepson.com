@@ -50,6 +50,11 @@ export interface ParsedNode {
 		variant?: ThemeVariant;
 		content: ParsedNode[];
 	};
+	blockquote?: {
+		id?: string;
+		citation?: string;
+		content: ParsedNode[];
+	};
 	codeSnippet?: {
 		title?: string;
 		code: string;
@@ -65,4 +70,5 @@ export enum WP_BLOCK_CLASSES {
 	BUTTON = "wp-block-andrew-kepson-button",
 	CENTERED_CONTENT = "wp-block-andrew-kepson-centered-content",
 	CODE_SNIPPET = "wp-block-andrew-kepson-code-snippet",
+	BLOCKQUOTE = "wp-block-andrew-kepson-blockquote",
 }
