@@ -2,10 +2,13 @@
 import { Image } from "astro:assets";
 import Heading from "@components/ui/typography/heading.astro";
 import CodeSnippet from "@components/content/code-snippet.astro";
+import Button from "@components/ui/buttons/button.astro";
+import CenteredContent from "@components/content/centered-content.astro";
 
 import type { ParsedNode } from "@lib/render-wordpress-content/types";
 
 const { node } = Astro.props as { node: ParsedNode };
+const RenderNode = Astro.self;
 ---
 
 {
@@ -52,6 +55,22 @@ const { node } = Astro.props as { node: ParsedNode };
 				);
 			})}
 		</figure>
+	) : node.type === "button" && node.button ? (
+		<Button
+			id={node.button.id}
+			variant={node.button.variant}
+			href={node.button.href}
+			text={node.button.text}
+		/>
+	) : node.type === "centered-content" && node.centeredContent ? (
+		<CenteredContent
+			id={node.centeredContent.id}
+			variant={node.centeredContent.variant}
+		>
+			{node.centeredContent.content.map((child) => (
+				<RenderNode node={child} />
+			))}
+		</CenteredContent>
 	) : node.type === "code" && node.code ? (
 		<CodeSnippet code={node.code} />
 	) : (

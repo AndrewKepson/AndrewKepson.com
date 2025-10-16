@@ -1,9 +1,13 @@
 import * as cheerio from "cheerio";
 
-import type { AnyNode } from "domhandler";
+import type { AnyNode, Element as CheerioElement } from "domhandler";
+import type { ThemeVariant } from "../types";
 import { type ParsedNode, WP_BLOCK_CLASSES } from "./types";
 
 type GalleryImage = NonNullable<ParsedNode["gallery"]>["images"][number];
+type NodeWithAttribs = AnyNode & {
+	attribs?: Record<string, string | undefined>;
+};
 
 function parseDimension(value?: string | null): number | undefined {
 	if (!value) {
@@ -21,10 +25,6 @@ function parseDecodingAttr(value?: string | null): "async" | "sync" | undefined 
 	return value === "async" || value === "sync" ? value : undefined;
 }
 
-type NodeWithAttribs = AnyNode & {
-	attribs?: Record<string, string | undefined>;
-};
-
 function hasAttribs(node?: AnyNode | null): node is NodeWithAttribs {
 	if (!node) {
 		return false;
@@ -38,15 +38,69 @@ function cloneAttributes(node?: AnyNode | null): Record<string, string> | undefi
 		return undefined;
 	}
 
-	const entries = Object.entries(node.attribs ?? {}).filter(([, value]): value is string => typeof value === "string");
+	const entries = Object.entries(node.attribs ?? {}).filter(
+		(entry): entry is [string, string] => typeof entry[1] === "string"
+	);
 	if (entries.length === 0) {
 		return undefined;
 	}
 
-	return entries.reduce((acc, [key, attrValue]) => {
-		acc[key] = attrValue;
-		return acc;
-	}, {} as Record<string, string>);
+	return entries.reduce(
+		(acc, [key, attrValue]) => {
+			acc[key] = attrValue;
+			return acc;
+		},
+		{} as Record<string, string>
+	);
+}
+
+const THEME_VARIANTS: ThemeVariant[] = ["primary", "secondary", "tertiary", "quaternary", "offwhite", "ink"];
+
+function parseThemeVariant(value?: string | null): ThemeVariant | undefined {
+	const normalized = value?.trim().toLowerCase() as ThemeVariant | undefined;
+	if (!normalized) {
+		return undefined;
+	}
+
+	return THEME_VARIANTS.includes(normalized) ? normalized : undefined;
+}
+
+function parseVariantFromClass(classAttr?: string | null): ThemeVariant | undefined {
+	if (!classAttr?.trim()) {
+		return undefined;
+	}
+
+	const tokens = classAttr.split(/\s+/);
+	for (const token of tokens) {
+		const match = token.match(/(?:variant|button)-([a-z0-9-]+)/i);
+		if (!match) {
+			continue;
+		}
+		const candidate = match[1].toLowerCase() as ThemeVariant;
+		if (THEME_VARIANTS.includes(candidate)) {
+			return candidate;
+		}
+	}
+
+	return undefined;
+}
+
+export function processWpButtonBlock($: cheerio.CheerioAPI, el: unknown): ParsedNode {
+	const $button = $(el as any);
+	const text = $button.text().trim();
+	const variant =
+		parseThemeVariant($button.attr("data-variant")) ?? parseVariantFromClass($button.attr("class"));
+
+	return {
+		type: "button",
+		html: $.html(el as any),
+		button: {
+			text,
+			href: $button.attr("href") ?? undefined,
+			id: $button.attr("id")?.trim() || undefined,
+			variant,
+		},
+	};
 }
 
 export function processWpCodeBlock($: cheerio.CheerioAPI, el: unknown): ParsedNode {
@@ -62,6 +116,46 @@ export function processWpCodeBlock($: cheerio.CheerioAPI, el: unknown): ParsedNo
 		type: "code",
 		html: $.html(el as any),
 		code: cleanText.trim(),
+	};
+}
+
+function parseWpChildren($: cheerio.CheerioAPI, collection: cheerio.Cheerio<any>): ParsedNode[] {
+	const nodes: ParsedNode[] = [];
+
+	collection.each((_, child) => {
+		if (!child || (child as CheerioElement).type !== "tag") {
+			return;
+		}
+
+		const parsed = parseWpElement($, child as CheerioElement);
+		if (parsed) {
+			nodes.push(parsed);
+		}
+	});
+
+	return nodes;
+}
+
+export function processWpCenteredContentBlock($: cheerio.CheerioAPI, el: unknown): ParsedNode | null {
+	const $section = $(el as any);
+	const containerEl = $section.get(0);
+	if (!containerEl) {
+		return null;
+	}
+
+	const contentWrapper = $section.find(".block-content").first();
+	const contentNodes = parseWpChildren($, contentWrapper.length ? contentWrapper.children() : $section.children());
+	const variant =
+		parseThemeVariant($section.attr("data-variant")) ?? parseVariantFromClass($section.attr("class"));
+
+	return {
+		type: "centered-content",
+		html: $.html(el as any),
+		centeredContent: {
+			id: $section.attr("id")?.trim() || undefined,
+			variant,
+			content: contentNodes,
+		},
 	};
 }
 
@@ -122,7 +216,7 @@ export function processWpGalleryBlock($: cheerio.CheerioAPI, el: unknown): Parse
 				wrapperClass: $figure.attr("class") ?? undefined,
 				wrapperAttributes,
 				captionHtml: captionEl.length ? captionEl.html()?.trim() || undefined : undefined,
-				linkHref: linkEl.length ? linkEl.attr("href") ?? undefined : undefined,
+				linkHref: linkEl.length ? (linkEl.attr("href") ?? undefined) : undefined,
 				linkAttributes,
 			});
 		}
@@ -135,7 +229,9 @@ export function processWpGalleryBlock($: cheerio.CheerioAPI, el: unknown): Parse
 			}
 
 			const $wrapper = $img.closest("figure");
-			const captionEl = $wrapper.length ? $wrapper.find("figcaption").first() : $gallery.find("figcaption").first();
+			const captionEl = $wrapper.length
+				? $wrapper.find("figcaption").first()
+				: $gallery.find("figcaption").first();
 			const linkEl = $img.parent("a").first();
 			let wrapperAttributes = $wrapper.length ? cloneAttributes($wrapper.get(0)) : undefined;
 			if (wrapperAttributes?.class) {
@@ -161,10 +257,10 @@ export function processWpGalleryBlock($: cheerio.CheerioAPI, el: unknown): Parse
 				decoding: parseDecodingAttr($img.attr("decoding")),
 				class: $img.attr("class") ?? undefined,
 				sizes: $img.attr("sizes") ?? undefined,
-				wrapperClass: $wrapper.length ? $wrapper.attr("class") ?? undefined : undefined,
+				wrapperClass: $wrapper.length ? ($wrapper.attr("class") ?? undefined) : undefined,
 				wrapperAttributes,
 				captionHtml: captionEl.length ? captionEl.html()?.trim() || undefined : undefined,
-				linkHref: linkEl.length ? linkEl.attr("href") ?? undefined : undefined,
+				linkHref: linkEl.length ? (linkEl.attr("href") ?? undefined) : undefined,
 				linkAttributes,
 			});
 		});
@@ -187,68 +283,67 @@ export function processWpGalleryBlock($: cheerio.CheerioAPI, el: unknown): Parse
 
 export function parseHTML(html: string): ParsedNode[] {
 	const $ = cheerio.load(html);
-	const nodes: ParsedNode[] = [];
+	return parseWpChildren($, $("body").children());
+}
 
-	$("body")
-		.children()
-		.each((_, el) => {
-			const tag = el.tagName?.toLowerCase() || "unknown";
+function parseWpElement($: cheerio.CheerioAPI, el: CheerioElement): ParsedNode | null {
+	const $el = $(el as any);
+	const tag = el.tagName?.toLowerCase() || "unknown";
 
-			// Heading Blocks
-			if (["h1", "h2", "h3", "h4"].includes(tag)) {
-				nodes.push({
-					type: tag,
-					text: $(el).text().trim(),
-					id: $(el).attr("id"),
-					html: $.html(el),
-				});
-				return;
-			}
+	// Centered Content Blocks
+	if ($el.hasClass(WP_BLOCK_CLASSES.CENTERED_CONTENT)) {
+		const centered = processWpCenteredContentBlock($, el);
+		if (centered) {
+			return centered;
+		}
+	}
 
-			// Gallery Blocks
-			if ($(el).hasClass(WP_BLOCK_CLASSES.GALLERY)) {
-				const galleryNode = processWpGalleryBlock($, el);
-				if (galleryNode) {
-					nodes.push(galleryNode);
-					return;
-				}
-			}
+	// Gallery Blocks
+	if ($el.hasClass(WP_BLOCK_CLASSES.GALLERY)) {
+		return processWpGalleryBlock($, el);
+	}
 
-			// Image Blocks
-			if ($(el).hasClass(WP_BLOCK_CLASSES.IMAGE)) {
-				const img = $(el).find("img").first();
-				if (img.length) {
-					nodes.push({
-						type: "image",
-						html: $.html(el),
-						image: {
-							src: img.attr("src") || "",
-							alt: img.attr("alt") || "",
-							width: Number(img.attr("width")) || undefined,
-							height: Number(img.attr("height")) || undefined,
-							loading: img.attr("loading") as "lazy" | "eager" | undefined,
-							decoding: img.attr("decoding") as "async" | "sync" | undefined,
-							class: img.attr("class"),
-						},
-					});
-				}
-				return;
-			}
+	// Button Blocks
+	if ($el.hasClass(WP_BLOCK_CLASSES.BUTTON)) {
+		return processWpButtonBlock($, el);
+	}
 
-			// Code blocks
-			// if ($(el).hasClass(WP_BLOCK_CLASSES.CODE)) {
-			// 	nodes.push(processWpCodeBlock($, el));
-			// 	return;
-			// }
+	// Heading Blocks
+	if (["h1", "h2", "h3", "h4"].includes(tag)) {
+		return {
+			type: tag,
+			text: $el.text().trim(),
+			id: $el.attr("id") ?? undefined,
+			html: $.html(el as any),
+		};
+	}
 
-			// Default fallback
-			nodes.push({
-				type: tag,
-				html: $.html(el),
-			});
-		});
+	// Image Blocks
+	if ($el.hasClass(WP_BLOCK_CLASSES.IMAGE)) {
+		const img = $el.find("img").first();
+		if (img.length) {
+			return {
+				type: "image",
+				html: $.html(el as any),
+				image: {
+					src: img.attr("src") || "",
+					alt: img.attr("alt") || "",
+					width: Number(img.attr("width")) || undefined,
+					height: Number(img.attr("height")) || undefined,
+					loading: img.attr("loading") as "lazy" | "eager" | undefined,
+					decoding: img.attr("decoding") as "async" | "sync" | undefined,
+					class: img.attr("class") ?? undefined,
+					sizes: img.attr("sizes") ?? undefined,
+				},
+			};
+		}
+	}
 
-	return nodes;
+	// Default fallback
+	return {
+		type: tag,
+		html: $.html(el as any),
+	};
 }
 
 export function processSchemaMarkup(schemaMarkup: string): string {

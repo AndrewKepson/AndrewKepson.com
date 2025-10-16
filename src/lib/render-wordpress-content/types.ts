@@ -3,6 +3,8 @@ export type WPNode =
 	| { type: "image"; src: string; alt: string; caption?: string }
 	| { type: "html"; html: string };
 
+import type { ThemeVariant } from "../types";
+
 export interface ParsedNode {
 	type: string;
 	html: string;
@@ -37,6 +39,17 @@ export interface ParsedNode {
 			linkAttributes?: Record<string, string>;
 		}>;
 	};
+	button?: {
+		text: string;
+		href?: string;
+		id?: string;
+		variant?: ThemeVariant;
+	};
+	centeredContent?: {
+		id?: string;
+		variant?: ThemeVariant;
+		content: ParsedNode[];
+	};
 	code?: string;
 }
 
@@ -44,4 +57,6 @@ export enum WP_BLOCK_CLASSES {
 	IMAGE = "wp-block-image",
 	CODE = "wp-block-code",
 	GALLERY = "wp-block-gallery",
+	BUTTON = "wp-block-andrew-kepson-button",
+	CENTERED_CONTENT = "wp-block-andrew-kepson-centered-content",
 }

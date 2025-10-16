@@ -13,7 +13,11 @@ dotenv.config();
 
 const WP_API_URL = process.env.WPGRAPHQL_ENDPOINT;
 
-export const fetchWordPressAPI = async (query: string, variables: Record<string, unknown> = {}, retries = 3) => {
+export const fetchWordPressAPI = async <T = unknown>(
+	query: string,
+	variables: Record<string, unknown> = {},
+	retries = 3
+): Promise<T> => {
 	if (!WP_API_URL) {
 		throw new Error("WPGRAPHQL_ENDPOINT is not set in the environment variables");
 	}
@@ -45,7 +49,7 @@ export const fetchWordPressAPI = async (query: string, variables: Record<string,
 				throw new Error("GraphQL errors: " + JSON.stringify(json.errors));
 			}
 
-			return json.data;
+			return json.data as T;
 		} catch (error) {
 			console.error(`Attempt ${attempt + 1} failed:`, error);
 			if (attempt === retries - 1) {
@@ -55,6 +59,7 @@ export const fetchWordPressAPI = async (query: string, variables: Record<string,
 			await new Promise((resolve) => setTimeout(resolve, 1000));
 		}
 	}
+	throw new Error("Failed to fetch WordPress API after all retries");
 };
 
 const paginatedQuery = async <T, U = T>(
@@ -185,7 +190,7 @@ export const getAllPages = async (limit: number = Infinity): Promise<FlattenedPa
 };
 
 export const getPageBySlug = async (slug) => {
-	const data = await fetchWordPressAPI(`
+	const data = await fetchWordPressAPI<{ page: FlattenedPage | null }>(`
     {
       page(id: "${slug}", idType: URI) {
         id
@@ -314,7 +319,7 @@ export const getAllPosts = async (limit: number = Infinity): Promise<FlattenedPo
 };
 
 export const getPostBySlug = async (slug) => {
-	const data = await fetchWordPressAPI(`
+	const data = await fetchWordPressAPI<{ post: { content: string; date: string; slug: string; title: string } | null }>(`
     {
         post(id: "${slug}", idType: SLUG) {
           content(format: RENDERED)
@@ -432,14 +437,14 @@ export const getMediaItem = async (
 	slug: string,
 	idType: "SLUG" | "URI" | "DATABASE_ID" = "SLUG"
 ): Promise<{ src: string; alt: string; width: number; height: number }> => {
-	const data: {
+	const data = await fetchWordPressAPI<{
 		mediaItem: {
 			id: string;
 			mediaItemUrl: string;
 			altText: string;
 			mediaDetails: { width: number; height: number };
 		};
-	} = await fetchWordPressAPI(`
+	}>(`
     {
       mediaItem(id: "${slug}", idType: ${idType}) {
         id
