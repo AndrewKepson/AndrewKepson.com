@@ -9,15 +9,44 @@ const { title, code, caption } = Astro.props as CodeSnippetProps;
 ---
 
 <figure
-	class="bg-primary-500 border-secondary-100 my-8 overflow-hidden rounded-[8px] border shadow-sm"
-	data-pg-collapsed
+	class:list={[
+		"component-code-snippet",
+		"bg-primary-500 border-secondary-100 my-8 overflow-hidden rounded-[8px] border shadow-sm",
+	]}
+	x-data="{
+		async copy() {
+			const text = this.$refs.code?.textContent ?? '';
+			if (!text) {
+				return;
+			}
+
+			try {
+				if (navigator?.clipboard?.writeText) {
+					await navigator.clipboard.writeText(text);
+				} else {
+					const textarea = document.createElement('textarea');
+					textarea.value = text;
+					textarea.setAttribute('readonly', '');
+					textarea.style.position = 'absolute';
+					textarea.style.left = '-9999px';
+					document.body.appendChild(textarea);
+					textarea.select();
+					document.execCommand('copy');
+					document.body.removeChild(textarea);
+				}
+			} catch (error) {
+				console.error('Failed to copy code snippet:', error);
+			}
+		}
+	}"
 >
 	<div class="border-secondary-100 bg-primary-400/50 flex items-center justify-between border-b px-4 py-2">
 		<span class="font-display text-secondary-500 text-xs tracking-wide">{title}</span>
 		<button
 			type="button"
-			class="font-body text-ink-300 hover:text-secondary-500 flex items-center gap-1 text-xs transition-colors"
+			class="font-body text-ink-300 hover:text-secondary-500 flex cursor-pointer items-center gap-1 text-xs transition-colors"
 			data-copy-btn
+			x-on:click.prevent="copy()"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -33,20 +62,7 @@ const { title, code, caption } = Astro.props as CodeSnippetProps;
 	</div>
 	<pre
 		class="font-code text-ink-400 overflow-x-auto px-6 py-4 text-sm leading-relaxed">
-		<code data-code>{code}</code>
+		<code data-code x-ref="code">{code}</code>
 	</pre>
 	{caption && <figcaption class="font-body text-ink-300 px-6 pb-4 text-xs italic">{caption}</figcaption>}
 </figure>
-
-<script>
-	const script = document.currentScript;
-	const root = script && script.previousElementSibling;
-	if (root) {
-		const button = root.querySelector("[data-copy-btn]");
-		const codeEl = root.querySelector("[data-code]");
-		button?.addEventListener("click", () => {
-			const text = (codeEl && codeEl.textContent) || "";
-			navigator.clipboard && navigator.clipboard.writeText(text);
-		});
-	}
-</script>

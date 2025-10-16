@@ -71,6 +71,12 @@ const RenderNode = Astro.self;
 				<RenderNode node={child} />
 			))}
 		</CenteredContent>
+	) : node.type === "code-snippet" && node.codeSnippet ? (
+		<CodeSnippet
+			title={node.codeSnippet.title}
+			code={node.codeSnippet.code}
+			caption={node.codeSnippet.caption}
+		/>
 	) : node.type === "code" && node.code ? (
 		<CodeSnippet code={node.code} />
 	) : (

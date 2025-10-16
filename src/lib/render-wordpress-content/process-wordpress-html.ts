@@ -103,6 +103,33 @@ export function processWpButtonBlock($: cheerio.CheerioAPI, el: unknown): Parsed
 	};
 }
 
+export function processWpCodeSnippetBlock($: cheerio.CheerioAPI, el: unknown): ParsedNode | null {
+	const $block = $(el as any);
+	const $figure = $block.find("figure").first();
+	const $scope = $figure.length ? $figure : $block;
+	const $code = $scope.find("pre code").first();
+
+	if ($code.length === 0) {
+		return null;
+	}
+
+	const rawHtml = $code.html() ?? "";
+	const codeText = cheerio.load(`<div>${rawHtml}</div>`)("div").text().trim();
+
+	const title = $figure.find("span").first().text().trim() || undefined;
+	const caption = $figure.find("figcaption").first().text().trim() || undefined;
+
+	return {
+		type: "code-snippet",
+		html: $.html(el as any),
+		codeSnippet: {
+			title,
+			code: codeText,
+			caption,
+		},
+	};
+}
+
 export function processWpCodeBlock($: cheerio.CheerioAPI, el: unknown): ParsedNode {
 	const codeEl = $(el as any)
 		.find("code")
@@ -301,6 +328,11 @@ function parseWpElement($: cheerio.CheerioAPI, el: CheerioElement): ParsedNode |
 	// Gallery Blocks
 	if ($el.hasClass(WP_BLOCK_CLASSES.GALLERY)) {
 		return processWpGalleryBlock($, el);
+	}
+
+	// Code Snippet Blocks
+	if ($el.hasClass(WP_BLOCK_CLASSES.CODE_SNIPPET)) {
+		return processWpCodeSnippetBlock($, el);
 	}
 
 	// Button Blocks

@@ -50,6 +50,11 @@ export interface ParsedNode {
 		variant?: ThemeVariant;
 		content: ParsedNode[];
 	};
+	codeSnippet?: {
+		title?: string;
+		code: string;
+		caption?: string;
+	};
 	code?: string;
 }
 
@@ -59,4 +64,5 @@ export enum WP_BLOCK_CLASSES {
 	GALLERY = "wp-block-gallery",
 	BUTTON = "wp-block-andrew-kepson-button",
 	CENTERED_CONTENT = "wp-block-andrew-kepson-centered-content",
+	CODE_SNIPPET = "wp-block-andrew-kepson-code-snippet",
 }
