@@ -52,7 +52,7 @@ const headings = getHeadingsFromMarkdown(post?.content) ?? [];
 	}
 	<!-- Body -->
 	<section
-		class="prose prose-p:font-body prose-p:text-ink-400 prose-p:text-lg prose-p:leading-relaxed prose-headings:font-display prose-h2:font-display prose-h2:text-secondary-500 prose-h2:mt-16 prose-h2:text-3xl prose-h2:leading-snug prose-h2:font-semibold prose-h3:text-secondary-500 prose-h3:text-2xl prose-h3:leading-snug prose-h3:font-medium prose-img:w-full prose-img:rounded-[12px] prose-img:object-cover prose-li:marker:text-secondary-500/50 mx-auto max-w-3xl space-y-10 px-4 sm:px-8 prose-blockquote:font-body prose-blockquote:text-ink-400 prose-blockquote:bg-offwhite-500/40 prose-blockquote:[&_p]:font-body prose-blockquote:[&_cite]:font-display prose-blockquote:[&_cite]:text-secondary-400 prose-blockquote:border-secondary-500 prose-blockquote:my-8 prose-blockquote:rounded-[6px] prose-blockquote:rounded-l-[0px] prose-blockquote:border-l-4 prose-blockquote:py-4 prose-blockquote:pl-6 prose-blockquote:text-lg prose-blockquote:leading-relaxed prose-blockquote:italic prose-blockquote:[&_cite]:mt-3 prose-blockquote:[&_cite]:block prose-blockquote:[&_cite]:text-sm prose-blockquote:cite:not-italic prose-blockquote:p:italic"
+		class="prose prose-p:font-body prose-p:text-ink-400 prose-p:text-lg prose-p:leading-relaxed prose-headings:font-display prose-h2:font-display prose-h2:text-secondary-500 prose-h2:mt-16 prose-h2:text-3xl prose-h2:leading-snug prose-h2:font-semibold prose-h3:text-secondary-500 prose-h3:text-2xl prose-h3:leading-snug prose-h3:font-medium prose-img:w-full prose-img:rounded-[12px] prose-img:object-cover prose-li:marker:text-secondary-500/50 prose-blockquote:font-body prose-blockquote:text-ink-400 prose-blockquote:bg-offwhite-500/40 prose-blockquote:[&_p]:font-body prose-blockquote:[&_cite]:font-display prose-blockquote:[&_cite]:text-secondary-400 prose-blockquote:border-secondary-500 prose-blockquote:my-8 prose-blockquote:rounded-[6px] prose-blockquote:rounded-l-[0px] prose-blockquote:border-l-4 prose-blockquote:py-4 prose-blockquote:pl-6 prose-blockquote:text-lg prose-blockquote:leading-relaxed prose-blockquote:italic prose-blockquote:[&_cite]:mt-3 prose-blockquote:[&_cite]:block prose-blockquote:[&_cite]:text-sm prose-blockquote:cite:not-italic prose-blockquote:p:italic mx-auto max-w-3xl space-y-10 px-4 sm:px-8 [&_figure:is(.component-code-snippet) pre]:bg-transparent"
 	>
 		{parsedHTML.map((node) => <RenderNode node={node} />)}
 	</section>
@@ -106,127 +106,10 @@ const headings = getHeadingsFromMarkdown(post?.content) ?? [];
 		transform: translateY(0);
 		pointer-events: auto;
 	}
+</style>
 
-	pre code.hljs {
-		display: block;
-		overflow-x: auto;
-		padding: 1em;
-	}
-
-	code.hljs {
-		padding: 3px 5px;
-	}
-
-	.hljs {
-		color: #abb2bf;
-		background: transparent;
-	}
-
-	.hljs-keyword,
-	.hljs-operator {
-		color: #c678dd;
-	}
-
-	.hljs-pattern-match {
-		color: #c678dd;
-	}
-
-	.hljs-pattern-match .hljs-constructor {
-		color: #61aeee;
-	}
-
-	.hljs-function {
-		color: #61aeee;
-	}
-
-	.hljs-function .hljs-params {
-		color: #a6b2c0;
-	}
-
-	.hljs-function .hljs-params .hljs-typing {
-		color: #ffd700;
-	}
-
-	.hljs-module-access .hljs-module {
-		color: #7e57c2;
-	}
-
-	.hljs-constructor {
-		color: #e5c07b;
-	}
-
-	.hljs-constructor .hljs-string {
-		color: #9ccc65;
-	}
-
-	.hljs-comment,
-	.hljs-quote {
-		color: #5c6370;
-		font-style: italic;
-	}
-
-	.hljs-doctag,
-	.hljs-formula {
-		color: #c678dd;
-	}
-
-	.hljs-section,
-	.hljs-name,
-	.hljs-selector-tag,
-	.hljs-deletion,
-	.hljs-subst {
-		color: #e06c75;
-	}
-
-	.hljs-literal {
-		color: #56b6c2;
-	}
-
-	.hljs-string,
-	.hljs-regexp,
-	.hljs-addition,
-	.hljs-attribute,
-	.hljs-meta .hljs-string {
-		color: #98c379;
-	}
-
-	.hljs-built_in,
-	.hljs-class .hljs-title,
-	.hljs-title.class_ {
-		color: #e5c07b;
-	}
-
-	.hljs-attr,
-	.hljs-variable,
-	.hljs-template-variable,
-	.hljs-type,
-	.hljs-selector-class,
-	.hljs-selector-attr,
-	.hljs-selector-pseudo,
-	.hljs-number {
-		color: #d19a66;
-	}
-
-	.hljs-symbol,
-	.hljs-bullet,
-	.hljs-link,
-	.hljs-meta,
-	.hljs-selector-id,
-	.hljs-title {
-		color: #61aeee;
-	}
-
-	.hljs-emphasis {
-		font-style: italic;
-	}
-
-	.hljs-strong {
-		font-weight: bold;
-	}
-
-	.hljs-link {
-		text-decoration: underline;
-	}
+<style is:global>
+	@import "./code-theme.css";
 </style>
 
 <script>

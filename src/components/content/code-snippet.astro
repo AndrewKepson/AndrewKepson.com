@@ -12,6 +12,7 @@ const { title, code, caption } = Astro.props as CodeSnippetProps;
 	class:list={[
 		"component-code-snippet",
 		"bg-primary-500 border-secondary-100 my-8 overflow-hidden rounded-[8px] border shadow-sm",
+		"[.prose figure:is(.component-code-snippet) pre]:bg-transparent"
 	]}
 	x-data="{
 		async copy() {
