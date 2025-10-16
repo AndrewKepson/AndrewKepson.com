@@ -1,0 +1,123 @@
+<section class="bg-offwhite-500 text-ink-500 px-8 py-24" data-pg-collapsed>
+	<div class="mx-auto max-w-3xl space-y-12">
+		<header class="space-y-4 text-center">
+			<h1 class="font-display text-secondary-500 text-4xl font-semibold">Get in Touch</h1>
+			<p class="font-body text-ink-400 mx-auto max-w-prose text-lg leading-relaxed">
+				Have a project or question in mind? I’d love to hear about it.
+			</p>
+		</header>
+		<!-- Contact Form -->
+		<form
+			class="space-y-6"
+			x-data="{ open: false, selected: 'Select an option' }"
+			name="Contact"
+			method="POST"
+			action="/contact/thank-you/"
+			data-netlify="true"
+		>
+			<!-- Name -->
+			<div>
+				<label for="name" class="font-display text-secondary-500 mb-2 block text-sm">Name</label>
+				<input
+					id="name"
+					name="Name"
+					type="text"
+					class="border-secondary-200 bg-offwhite-500 text-ink-500 placeholder-ink-300 font-body focus:ring-quaternary-400 focus:border-quaternary-400 w-full rounded-[6px] border px-4 py-3 text-sm focus:ring-2 focus:outline-none"
+					placeholder="Your name"
+				/>
+			</div>
+			<!-- Email -->
+			<div>
+				<label for="email" class="font-display text-secondary-500 mb-2 block text-sm">Email</label>
+				<input
+					id="email"
+					name="Email"
+					type="email"
+					class="border-secondary-200 bg-offwhite-500 text-ink-500 placeholder-ink-300 font-body focus:ring-quaternary-400 focus:border-quaternary-400 w-full rounded-[6px] border px-4 py-3 text-sm focus:ring-2 focus:outline-none"
+					placeholder="your@email.com"
+				/>
+			</div>
+			<!-- Dropdown -->
+			<div class="relative" x-data="{ open: false, selected: 'How Can I Help?' }">
+				<label for="inquiry-type" class="font-display text-secondary-500 mb-2 block text-sm">Inquiry Type</label
+				>
+				<button
+					type="button"
+					class="border-secondary-200 bg-offwhite-500 text-ink-500 font-body focus:ring-quaternary-400 flex w-full items-center justify-between rounded-[6px] border px-4 py-3 text-sm transition focus:ring-2 focus:outline-none"
+					x-on:click="open = !open"
+					x-bind:aria-expanded="open"
+					aria-haspopup="listbox"
+				>
+					<span x-text="selected"></span>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="text-secondary-400 h-4 w-4 transition-transform duration-200"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						x-bind:class="open ? 'rotate-180' : ''"
+					>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+					</svg>
+				</button>
+				<ul
+					x-show="open"
+					x-transition.origin.top.left
+					x-on:click.away="open = false"
+					class="bg-offwhite-500 border-secondary-100 absolute z-10 mt-2 w-full rounded-[6px] border shadow-md"
+				>
+					<li>
+						<button
+							type="button"
+							class="font-body text-ink-400 hover:bg-primary-500 hover:text-ink-500 w-full px-4 py-2 text-left text-sm transition"
+							x-on:click="selected='Web Development'; open=false">Web Development</button
+						>
+					</li>
+					<li>
+						<button
+							type="button"
+							class="font-body text-ink-400 hover:bg-primary-500 hover:text-ink-500 w-full px-4 py-2 text-left text-sm transition"
+							x-on:click="selected='Writing'; open=false">Writing</button
+						>
+					</li>
+					<li>
+						<button
+							type="button"
+							class="font-body text-ink-400 hover:bg-primary-500 hover:text-ink-500 w-full px-4 py-2 text-left text-sm transition"
+							x-on:click="selected='Digital Marketing'; open=false">Digital Marketing</button
+						>
+					</li>
+					<li>
+						<button
+							type="button"
+							class="font-body text-ink-400 hover:bg-primary-500 hover:text-ink-500 w-full px-4 py-2 text-left text-sm transition"
+							x-on:click="selected='General Inquiry'; open=false">General Inquiry</button
+						>
+					</li>
+				</ul>
+				<input type="hidden" id="inquiry-type" name="Inquiry Type" x-bind:value="selected" />
+			</div>
+			<!-- Message -->
+			<div>
+				<label for="message" class="font-display text-secondary-500 mb-2 block text-sm">Message</label>
+				<textarea
+					id="message"
+					name="Message"
+					rows="6"
+					class="border-secondary-200 bg-offwhite-500 text-ink-500 placeholder-ink-300 font-body focus:ring-quaternary-400 focus:border-quaternary-400 w-full rounded-[6px] border px-4 py-3 text-sm focus:ring-2 focus:outline-none"
+					placeholder="Your message..."></textarea>
+			</div>
+			<!-- Checkbox -->
+			<div class="flex items-center gap-3">
+				<input
+					id="subscribe"
+					name="Subscribe"
+					type="checkbox"
+					class="border-secondary-300 accent-secondary-500 focus:ring-quaternary-400 h-4 w-4 rounded"
+				/>
+				<label for="subscribe" class="font-body text-ink-400 text-sm"> Subscribe to occasional updates </label>
+			</div>
+			<button type="submit" class="button-base theme-transition button-secondary"> Send Message </button>
+		</form>
+	</div>
+</section>

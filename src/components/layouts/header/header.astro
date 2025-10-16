@@ -1,0 +1,124 @@
+<header
+	class="bg-offwhite-500 text-ink-500 shadow-sm"
+	x-data="{
+		open: false,
+		isMobile: window.innerWidth < 1024,
+		debounce(fn, delay = 250) {
+		  let timeout;
+		  return function(...args) {
+			clearTimeout(timeout);
+			timeout = setTimeout(() => fn.apply(this, args), delay);
+		  };
+		},
+		init() {
+		  this.updateScreenSize();
+		  window.addEventListener('resize', this.debounce(() => this.updateScreenSize(), 200));
+		},
+		updateScreenSize() {
+		  this.isMobile = window.innerWidth < 1024;
+		  if (!this.isMobile) this.open = false;
+		},
+		toggleMenu() {
+		  if (this.isMobile) this.open = !this.open;
+		}
+	  }"
+	x-init="init()"
+>
+	<nav
+		class="mx-auto flex max-w-7xl items-center justify-between px-8 py-4"
+		role="navigation"
+		aria-label="Main Navigation"
+	>
+		<!-- Logo -->
+		<a href="/" class="font-display text-secondary-500 text-xl font-semibold tracking-tight"> Andrew Kepson </a>
+
+		<!-- Desktop Nav -->
+		<ul
+			class="font-display text-secondary-500 [&_li>a]:hover:text-secondary-400 hidden items-center gap-10 text-sm md:flex"
+		>
+			<li><a href="/" class="transition-colors">Home</a></li>
+			<li><a href="/about/" class="transition-colors">About</a></li>
+			<li><a href="/blog/" class="transition-colors">Blog</a></li>
+			<li><a href="/contact/" class="transition-colors">Contact</a></li>
+		</ul>
+
+		<!-- Mobile Toggle -->
+		<button
+			class="text-secondary-500 focus-visible:ring-primary-500 rounded-sm focus-visible:ring-2 md:hidden"
+			x-on:click="toggleMenu()"
+			aria-label="Toggle menu"
+			:aria-expanded="open.toString()"
+		>
+			<template x-if="!open">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-6 w-6"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="1.5"
+				>
+					<path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+				</svg>
+			</template>
+			<template x-if="open">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-6 w-6"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="1.5"
+				>
+					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+				</svg>
+			</template>
+		</button>
+	</nav>
+
+	<!-- Mobile Menu -->
+	<div class="border-secondary-100 border-t md:hidden" x-show="open && isMobile" x-collapse.duration.250ms x-cloak>
+		<ul class="font-display text-secondary-500 space-y-4 px-8 py-4 text-sm">
+			<li><a href="/" class="hover:text-quaternary-500 block transition-colors">Home</a></li>
+			<li><a href="/about/" class="hover:text-quaternary-500 block transition-colors">About</a></li>
+			<li>
+				<details class="group">
+					<summary
+						class="hover:text-quaternary-500 focus-visible:ring-primary-500 flex cursor-pointer items-center justify-between rounded-sm transition-colors focus-visible:ring-2"
+					>
+						<span>Portfolio</span>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="mt-[1px] h-4 w-4 transition-transform duration-200 group-open:rotate-180"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"
+							></path>
+						</svg>
+					</summary>
+					<ul class="border-secondary-100 mt-2 ml-4 space-y-2 border-l pl-4">
+						<li>
+							<a href="/portfolio/development/" class="text-ink-400 hover:text-quaternary-500 block"
+								>Development</a
+							>
+						</li>
+						<li>
+							<a href="/portfolio/writing/" class="text-ink-400 hover:text-quaternary-500 block"
+								>Writing</a
+							>
+						</li>
+						<li>
+							<a href="/portfolio/marketing/" class="text-ink-400 hover:text-quaternary-500 block"
+								>Marketing</a
+							>
+						</li>
+					</ul>
+				</details>
+			</li>
+			<li><a href="/blog/" class="hover:text-quaternary-500 block transition-colors">Blog</a></li>
+			<li><a href="/contact/" class="hover:text-quaternary-500 block transition-colors">Contact</a></li>
+		</ul>
+	</div>
+</header>

@@ -1,0 +1,44 @@
+---
+import type { PaginationState } from "@lib/types";
+
+interface PaginationProps {
+	page: PaginationState;
+}
+
+const { page } = Astro.props as PaginationProps;
+
+const { currentPage, lastPage, url } = page;
+const showFirst = Boolean(url.first && currentPage > 2);
+const showPrev = Boolean(url.prev && currentPage > 1);
+const showNext = Boolean(url.next && currentPage < lastPage);
+const showLast = Boolean(url.last && currentPage < lastPage);
+---
+
+<nav
+	class="border-secondary-100 flex flex-wrap items-center justify-center gap-3 border-t pt-12 text-sm"
+	aria-label="Pagination"
+>
+	{showFirst && (
+		<a href={url.first} class="bg-primary-500 text-ink-400 hover:bg-primary-600 rounded-[6px] px-4 py-2 transition">
+			First
+		</a>
+	)}
+	{showPrev && (
+		<a href={url.prev} class="bg-primary-500 text-ink-400 hover:bg-primary-600 rounded-[6px] px-4 py-2 transition">
+			← Prev
+		</a>
+	)}
+	<span class="bg-secondary-500 text-offwhite-500 rounded-[6px] px-4 py-2">
+		Page {currentPage} of {lastPage}
+	</span>
+	{showNext && (
+		<a href={url.next} class="bg-primary-500 text-ink-400 hover:bg-primary-600 rounded-[6px] px-4 py-2 transition">
+			Next →
+		</a>
+	)}
+	{showLast && (
+		<a href={url.last} class="bg-primary-500 text-ink-400 hover:bg-primary-600 rounded-[6px] px-4 py-2 transition">
+			Last
+		</a>
+	)}
+</nav>

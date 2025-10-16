@@ -1,0 +1,83 @@
+---
+import { useWordPressAPI } from "@lib/hooks";
+
+const { getAllCategories } = useWordPressAPI;
+
+const categories = [...(await getAllCategories()).filter((category) => category.name !== "Uncategorized")];
+---
+
+<aside class="sticky top-24 h-fit space-y-12 self-start">
+	<!-- Search -->
+	<!-- <div class="space-y-4">
+		<h2 class="font-display text-secondary-500 text-xl font-semibold">Search</h2>
+		<input
+			type="text"
+			placeholder="Search articles..."
+			class="border-secondary-200 bg-offwhite-500 text-ink-500 placeholder-ink-300 font-body focus:ring-quaternary-400 focus:border-quaternary-400 w-full rounded-[6px] border px-4 py-3 text-sm focus:ring-2 focus:outline-none"
+		/>
+	</div> -->
+	<!-- Categories -->
+	<div class="space-y-4">
+		<h3 class="font-display text-secondary-500 text-lg font-semibold">Categories</h3>
+		<ul class="font-body text-ink-400 space-y-2 text-sm">
+			<li>
+				<a href="/blog/" class="hover:text-quaternary-500 transition-colors"> All Categories </a>
+			</li>
+			{
+				categories.map((category) => (
+					<li>
+						<a href={category.uri} class="hover:text-quaternary-500 transition-colors">
+							{category.name}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+	<!-- Tags -->
+	<!-- <div class="space-y-4">
+		<h3 class="font-display text-secondary-500 text-lg font-semibold">Tags</h3>
+		<div class="flex flex-wrap gap-2">
+			<a
+				href="#"
+				class="bg-primary-500 text-ink-400 hover:bg-primary-600 rounded-[6px] px-3 py-1 text-sm transition"
+			>
+				virtue
+			</a>
+			<a
+				href="#"
+				class="bg-primary-500 text-ink-400 hover:bg-primary-600 rounded-[6px] px-3 py-1 text-sm transition"
+			>
+				minimalism
+			</a>
+			<a
+				href="#"
+				class="bg-primary-500 text-ink-400 hover:bg-primary-600 rounded-[6px] px-3 py-1 text-sm transition"
+			>
+				ethics
+			</a>
+			<a
+				href="#"
+				class="bg-primary-500 text-ink-400 hover:bg-primary-600 rounded-[6px] px-3 py-1 text-sm transition"
+			>
+				creativity
+			</a>
+		</div>
+	</div> -->
+	<!-- Subscribe -->
+	<div class="border-secondary-200 space-y-4 border-t pt-12">
+		<h3 class="font-display text-secondary-500 text-lg font-semibold">Subscribe</h3>
+		<p class="font-body text-ink-400 text-sm leading-relaxed">
+			Receive new essays and reflections directly to your inbox.
+		</p>
+		<form name="Subscribe" method="POST" action="/contact/thank-you/" data-netlify="true" class="space-y-3">
+			<input
+				type="email"
+				name="Email"
+				placeholder="Your email"
+				class="border-secondary-200 bg-offwhite-500 text-ink-500 placeholder-ink-300 font-body focus:ring-quaternary-400 focus:border-quaternary-400 w-full rounded-[6px] border px-4 py-3 text-sm focus:ring-2 focus:outline-none"
+			/>
+			<button type="submit" class="button-base theme-transition button-secondary w-full"> Subscribe </button>
+		</form>
+	</div>
+</aside>

@@ -1,0 +1,54 @@
+---
+import type { ThemeVariant, ImageProps } from "@lib/types";
+import { Image } from "astro:assets";
+
+export interface HeroWithImageProps {
+	variant?: ThemeVariant;
+	image: ImageProps;
+	imagePlacement?: "left" | "right";
+	mobileImagePlacement?: "top" | "bottom";
+}
+
+const {
+	variant = "offwhite",
+	image,
+	imagePlacement = "right",
+	mobileImagePlacement = "bottom",
+} = Astro.props as HeroWithImageProps;
+
+import placeholderImage from "@images/stock/colorado-springs-web-design.jpg";
+---
+
+<section class:list={["component-hero-with-image", `variant-${variant}`, "bg-offwhite-500 text-ink-500 px-8 py-24"]}>
+	<div class="mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-2">
+		<!-- Text Column -->
+		<div
+			class:list={[
+				"block-content space-y-8",
+				mobileImagePlacement === "top" ? "order-2" : "order-1",
+				imagePlacement === "left" ? "lg:order-2" : "lg:order-1",
+			]}
+		>
+			<slot name="content" />
+		</div>
+		<!-- Image Column -->
+		<div
+			class:list={[
+				"block-image relative",
+				mobileImagePlacement === "top" ? "order-1" : "order-2",
+				imagePlacement === "left" ? "lg:order-1" : "lg:order-2",
+			]}
+		>
+			<Image
+				src={image.src ?? placeholderImage}
+				alt={image.alt ?? "Textured materials and design palette"}
+				width={image.width ?? 800}
+				height={image.height ?? 600}
+				loading={image.loading ?? "eager"}
+				fetchpriority={image.fetchpriority ?? "high"}
+				decoding={image.decoding ?? "sync"}
+				class="w-full rounded-[12px] object-cover shadow-[0_8px_20px_rgba(0,0,0,0.1)] brightness-[0.97] contrast-[1.03]"
+			/>
+		</div>
+	</div>
+</section>

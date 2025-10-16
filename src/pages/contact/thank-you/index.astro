@@ -1,26 +1,107 @@
 ---
+import { getCollection } from "astro:content";
+import { formatDate } from "@lib/functions";
 import { Image } from "astro:assets";
 
-import Layout from "@components/layouts/Layout.astro";
+import PrimaryLayout from "@components/layouts/primary-layout.astro";
+import Button from "@components/ui/buttons/button.astro";
+
+const posts = await getCollection("posts");
+const latestPosts = posts.slice(0, 3).map((post) => post.data);
 ---
 
-<Layout
+<PrimaryLayout
 	title="Thank You for Contacting Andrew Kepson!"
 	description="Thank you for contacting Andrew Kepson! Please allow 24-48 hours for a response."
+	canonical="/contact/thank-you/"
+	noIndex
 >
-	<div class="flex h-full flex-col lg:mx-16">
-		<section class="flex w-full flex-col items-center justify-center bg-gray-800 p-4">
-			<h1 class="text-5xl text-gray-100">Thank You</h1>
-			<p class="mt-10 p-10 text-gray-100 md:p-0">Thank you for contacting me.&nbsp;</p>
-			<p class="hover:text-purple-400">
-				<a href="/">Return Home</a>
-			</p>
-		</section>
+	<section class="relative h-[60vh] min-h-[420px] overflow-hidden">
 		<Image
 			src={import("@images/stock/reymark-franke-colorado-meadow.jpeg")}
 			alt="Vail, Colorado"
 			loading="eager"
 			quality={90}
+			class="h-full w-full object-cover brightness-[0.85]"
 		/>
-	</div>
-</Layout>
+		<div class="from-secondary-900/60 via-secondary-900/20 absolute inset-0 bg-gradient-to-t to-transparent"></div>
+		<div class="absolute inset-0 flex items-center justify-center px-8 text-center">
+			<div class="max-w-4xl">
+				<h1 class="font-display text-offwhite-500 text-4xl leading-tight font-semibold md:text-6xl">
+					Thank you for contacting me
+				</h1>
+				<p class="font-body text-offwhite-600 mt-4 text-lg leading-relaxed md:text-xl">
+					I’ve received your message and I’ll be in touch soon.
+				</p><a href="/" class="button-base theme-transition button-secondary mt-8 inline-block">
+					Back to Home
+				</a>
+			</div>
+		</div>
+	</section><section class="px-8 py-16">
+		<div class="mx-auto max-w-3xl space-y-4 text-center">
+			<h2 class="font-display text-secondary-500 text-2xl font-semibold md:text-3xl">I’ll get in touch soon</h2>
+			<p class="font-body text-ink-400 text-lg leading-relaxed">
+				In the meantime, here are a few recent essays and projects you might enjoy. They reflect the same
+				principles I bring to every collaboration — clarity, craft, and calm structure.
+			</p>
+		</div>
+	</section><section class="px-8 py-6">
+		<div class="mx-auto max-w-7xl space-y-8">
+			<header class="flex items-end justify-between">
+				<h3 class="font-display text-secondary-500 text-2xl font-semibold md:text-3xl">
+					Latest from the Blog
+				</h3><a
+					href="/blog/"
+					class="font-display text-secondary-500 hover:text-quaternary-700 text-sm underline-offset-4 transition-colors hover:underline"
+				>
+					View all →
+				</a>
+			</header>
+			<div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
+				{
+					latestPosts.map((post) => (
+						<article class="group bg-offwhite-500 overflow-hidden rounded-[12px] shadow-md transition-all duration-300 hover:shadow-lg">
+							<a href={post.uri}>
+								<Image
+									src={post.featuredImage?.url}
+									alt={post.featuredImage?.altText}
+									height={240}
+									width={800}
+									loading="eager"
+									class="img-card h-[24rem] w-full object-cover"
+								/>
+								<div class="space-y-3 p-8">
+									<>
+										<time class="font-body text-ink-300 block text-xs">
+											{formatDate(post.date, "readable")}
+										</time>
+										<a
+											href={post.uri}
+											class="group-hover:text-secondary-400 block transition-colors"
+										>
+											<h4 class="font-display text-secondary-500 text-xl leading-snug">
+												{post.title}
+											</h4>
+										</a>
+									</>
+									<>
+										<p class="font-body text-ink-400 text-sm leading-relaxed">{post.excerpt}</p>
+										<a
+											href={post.uri}
+											class="font-display text-secondary-500 hover:text-quaternary-700 text-sm underline-offset-4 transition-colors hover:underline"
+										>
+											Read More
+										</a>
+									</>
+								</div>
+							</a>
+						</article>
+					))
+				}
+			</div>
+			<div class="pt-4 text-center">
+				<Button href="/blog/" text="Explore the Blog" variant="secondary" />
+			</div>
+		</div>
+	</section>
+</PrimaryLayout>

@@ -1,28 +1,60 @@
 ---
-import Layout from "@components/layouts/Layout.astro";
-import { allWordPressCategories, allWordPressPosts } from "@lib/store";
+import type { BlogCategory, BlogPost, PaginationState } from "@lib/types";
+import { getCollection } from "astro:content";
+import ArchiveLayout from "@components/layouts/archive-layout/archive-layout.astro";
+import {
+	BLOG_PAGINATION_PAGE_SIZE,
+	createPaginationState,
+	getCategoryPaginationBasePath,
+	sortPostsByDate,
+} from "@lib/functions";
 import slugger from "slugger";
-import BlogArchive from "../_components/BlogArchive.astro";
 
 export async function getStaticPaths() {
-	return allWordPressCategories.map((category) => ({
-		params: {
-			category: slugger(category?.name),
-		},
-		props: {
-			category,
-			posts: allWordPressPosts.filter((post) => post?.category === category?.name),
-		},
-	}));
+	const allWordPressCategories = await getCollection("categories");
+	const allWordPressPosts = await getCollection("posts");
+
+	return allWordPressCategories.map((category) => {
+		const categorySlug = slugger(category?.data?.name);
+		const categoryPosts = sortPostsByDate(
+			allWordPressPosts.filter((post) => post?.data?.category === category?.data?.name)
+		);
+		const firstPagePosts = categoryPosts.slice(0, BLOG_PAGINATION_PAGE_SIZE);
+
+		const remainingPostsCount = Math.max(categoryPosts.length - firstPagePosts.length, 0);
+		const paginatedPageCount =
+			remainingPostsCount > 0 ? Math.ceil(remainingPostsCount / BLOG_PAGINATION_PAGE_SIZE) : 0;
+		const totalPages = paginatedPageCount + 1;
+		const basePath = getCategoryPaginationBasePath(categorySlug);
+
+		const pagination =
+			totalPages > 1 ? createPaginationState(basePath, 1, totalPages) : undefined;
+
+		return {
+			params: { category: categorySlug },
+			props: {
+				category,
+				posts: firstPagePosts,
+				pagination,
+			},
+		};
+	});
 }
 
-const { category, posts } = Astro.props;
+interface CategoryPageProps {
+	category: BlogCategory;
+	posts: BlogPost[];
+	pagination?: PaginationState;
+}
+
+const { category, posts, pagination } = Astro.props as CategoryPageProps;
 ---
 
-<Layout
-	title={`Blog Posts About ${category?.name}`}
-	description={`Read articles about ${category?.name} written by Andrew Kepson.`}
-	canonical={category?.uri}
->
-	<BlogArchive category={category?.name} posts={posts} />
-</Layout>
+<ArchiveLayout
+	title={`Blog Posts About ${category?.data?.name}`}
+	description={`Read articles about ${category?.data?.name} written by Andrew Kepson.`}
+	canonical={category?.data?.uri}
+	posts={posts}
+	category={category?.data?.name}
+	pagination={pagination}
+/>

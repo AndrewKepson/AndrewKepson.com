@@ -1,0 +1,13 @@
+---
+import type { ButtonProps } from "@lib/types";
+
+const { id, variant, text = "Click Me", href = "#", class: classes } = Astro.props as ButtonProps;
+---
+
+<a
+	id={id}
+	class:list={["component-button", "button-base", variant && `variant-${variant} button-${variant}`, "theme-transition", classes]}
+	href={href}
+>
+	{text}
+</a>

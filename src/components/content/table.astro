@@ -1,0 +1,58 @@
+---
+interface TableRow {
+	[key: string]: any;
+}
+
+interface TableColumn {
+	key: string;
+	header: string;
+	align?: 'left' | 'center' | 'right';
+	headerClass?: string;
+	cellClass?: string;
+}
+
+interface TableProps {
+	columns: TableColumn[];
+	rows: TableRow[];
+	caption?: string;
+}
+
+const { columns = [], rows = [], caption } = Astro.props as TableProps;
+
+const getAlignClass = (align?: 'left' | 'center' | 'right') => {
+	if (align === 'right') return 'text-right';
+	if (align === 'center') return 'text-center';
+	return '';
+};
+---
+
+<figure class="my-12">
+	<div class="border-secondary-100 bg-offwhite-500 overflow-x-auto rounded-[8px] border shadow-sm">
+		<table class="font-body text-ink-400 w-full border-collapse text-left text-sm">
+			<!-- Header -->
+			{columns.length > 0 && (
+				<thead class="bg-primary-500/70 text-secondary-500 font-display border-secondary-100 border-b text-xs tracking-wide uppercase">
+					<tr>
+						{columns.map((col) => (
+							<th class={`px-6 py-3 ${getAlignClass(col.align)} ${col.headerClass ?? ''}`}>{col.header}</th>
+						))}
+					</tr>
+				</thead>
+			)}
+			<!-- Body -->
+			<tbody>
+				{rows.map((row) => (
+					<tr class="hover:bg-primary-500/40 transition-colors">
+						{columns.map((col, colIndex) => (
+							<td class={`px-6 py-3 ${colIndex === 0 ? 'text-secondary-500 font-medium' : ''} ${getAlignClass(col.align)} ${col.cellClass ?? ''}`}>
+								{row[col.key]}
+							</td>
+						))}
+					</tr>
+				))}
+			</tbody>
+		</table>
+	</div>
+	<!-- Caption -->
+	{caption && <figcaption class="font-body text-ink-300 mt-3 text-center text-xs italic">{caption}</figcaption>}
+</figure>

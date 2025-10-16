@@ -1,0 +1,100 @@
+---
+interface Props {
+	title: string;
+	description: string;
+	canonical: string;
+	ogImage?: string;
+	noIndex?: boolean;
+	schemaMarkup?: string;
+}
+
+import { isProduction, siteUrl } from "@lib/store.js";
+
+// * Font Imports
+// TODO: Remove
+// Roboto
+import "@fontsource/roboto/100.css";
+import "@fontsource/roboto/100-italic.css";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/300-italic.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/400-italic.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/500-italic.css";
+import "@fontsource/roboto/700.css";
+import "@fontsource/roboto/700-italic.css";
+import "@fontsource/roboto/900.css";
+import "@fontsource/roboto/900-italic.css";
+
+// Work Sans
+import "@fontsource/work-sans/100.css";
+import "@fontsource/work-sans/100-italic.css";
+import "@fontsource/work-sans/200.css";
+import "@fontsource/work-sans/200-italic.css";
+import "@fontsource/work-sans/300.css";
+import "@fontsource/work-sans/300-italic.css";
+import "@fontsource/work-sans/400.css";
+import "@fontsource/work-sans/400-italic.css";
+import "@fontsource/work-sans/500.css";
+import "@fontsource/work-sans/500-italic.css";
+import "@fontsource/work-sans/600.css";
+import "@fontsource/work-sans/600-italic.css";
+import "@fontsource/work-sans/700.css";
+import "@fontsource/work-sans/700-italic.css";
+import "@fontsource/work-sans/800.css";
+import "@fontsource/work-sans/800-italic.css";
+import "@fontsource/work-sans/900.css";
+import "@fontsource/work-sans/900-italic.css";
+
+// EB Garamond
+import "@fontsource/eb-garamond/400.css";
+import "@fontsource/eb-garamond/500.css";
+import "@fontsource/eb-garamond/600.css";
+import "@fontsource/eb-garamond/700.css";
+
+// Global Styles with Tailwind v4
+import "../../styles/global.css";
+
+import Header from "@components/layouts/header/header.astro";
+import Footer from "@components/layouts/footer/footer.astro";
+
+const { title, description, canonical, ogImage, noIndex, schemaMarkup } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		{isProduction && ( 
+			<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-5DQG8L9');</script>
+		 )}
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		{ogImage && <meta property="og:image" content={`${ogImage}`} />}
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:creator" content={`${siteUrl}`} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+		<link rel="sitemap" href="/sitemap-index.xml" />
+		{canonical && <link rel="canonical" href={`${siteUrl}${canonical}`} />}
+		{noIndex && <meta name="robots" content="noindex" />}
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		{schemaMarkup ? <Fragment set:html={schemaMarkup} /> : null}
+	</head>
+	<body class="m-auto max-w-full">
+        <Header />
+        <main class="bg-offwhite-500">
+            <slot />
+        </main>
+        <Footer />
+    </body>
+    </html>

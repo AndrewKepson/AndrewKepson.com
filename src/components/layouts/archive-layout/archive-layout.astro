@@ -1,0 +1,51 @@
+---
+import type { BlogPost, PaginationState } from "@lib/types";
+import PrimaryLayout from "@components/layouts/primary-layout.astro";
+import Heading from "@components/ui/typography/heading.astro";
+import Sidebar from "./components/sidebar.astro";
+import ArticlesGrid from "./components/articles-grid.astro";
+import Pagination from "./components/pagination.astro";
+
+export interface ArchiveLayoutProps {
+	title: string;
+	description: string;
+	canonical: string;
+	ogImage?: string;
+	noIndex?: boolean;
+	schemaMarkup?: string;
+	posts: BlogPost[];
+	category: string;
+	pagination?: PaginationState;
+}
+
+const { title, description, canonical, ogImage, noIndex, schemaMarkup, posts, category, pagination } =
+	Astro.props as ArchiveLayoutProps;
+---
+
+<PrimaryLayout
+	title={title}
+	description={description}
+	canonical={canonical}
+	ogImage={ogImage}
+	noIndex={noIndex}
+	schemaMarkup={schemaMarkup}
+>
+	<div class="mx-auto grid max-w-7xl gap-16 px-4 py-24 lg:grid-cols-[280px_1fr] lg:px-12">
+		<Sidebar />
+		<section class="space-y-12">
+			<header class="space-y-4 text-center lg:text-left">
+				<Heading
+					level={1}
+					text={category !== "All Categories" ? `Latest Posts about ${category}` : "Latest Posts"}
+					class="font-display text-secondary-500 text-4xl leading-tight font-semibold"
+				/>
+				<p class="font-body text-ink-400 max-w-prose text-lg leading-relaxed">
+					Explorations in design, culture, and moral imagination.
+				</p>
+			</header>
+			<ArticlesGrid posts={posts} />
+			{pagination && pagination.lastPage > 1 && <Pagination page={pagination} />}
+		</section>
+	</div>
+</PrimaryLayout>
+---

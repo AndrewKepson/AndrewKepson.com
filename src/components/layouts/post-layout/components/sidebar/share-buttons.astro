@@ -1,0 +1,142 @@
+---
+import type { BlogPost } from "@lib/types";
+import { siteUrl } from "@lib/store";
+import FacebookIcon from "@icons/social-media/facebook.svg";
+import LinkedInIcon from "@icons/social-media/linked-in.svg";
+import TelegramIcon from "@icons/social-media/telegram.svg";
+import XIcon from "@icons/social-media/x.svg";
+import CopyIcon from "@icons/copy.svg";
+
+interface Props {
+	post: BlogPost["data"];
+}
+
+const { post } = Astro.props as Props;
+
+const toPlainText = (value?: string) =>
+	value
+		?.replace(/<[^>]*>/g, "")
+		.replace(/\s+/g, " ")
+		.trim();
+
+const normalizedSiteUrl = siteUrl ? siteUrl.replace(/\/$/, "") : "";
+const rawUri = post?.uri ?? "";
+let uriSegment = rawUri;
+
+if (/^https?:\/\//i.test(rawUri)) {
+	try {
+		const parsed = new URL(rawUri);
+		uriSegment = `${parsed.pathname}${parsed.search}${parsed.hash}`;
+	} catch {
+		uriSegment = rawUri;
+	}
+}
+
+const normalizedUri = uriSegment.replace(/^\//, "");
+const fallbackUrl = Astro.url ? Astro.url.href : "";
+const shareUrl =
+	normalizedSiteUrl && normalizedUri
+		? `${normalizedSiteUrl}/${normalizedUri}`
+		: normalizedSiteUrl || normalizedUri || fallbackUrl;
+
+const shareTitle = toPlainText(post?.seo?.title ?? post?.title) ?? "";
+const shareDescription = toPlainText(post?.seo?.description ?? post?.excerpt ?? "") ?? "";
+
+const shareButtonClass =
+	"theme-transition inline-flex cursor-pointer h-11 w-11 items-center justify-center rounded-[10px] bg-primary-500 text-secondary-500 shadow-sm transition-all duration-300 ease-out hover:bg-quaternary-500 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-quaternary-500";
+const iconClass = "h-6 w-6 fill-current";
+
+const shareItems = [
+	{ id: "linkedin", label: "LinkedIn", sharer: "linkedin", Icon: LinkedInIcon },
+	{ id: "x", label: "X (Twitter)", sharer: "x", Icon: XIcon },
+	{ id: "facebook", label: "Facebook", sharer: "facebook", Icon: FacebookIcon },
+	{ id: "telegram", label: "Telegram", sharer: "telegram", Icon: TelegramIcon },
+] as const;
+---
+
+<div class="border-secondary-200 space-y-4 border-t pt-12">
+	<h3 class="font-display text-secondary-500 text-lg font-semibold">Share this post</h3>
+	<ul class="flex items-center gap-3">
+		{
+			shareItems.map(({ Icon, id, label, sharer }) => (
+				<li>
+					<button
+						type="button"
+						class={shareButtonClass}
+						data-sharer={sharer}
+						data-network={id}
+						data-url={shareUrl}
+						data-title={shareTitle}
+						data-quote={shareDescription}
+						aria-label={`Share on ${label}`}
+					>
+						<Icon class={iconClass} aria-hidden="true" focusable="false" />
+						<span class="sr-only">{`Share on ${label}`}</span>
+					</button>
+				</li>
+			))
+		}
+		<li>
+			<button
+				type="button"
+				class={shareButtonClass}
+				data-copy-link
+				data-copy-url={shareUrl}
+				aria-label="Copy link to clipboard"
+			>
+				<CopyIcon class={iconClass} aria-hidden="true" focusable="false" />
+				<span class="sr-only">Copy link</span>
+			</button>
+		</li>
+	</ul>
+	<p class="sr-only" role="status" data-share-feedback></p>
+</div>
+
+<script>
+	import "sharer.js";
+
+	const copyButtons = document.querySelectorAll("[data-copy-link]");
+	const feedback = document.querySelector("[data-share-feedback]");
+
+	async function handleCopy(event) {
+		const button = event.currentTarget instanceof HTMLElement ? event.currentTarget : null;
+		const url = button?.getAttribute("data-copy-url");
+		if (!url) {
+			return;
+		}
+
+		try {
+			await navigator.clipboard.writeText(url);
+			if (feedback) {
+				feedback.textContent = "Link copied to clipboard";
+			}
+			if (button) {
+				button.setAttribute("data-copy-state", "copied");
+				window.setTimeout(() => {
+					button.removeAttribute("data-copy-state");
+					if (feedback) {
+						feedback.textContent = "";
+					}
+				}, 3000);
+			}
+		} catch (error) {
+			console.error("Unable to copy link", error);
+			if (feedback) {
+				feedback.textContent = "Unable to copy link";
+			}
+		}
+	}
+
+	copyButtons.forEach((button) => {
+		button.addEventListener("click", handleCopy);
+	});
+</script>
+
+<style>
+	[data-copy-state="copied"] {
+		background-color: rgba(161, 181, 201, 0.55);
+		background-color: color-mix(in oklab, var(--color-quaternary-500) 55%, transparent);
+		color: var(--color-secondary-500);
+		box-shadow: 0 8px 20px rgba(28, 33, 43, 0.16);
+	}
+</style>

@@ -1,18 +1,36 @@
 ---
-import { getPageBySlug } from "@lib/wordPressAPI";
-import { getHeroContent } from "./_components/functions";
-import { stripSchemaMarkup } from "@lib/functions";
+import { wordPressPagesBySlug, PORTRAIT_PHOTO } from "@lib/store";
 
-import Layout from "@components/layouts/Layout.astro";
-import Hero from "./_components/Hero.astro";
-import LatestBlogPosts from "./_components/LatestBlogPosts.astro";
+import Layout from "@components/layouts/primary-layout.astro";
+import Heading from "@components/ui/typography/heading.astro";
+import Button from "@components/ui/buttons/button.astro";
+import HeroWithImage from "@components/heroes/hero-with-image.astro";
+import LatestBlogPosts from "@components/content/latest-blog-posts.astro";
 
-const pageData = await getPageBySlug("home");
+const pageData = wordPressPagesBySlug.get("home");
 ---
 
 <Layout title={pageData?.seo?.title} description={pageData?.seo?.description} canonical="/">
-	<div class="-mb-4 flex flex-wrap items-center text-dark-gray-500 md:mb-0">
-		<Hero {...getHeroContent(pageData?.content)} />
-		<LatestBlogPosts />
-	</div>
+	<HeroWithImage
+		variant="offwhite"
+		image={{
+			src: PORTRAIT_PHOTO.src,
+			alt: PORTRAIT_PHOTO.alt,
+		}}
+		imagePlacement="right"
+		mobileImagePlacement="top"
+	>
+		<Fragment slot="content">
+			<Heading level={2} text="I'm Andrew" />
+			<p>
+				Headless WordPress. TypeScript. Astro. SEO. Automation. Obsessed with building scaleable, automated
+				processes and beautiful, fast websites.
+			</p>
+			<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+				<Button variant="primary" text="About Me" href="/about/" />
+				<Button variant="secondary" text="Get in Touch" href="/contact/" />
+			</div>
+		</Fragment>
+	</HeroWithImage>
+	<LatestBlogPosts />
 </Layout>

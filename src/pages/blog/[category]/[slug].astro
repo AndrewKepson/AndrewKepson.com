@@ -1,17 +1,20 @@
 ---
-import Layout from "@components/layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import PostLayout from "@components/layouts/post-layout/post-layout.astro";
 import Post from "../_components/Post/Post.astro";
-import { allWordPressPosts } from "@lib/store";
 import slugger from "slugger";
 
+// getCollection must be called within getStaticPaths to ensure scope during Astro's evaluation
+
 export async function getStaticPaths() {
-	return allWordPressPosts.map((post) => ({
+	const postsCollection = await getCollection("posts");
+	return postsCollection.map((post) => ({
 		params: {
-			category: slugger(post?.category),
-			slug: post?.slug,
+			category: slugger(post?.data?.category),
+			slug: post?.data?.slug,
 		},
 		props: {
-			post,
+			post: post?.data,
 		},
 	}));
 }
@@ -19,14 +22,13 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 ---
 
-<Layout
+<PostLayout
 	title={post?.seo?.title}
 	description={post?.seo?.description}
 	canonical={post?.uri}
 	ogImage={post?.seo?.ogImage}
->
-	<Post post={post} />
-</Layout>
+	post={post}
+/>
 
 <script>
 	document.addEventListener("DOMContentLoaded", (event) => {

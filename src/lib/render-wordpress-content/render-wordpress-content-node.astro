@@ -1,0 +1,92 @@
+---
+import { Image } from "astro:assets";
+import Heading from "@components/ui/typography/heading.astro";
+import CodeSnippet from "@components/content/code-snippet.astro";
+import Button from "@components/ui/buttons/button.astro";
+import CenteredContent from "@components/content/centered-content.astro";
+import Blockquote from "@components/ui/typography/blockquote.astro";
+
+import type { ParsedNode } from "@lib/render-wordpress-content/types";
+
+const { node } = Astro.props as { node: ParsedNode };
+const RenderNode = Astro.self;
+---
+
+{
+	["h1", "h2", "h3", "h4"].includes(node.type) ? (
+		<Heading id={node.id} text={node.text ?? ""} level={parseInt(node.type.slice(1)) as 1 | 2 | 3 | 4} />
+	) : node.type === "image" && node.image ? (
+		<Image
+			src={node.image.src}
+			alt={node.image.alt}
+			width={node.image.width}
+			height={node.image.height}
+			loading={node.image.loading}
+			decoding={node.image.decoding}
+			class={node.image.class}
+			sizes={node.image.sizes}
+		/>
+	) : node.type === "gallery" && node.gallery ? (
+		<figure class={node.gallery.class ?? undefined} {...(node.gallery.attributes ?? {})}>
+			{node.gallery.images.map((image) => {
+				const imageElement = (
+					<Image
+						src={image.src}
+						alt={image.alt}
+						width={image.width}
+						height={image.height}
+						loading={image.loading}
+						decoding={image.decoding}
+						class={image.class}
+						sizes={image.sizes}
+					/>
+				);
+
+				return (
+					<figure class={image.wrapperClass ?? undefined} {...(image.wrapperAttributes ?? {})}>
+						{image.linkHref ? (
+							<a href={image.linkHref} {...(image.linkAttributes ?? {})}>
+								{imageElement}
+							</a>
+						) : (
+							imageElement
+						)}
+						{image.captionHtml && <figcaption set:html={image.captionHtml} />}
+					</figure>
+				);
+			})}
+		</figure>
+	) : node.type === "button" && node.button ? (
+		<Button
+			id={node.button.id}
+			variant={node.button.variant}
+			href={node.button.href}
+			text={node.button.text}
+		/>
+	) : node.type === "centered-content" && node.centeredContent ? (
+		<CenteredContent
+			id={node.centeredContent.id}
+			variant={node.centeredContent.variant}
+		>
+			{node.centeredContent.content.map((child) => (
+				<RenderNode node={child} />
+			))}
+		</CenteredContent>
+	) : node.type === "blockquote" && node.blockquote ? (
+		<Blockquote citation={node.blockquote.citation ?? ""}>
+			{node.blockquote.content.map((child) => (
+				<RenderNode slot="quote" node={child} />
+			))}
+		</Blockquote>
+	) : node.type === "code-snippet" && node.codeSnippet ? (
+		<CodeSnippet
+			title={node.codeSnippet.title}
+			code={node.codeSnippet.code}
+			caption={node.codeSnippet.caption}
+		/>
+	) : node.type === "code" && node.code ? (
+		<CodeSnippet code={node.code} />
+	) : (
+		<Fragment set:html={node.html} />
+	)
+}

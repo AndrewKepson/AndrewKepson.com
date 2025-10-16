@@ -1,4 +1,5 @@
 import * as cheerio from "cheerio";
+import type { BlogPost, PaginationLinks, PaginationState } from "@lib/types";
 
 // * Utility Functions
 export const chooseCategoryColor = (category) => {
@@ -78,7 +79,7 @@ export const chooseTagColor = (tag) => {
 			break;
 		case "Forms":
 			color = "bg-teal-300";
-			break
+			break;
 		case "Formstack":
 			color = "bg-green-300";
 			break;
@@ -89,18 +90,18 @@ export const chooseTagColor = (tag) => {
 	return color;
 };
 
-export const getHeadingsFromMarkdown = (html) => {
-	// Load the HTML into cheerio
+export const getHeadingsFromMarkdown = (
+	html: string
+): { heading: string; key: number; classes: string; slug: string }[] => {
 	const $ = cheerio.load(html);
 
-	// Select all h2 and h3 elements
 	const headings = $("h2, h3")
 		.map((index, element) => {
 			const $el = $(element);
 			const isH2 = $el.is("h2");
 			const classes = isH2
-				? "text-md my-1 cursor-pointer font-garamond font-semibold text-gray-700 md:text-lg"
-				: "text-md my-1 cursor-pointer font-garamond font-semibold text-gray-600 md:text-md m-2";
+				? "text-md my-1 cursor-pointer font-display font-normal text-ink-500 md:text-lg hover:text-secondary-400 theme-transition"
+				: "text-base my-1 cursor-pointer font-body font-light text-ink-400 md:text-md m-2 hover:text-secondary-400 theme-transition";
 
 			return {
 				heading: $el.text(),
@@ -109,7 +110,7 @@ export const getHeadingsFromMarkdown = (html) => {
 				slug: $el.attr("id"),
 			};
 		})
-		.get(); // Convert cheerio object to a plain array
+		.get();
 
 	return headings;
 };
@@ -151,3 +152,64 @@ export const stripSchemaMarkup = (schemaMarkup: string): string => {
 
 	return "No valid JSON-LD script found";
 };
+
+// * Pagination Helpers
+const normalizePaginationBasePath = (basePath: string): string => {
+	if (!basePath) {
+		return "";
+	}
+
+	const trimmed = basePath.trim();
+	const withLeadingSlash = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
+	return withLeadingSlash.endsWith("/") ? withLeadingSlash.slice(0, -1) : withLeadingSlash;
+};
+
+export const BLOG_PAGINATION_BASE_PATH = "/blog";
+export const BLOG_INDEX_POST_COUNT = 6;
+export const BLOG_PAGINATION_PAGE_SIZE = 6;
+export const getCategoryPaginationBasePath = (categorySlug: string): string =>
+	normalizePaginationBasePath(`/blog/category/${categorySlug}`);
+
+export const sortPostsByDate = (posts: BlogPost[]): BlogPost[] =>
+	[...posts].sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+export const buildPaginationPageUrl = (basePath: string, pageNumber: number): string => {
+	const normalizedBase = normalizePaginationBasePath(basePath);
+
+	if (!normalizedBase) {
+		return pageNumber <= 1 ? "/" : `/${pageNumber}/`;
+	}
+
+	if (pageNumber <= 1) {
+		return `${normalizedBase}/`;
+	}
+
+	return `${normalizedBase}/${pageNumber}/`;
+};
+
+export const getPaginationNavUrls = (
+	basePath: string,
+	currentPage: number,
+	totalPages: number
+): PaginationLinks => {
+	if (totalPages <= 1) {
+		return {};
+	}
+
+	return {
+		first: buildPaginationPageUrl(basePath, 1),
+		prev: currentPage > 1 ? buildPaginationPageUrl(basePath, currentPage - 1) : undefined,
+		next: currentPage < totalPages ? buildPaginationPageUrl(basePath, currentPage + 1) : undefined,
+		last: totalPages > 1 ? buildPaginationPageUrl(basePath, totalPages) : undefined,
+	};
+};
+
+export const createPaginationState = (
+	basePath: string,
+	currentPage: number,
+	totalPages: number
+): PaginationState => ({
+	currentPage,
+	lastPage: Math.max(totalPages, 1),
+	url: getPaginationNavUrls(basePath, currentPage, totalPages),
+});

@@ -1,0 +1,134 @@
+---
+import { SOCIAL_LINKS } from "@lib/store";
+---
+
+<footer class="bg-offwhite-500 text-ink-400 border-secondary-100 border-t">
+	<div class="mx-auto grid max-w-7xl gap-16 px-8 py-20 md:grid-cols-3">
+		<!-- About -->
+		<div class="space-y-4">
+			<h2 class="font-display text-secondary-500 text-lg font-semibold">About</h2>
+			<p class="font-body max-w-sm text-sm leading-relaxed">
+				I’m Andrew Kepson — developer, automation engineer, and writer exploring the intersection of structure
+				and meaning. My work blends thoughtful systems with quiet aesthetic depth.
+			</p>
+			<div class="flex gap-4 pt-2">
+				<a
+					href={SOCIAL_LINKS.x}
+					target="_blank"
+					rel="noreferrer,noopener"
+					aria-label="X"
+					class="text-secondary-400 hover:text-quaternary-700 transition-colors"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						enable-background="new 0 0 100 100"
+						viewBox="0 0 100 100"
+						id="x"
+						class="h-5 w-5"
+						fill="currentColor"
+					>
+						<g>
+							<path
+								d="M69.7,8.7H30.4c-11.7,0-21.3,9.5-21.3,21.3v41.2c0,11.7,9.5,21.3,21.3,21.3h39.4c11.7,0,21.3-9.5,21.3-21.3V29.9
+							  C91,18.2,81.5,8.7,69.7,8.7z M76.8,78.3l-15.4,0c-0.1,0-0.2,0-0.2-0.1L46.8,57.3c0,0-0.1,0-0.1,0C40.9,64,35.2,70.6,29.6,77.1
+							  c-0.3,0.4-0.7,0.7-1,1c-0.1,0.1-0.2,0.1-0.3,0.1l-4.2,0c-0.1,0-0.2,0-0.1-0.1l20.5-23.8c0.1-0.1,0.1-0.2,0-0.3L24.1,24.3
+							  c0,0,0-0.1,0-0.1h15.5c0.1,0,0.1,0,0.2,0.1L53.4,44c0,0,0,0,0.1,0l16.9-19.7c0.1-0.1,0.2-0.1,0.3-0.1l4.2,0c0.2,0,0.2,0.1,0.1,0.2
+							  L55.6,46.9c-0.1,0.1-0.1,0.2,0,0.3l21.3,31C76.9,78.2,76.9,78.3,76.8,78.3z"
+							></path>
+							<path
+								d="M37.8,27.8C37.8,27.8,37.8,27.8,37.8,27.8l-6.7,0c-0.1,0-0.1,0.1-0.1,0.2l32.2,46.7c0,0,0,0,0.1,0h6.6
+							  c0.1,0,0.1-0.1,0.1-0.2L37.8,27.8z"
+							></path>
+						</g>
+					</svg>
+				</a><a
+					href={SOCIAL_LINKS.linkedin}
+					target="_blank"
+					rel="noreferrer,noopener"
+					aria-label="LinkedIn"
+					class="text-secondary-400 hover:text-quaternary-700 transition-colors"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="h-5 w-5"
+						fill="currentColor"
+						viewBox="0 0 24 24"
+						id="linkedin"
+					>
+						<path
+							d="M20.47,2H3.53A1.45,1.45,0,0,0,2.06,3.43V20.57A1.45,1.45,0,0,0,3.53,22H20.47a1.45,1.45,0,0,0,1.47-1.43V3.43A1.45,1.45,0,0,0,20.47,2ZM8.09,18.74h-3v-9h3ZM6.59,8.48h0a1.56,1.56,0,1,1,0-3.12,1.57,1.57,0,1,1,0,3.12ZM18.91,18.74h-3V13.91c0-1.21-.43-2-1.52-2A1.65,1.65,0,0,0,12.85,13a2,2,0,0,0-.1.73v5h-3s0-8.18,0-9h3V11A3,3,0,0,1,15.46,9.5c2,0,3.45,1.29,3.45,4.06Z"
+						></path>
+					</svg>
+				</a><a
+					href={SOCIAL_LINKS.github}
+					target="_blank"
+					rel="noreferrer,noopener"
+					aria-label="GitHub"
+					class="text-secondary-400 hover:text-quaternary-700 transition-colors"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="h-5 w-5"
+						fill="currentColor"
+						viewBox="0 0 64 64"
+						id="github"
+					>
+						<path
+							fill="currentColor"
+							fill-rule="evenodd"
+							d="m60,12c0-4.42-3.58-8-8-8H12c-4.42,0-8,3.58-8,8v40c0,4.42,3.58,8,8,8h40c4.42,0,8-3.58,8-8V12h0Z"
+						></path>
+						<path
+							fill="#fff"
+							fill-rule="evenodd"
+							d="m26.73,47.67c0,1.1-.01,2.3-.01,3.4,0,.26-.13.51-.34.67-.21.16-.49.2-.74.13-8.4-2.7-14.49-10.58-14.49-19.87,0-11.51,9.34-20.85,20.85-20.85s20.85,9.34,20.85,20.85c0,9.28-6.08,17.15-14.46,19.85-.25.08-.53.03-.74-.13-.21-.16-.34-.4-.34-.67-.02-2.45-.03-5.34-.03-6.65s-1.28-2.39-1.28-2.39c0,0,9.45-1.16,9.45-9.34,0-5.19-2.06-6.94-2.06-6.94.44-1.86.38-3.63-.1-5.31-.07-.24-.31-.4-.56-.38-2.01.18-3.85.91-5.52,2.24,0,0-2.95-.81-5.2-.81h0c-2.25,0-5.2.81-5.2.81-1.67-1.32-3.52-2.06-5.52-2.24-.25-.02-.49.14-.56.38-.48,1.68-.54,3.45-.11,5.31,0,0-2.05,1.75-2.05,6.94,0,8.18,9.45,9.34,9.45,9.34,0,0-1.28,1.08-1.28,2.39v.3c-.72.26-1.7.5-2.8.43-2.99-.2-3.39-3.42-4.62-3.94-.9-.38-1.78-.43-2.45-.37-.2.02-.36.16-.41.35-.05.19.02.39.18.51.81.55,1.89,1.33,2.19,1.9.81,1.52,2.06,3.93,3.67,4.19,1.96.32,3.36.13,4.25-.12h0Z"
+						></path>
+					</svg>
+				</a>
+			</div>
+		</div>
+		<!-- Navigation -->
+		<div>
+			<h2 class="font-display text-secondary-500 mb-4 text-lg font-semibold">Explore</h2>
+			<ul class="font-body space-y-2 text-sm">
+				<li>
+					<a href="/" class="hover:text-quaternary-700 transition">Home</a>
+				</li>
+				<li>
+					<a href="/about" class="hover:text-quaternary-700 transition">About</a>
+				</li>
+				<li>
+					<a href="/portfolio" class="hover:text-quaternary-700 transition">Portfolio</a>
+				</li>
+				<li>
+					<a href="/blog" class="hover:text-quaternary-700 transition">Blog</a>
+				</li>
+				<li>
+					<a href="/contact" class="hover:text-quaternary-700 transition">Contact</a>
+				</li>
+			</ul>
+		</div>
+		<!-- Subscribe / Sitemap -->
+		<div class="space-y-4">
+			<h2 class="font-display text-secondary-500 text-lg font-semibold">Stay Connected</h2>
+			<form class="space-y-3" name="Subscribe" method="POST" action="/contact/thank-you/" data-netlify="true">
+				<input
+					type="email"
+					name="Email"
+					placeholder="Your email"
+					class="border-secondary-200 bg-offwhite-500 text-ink-500 placeholder-ink-300 font-body focus:ring-quaternary-400 focus:border-quaternary-400 w-full rounded-[6px] border px-4 py-3 text-sm focus:ring-2 focus:outline-none"
+				/>
+				<button type="submit" class="button-base theme-transition button-secondary w-full"> Subscribe </button>
+			</form>
+		</div>
+	</div>
+	<!-- Bottom bar -->
+	<div class="border-secondary-100 font-body text-ink-300 mt-12 border-t py-6 text-center text-sm">
+		<p class="mb-2">© <span x-text="new Date().getFullYear()"></span> Andrew Kepson. All rights reserved.</p>
+		<p>
+			<a href="/html-sitemap/" class="hover:text-secondary-500 theme-transition transition">HTML Sitemap</a>
+			<span class="text-secondary-300 mx-2">|</span>
+			<a href="/sitemap-index.xml" class="hover:text-secondary-500 transition">XML Sitemap</a>
+		</p>
+	</div>
+</footer>

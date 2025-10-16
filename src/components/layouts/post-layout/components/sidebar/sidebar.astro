@@ -1,0 +1,22 @@
+---
+import type { BlogPost } from "@lib/types";
+import { getHeadingsFromMarkdown } from "@lib/functions";
+import TableOfContents from "./table-of-contents.astro";
+import SubscribeForm from "./subscribe-form.astro";
+import RelatedPosts from "./related-posts.astro";
+import ShareButtons from "./share-buttons.astro";
+
+interface Props {
+	post: BlogPost["data"];
+}
+
+const { post } = Astro.props;
+const headings = getHeadingsFromMarkdown(post?.content);
+---
+
+<aside class="sticky top-44 hidden h-fit space-y-12 self-start lg:block" data-pg-collapsed>
+	<TableOfContents headings={headings} />
+	<ShareButtons post={post} />
+	<SubscribeForm />
+	<RelatedPosts post={post} />
+</aside>

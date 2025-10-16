@@ -1,0 +1,62 @@
+---
+import type { HeadingProps, ParagraphProps } from "@lib/types";
+import Heading from "@components/ui/typography/heading.astro";
+interface FAQ {
+	question: string;
+	answer: string;
+}
+
+interface FAQAccordionProps {
+	heading?: HeadingProps;
+	subheading?: ParagraphProps;
+	faqs: FAQ[];
+}
+
+const { heading, subheading, faqs } = Astro.props as FAQAccordionProps;
+---
+
+<section
+	class:list={["component-faq-accordion", "bg-offwhite-500 text-ink-500 w-full px-8 py-24"]}
+	x-data="{ open: null }"
+>
+	<div class="mx-auto max-w-4xl space-y-12">
+		<!-- Header -->
+		<header class="space-y-4 text-center">
+			<Heading
+				level={2}
+				text={heading?.text}
+				class:list={["text-secondary-500 text-4xl font-semibold", heading?.class]}
+			/>
+			<p class="font-body text-ink-400 mx-auto max-w-prose text-lg leading-relaxed" set:html={subheading?.text} />
+		</header>
+		<div class:list={["faq-accordion-faqs", "divide-secondary-100 divide-y"]}>
+			<!-- FAQ Item -->
+			{
+				faqs.map((faq, idx) => (
+					<div class="py-6">
+						<button
+							class="group flex w-full items-center justify-between text-left"
+							x-on:click={`open === ${idx} ? open = null : open = ${idx}`}
+						>
+							<span class="font-display text-secondary-500 group-hover:text-secondary-400 text-lg transition-colors">
+								{faq.question}
+							</span>
+							<span
+								class="text-secondary-500 relative flex h-6 w-6 origin-center transform items-center justify-center transition-transform duration-300 ease-out"
+								x-bind:class={`open === ${idx} ? 'rotate-45' : ''`}
+							>
+								<span class="bg-secondary-500 absolute h-4 w-[1px]" />
+								<span class="bg-secondary-500 absolute h-[1px] w-4" />
+							</span>
+						</button>
+						<div x-collapse.duration.300ms x-show={`open === ${idx}`} x-cloak class="overflow-hidden">
+							<div class="font-body text-ink-400 pt-4 leading-relaxed" set:html={faq.answer} />
+						</div>
+					</div>
+				))
+			}
+		</div>
+	</div>
+	<!-- Accordion Wrapper -->
+</section>
+<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>

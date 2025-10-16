@@ -1,0 +1,66 @@
+---
+import type { BlogPost, PaginationState } from "@lib/types";
+import { getCollection } from "astro:content";
+import { wordPressPagesBySlug } from "@lib/store";
+import ArchiveLayout from "@components/layouts/archive-layout/archive-layout.astro";
+import {
+	BLOG_INDEX_POST_COUNT,
+	BLOG_PAGINATION_PAGE_SIZE,
+	BLOG_PAGINATION_BASE_PATH,
+	buildPaginationPageUrl,
+	createPaginationState,
+	sortPostsByDate,
+} from "@lib/functions";
+
+export async function getStaticPaths({ paginate }) {
+	const posts = await getCollection("posts");
+	const sortedPosts = sortPostsByDate(posts);
+
+	const paginatedResults = paginate(sortedPosts.slice(BLOG_INDEX_POST_COUNT), {
+		pageSize: BLOG_PAGINATION_PAGE_SIZE,
+	});
+
+	const totalPages = paginatedResults.length + 1;
+
+	return paginatedResults.map((result, index) => {
+		const currentPage = index + 2;
+		const pagePosts = result.props.page.data as BlogPost[];
+		const pagination = createPaginationState(BLOG_PAGINATION_BASE_PATH, currentPage, totalPages);
+
+		return {
+			params: { page: String(currentPage) },
+			props: {
+				pagination,
+				posts: pagePosts,
+			},
+		};
+	});
+}
+
+interface BlogPageProps {
+	pagination: PaginationState;
+	posts: BlogPost[];
+}
+
+const pageData = wordPressPagesBySlug.get("blog");
+const { pagination, posts } = Astro.props as BlogPageProps;
+
+const titleBase = pageData?.seo?.title ?? "Blog";
+const title = `${titleBase} - Page ${pagination.currentPage}`;
+const descriptionBase = pageData?.seo?.description;
+const description =
+	pagination.currentPage > 1 && descriptionBase
+		? `${descriptionBase} (Page ${pagination.currentPage} of ${pagination.lastPage})`
+		: descriptionBase;
+const canonical = buildPaginationPageUrl(BLOG_PAGINATION_BASE_PATH, pagination.currentPage);
+---
+
+<ArchiveLayout
+	title={title}
+	description={description}
+	canonical={canonical}
+	posts={posts}
+	category="All Categories"
+	pagination={pagination}
+	noIndex={pagination.currentPage > 1}
+/>

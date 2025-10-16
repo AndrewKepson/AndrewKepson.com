@@ -1,0 +1,86 @@
+<li
+	class="relative"
+	x-data="{
+			open: false,
+			isMobile: window.innerWidth < 1024,
+			debounce(fn, delay = 250) {
+			  let timeout;
+			  return function(...args) {
+				clearTimeout(timeout);
+				timeout = setTimeout(() => fn.apply(this, args), delay);
+			  };
+			},
+			init() {
+			  this.updateScreenSize();
+			  window.addEventListener('resize', this.debounce(() => this.updateScreenSize(), 200));
+			},
+			updateScreenSize() {
+			  this.isMobile = window.innerWidth < 1024;
+			  if (!this.isMobile) this.open = false;
+			},
+			handleClick() {
+			  if (this.isMobile) this.open = !this.open;
+			},
+			handleMouseEnter() {
+			  if (!this.isMobile) this.open = true;
+			},
+			handleMouseLeave() {
+			  if (!this.isMobile) this.open = false;
+			}
+		  }"
+	x-init="init()"
+	x-on:mouseenter="handleMouseEnter()"
+	x-on:mouseleave="handleMouseLeave()"
+>
+	<button
+		class="hover:text-quaternary-500 focus-visible:ring-primary-500 flex items-center gap-1 rounded-sm transition-colors focus-visible:ring-2"
+		aria-haspopup="true"
+		:aria-expanded="open.toString()"
+		aria-controls="portfolio-menu"
+		x-on:click.prevent="handleClick()"
+		x-on:keydown.enter.prevent="handleClick()"
+		x-on:keydown.space.prevent="handleClick()"
+		x-on:keydown.escape.window="open = false"
+		x-on:focusout="open = false"
+	>
+		<span>Portfolio</span>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			class="mt-[1px] h-4 w-4 transition-transform duration-200"
+			:class="open ? 'rotate-180' : ''"
+			fill="none"
+			viewBox="0 0 24 24"
+			stroke="currentColor"
+		>
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+		</svg>
+	</button>
+
+	<!-- Dropdown Menu -->
+	<div
+		id="portfolio-menu"
+		x-show="open"
+		x-transition.origin.top
+		x-cloak
+		x-on:click.away="open = false"
+		class="bg-offwhite-500 border-secondary-100 absolute left-0 z-50 mt-2 w-48 rounded-[8px] border py-2 shadow-md"
+		role="menu"
+	>
+		<a
+			href="/portfolio/development/"
+			role="menuitem"
+			class="text-ink-400 hover:bg-primary-500 hover:text-ink-500 block px-4 py-2 text-sm transition"
+			>Development</a
+		>
+		<a
+			href="/portfolio/writing/"
+			role="menuitem"
+			class="text-ink-400 hover:bg-primary-500 hover:text-ink-500 block px-4 py-2 text-sm transition">Writing</a
+		>
+		<a
+			href="/portfolio/marketing/"
+			role="menuitem"
+			class="text-ink-400 hover:bg-primary-500 hover:text-ink-500 block px-4 py-2 text-sm transition">Marketing</a
+		>
+	</div>
+</li>

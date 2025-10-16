@@ -1,0 +1,45 @@
+---
+import type { BlogPost } from "@lib/types";
+import { Image } from "astro:assets";
+import Heading from "@components/ui/typography/heading.astro";
+
+export interface ArticlesGridProps {
+	posts: BlogPost[];
+}
+
+const { posts } = Astro.props as ArticlesGridProps;
+---
+
+<div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
+	{
+		posts.map((post) => (
+			<article class="group bg-offwhite-500 overflow-hidden rounded-[12px] shadow-md transition-all duration-300 hover:shadow-lg">
+				<a href={post.data.uri}>
+					<Image
+						src={post.data.featuredImage?.url}
+						alt={post.data.featuredImage?.altText}
+						width={800}
+						height={600}
+						class="img-card"
+					/>
+				</a>
+				<div class="space-y-4 p-8">
+					<a href={post.data.uri}>
+						<Heading
+							level={2}
+							text={post.data.title}
+							class="font-display text-secondary-500 group-hover:text-secondary-400 text-2xl leading-snug transition"
+						/>
+					</a>
+					<p class="font-body text-ink-400 text-sm leading-relaxed" set:html={post.data.excerpt} />
+					<a
+						href={post.data.uri}
+						class="font-display text-secondary-500 hover:text-quaternary-500 inline-block text-sm tracking-wide transition"
+					>
+						Read More →
+					</a>
+				</div>
+			</article>
+		))
+	}
+</div>
