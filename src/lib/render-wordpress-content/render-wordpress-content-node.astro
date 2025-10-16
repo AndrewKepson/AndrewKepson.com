@@ -83,9 +83,10 @@ const RenderNode = Astro.self;
 			title={node.codeSnippet.title}
 			code={node.codeSnippet.code}
 			caption={node.codeSnippet.caption}
+			language={node.codeSnippet.language}
 		/>
 	) : node.type === "code" && node.code ? (
-		<CodeSnippet code={node.code} />
+		<CodeSnippet code={node.code} language={node.codeLanguage} />
 	) : (
 		<Fragment set:html={node.html} />
 	)

@@ -113,13 +113,7 @@ const headings = getHeadingsFromMarkdown(post?.content) ?? [];
 </style>
 
 <script>
-	import hljs from "highlight.js";
-
-	document.addEventListener("DOMContentLoaded", (event) => {
-		document.querySelectorAll("pre code").forEach((el) => {
-			hljs.highlightElement(el as HTMLElement);
-		});
-
+	document.addEventListener("DOMContentLoaded", () => {
 		const scrollButton = document.querySelector("[data-scroll-top]") as HTMLButtonElement | null;
 		const sentinel = document.querySelector("[data-scroll-top-sentinel]") as HTMLElement | null;
 
