@@ -20,6 +20,9 @@ const categories = [...(await getAllCategories()).filter((category) => category.
 	<div class="space-y-4">
 		<h3 class="font-display text-secondary-500 text-lg font-semibold">Categories</h3>
 		<ul class="font-body text-ink-400 space-y-2 text-sm">
+			<li>
+				<a href="/blog/" class="hover:text-quaternary-500 transition-colors"> All Categories </a>
+			</li>
 			{
 				categories.map((category) => (
 					<li>
@@ -32,7 +35,7 @@ const categories = [...(await getAllCategories()).filter((category) => category.
 		</ul>
 	</div>
 	<!-- Tags -->
-	<div class="space-y-4">
+	<!-- <div class="space-y-4">
 		<h3 class="font-display text-secondary-500 text-lg font-semibold">Tags</h3>
 		<div class="flex flex-wrap gap-2">
 			<a
@@ -60,7 +63,7 @@ const categories = [...(await getAllCategories()).filter((category) => category.
 				creativity
 			</a>
 		</div>
-	</div>
+	</div> -->
 	<!-- Subscribe -->
 	<div class="border-secondary-200 space-y-4 border-t pt-12">
 		<h3 class="font-display text-secondary-500 text-lg font-semibold">Subscribe</h3>
