@@ -1,5 +1,9 @@
 ---
+import { getCollection } from "astro:content";
 import { allWordPressPosts, allWordPressCategories } from "@lib/store";
+
+const posts = await getCollection("posts");
+const categories = await getCollection("categories");
 
 import PrimaryLayout from "@components/layouts/primary-layout.astro";
 ---
@@ -10,62 +14,89 @@ import PrimaryLayout from "@components/layouts/primary-layout.astro";
 	canonical="/html-sitemap/"
 	noIndex
 >
-	<div class="grid h-full grid-cols-1 place-content-around text-xl text-gray-700">
-		<ul>
-			<li>
-				<a class="hover:text-purple-500" href="/"> Home </a>
-			</li>
-			<li>
-				<a class="hover:text-purple-500" href="/headless-wordpress-developer/">
-					Headless WordPress Developer
-				</a>
-			</li>
-			<li>
-				<a class="hover:text-purple-500" href="/colorado-springs-web-developer/">
-					Colorado Springs Web Developer
-				</a>
-			</li>
-			<li>
-				<a class="hover:text-purple-500" href="/about/"> About Me </a>
-			</li>
-			<li>
-				<a class="hover:text-purple-500" href="/blog/"> Blog </a>
-			</li>
-
-			<li>
-				<a class="hover:text-purple-500" href="/portfolio/"> Portfolio </a>
-			</li>
-			<li>
-				<a class="hover:text-purple-500" href="/development/"> Web Development Portfolio </a>
-			</li>
-			<li>
-				<a class="hover:text-purple-500" href="/contact/"> Contact Me </a>
-			</li>
-		</ul>
-
-		<p class="pt-10 pb-5 font-semibold">Blog Posts:</p>
-		<ul>
-			{
-				allWordPressPosts.map((post) => (
-					<li>
-						<a class="hover:text-purple-500" href={post?.uri}>
-							{post?.title}
-						</a>
-					</li>
-				))
-			}
-		</ul>
-		<p class="pt-10 pb-5 font-semibold">Blog Categories:</p>
-		<ul>
-			{
-				allWordPressCategories.map((category) => (
-					<li>
-						<a class="hover:text-purple-500" href={category?.uri}>
-							{`Posts About ${category?.name}`}
-						</a>
-					</li>
-				))
-			}
-		</ul>
+	<div class="mx-auto max-w-5xl space-y-16">
+		<header class="space-y-4 text-center">
+			<h1 class="font-display text-secondary-500 text-5xl leading-tight font-semibold">HTML Sitemap</h1>
+			<p class="font-body text-ink-400 mx-auto max-w-prose text-lg leading-relaxed">
+				Browse all core pages and recent essays published on the site.
+			</p>
+		</header>
+		<!-- Core Pages -->
+		<section class="space-y-6">
+			<h2 class="font-display text-secondary-500 text-3xl font-semibold">Core Pages</h2>
+			<ul class="font-body text-ink-400 list-inside list-disc space-y-2 text-lg leading-relaxed">
+				<li>
+					<a href="/" class="hover:text-quaternary-700 underline-hover">Home</a>
+				</li>
+				<li>
+					<a href="/about/" class="hover:text-quaternary-700 underline-hover">About</a>
+				</li>
+				<li>
+					<a href="/blog/" class="hover:text-quaternary-700 underline-hover">Blog</a>
+				</li>
+				<li>
+					<a href="/colorado-springs-web-developer/" class="hover:text-quaternary-700 underline-hover"
+						>Colorado Springs Web Developer</a
+					>
+				</li>
+				<li>
+					<a href="/headless-wordpress-developer/" class="hover:text-quaternary-700 underline-hover"
+						>Headless WordPress Developer</a
+					>
+				</li>
+				<li>
+					<a href="/formstack-developer/" class="hover:text-quaternary-700 underline-hover"
+						>Formstack Developer</a
+					>
+				</li>
+				<li>
+					<a href="/contact/" class="hover:text-quaternary-700 underline-hover">Contact Andrew Kepson</a>
+				</li>
+				<li>
+					<a href="/sitemap-index.xml" class="hover:text-quaternary-700 underline-hover">XML Sitemap</a>
+				</li>
+			</ul>
+		</section>
+		<!-- Blog Posts -->
+		<section class="space-y-6">
+			<h2 class="font-display text-secondary-500 text-3xl font-semibold">Blog Posts</h2>
+			<ul class="font-body text-ink-400 list-inside list-disc space-y-3 text-lg leading-relaxed">
+				{
+					posts.map((post) => (
+						<li>
+							<a href={post?.data?.uri} class="hover:text-quaternary-700 underline-hover">
+								{post?.data?.title}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+		<!-- Blog Categories -->
+		<section class="space-y-6">
+			<h2 class="font-display text-secondary-500 text-3xl font-semibold">Blog Categories</h2>
+			<ul class="font-body text-ink-400 list-inside list-disc space-y-3 text-lg leading-relaxed">
+				{
+					categories
+						.filter((category) => category?.data?.name !== "Uncategorized")
+						.map((category) => (
+							<li>
+								<a href={category?.data?.uri} class="hover:text-quaternary-700 underline-hover">
+									{`Posts About ${category?.data?.name}`}
+								</a>
+							</li>
+						))
+				}
+			</ul>
+		</section>
+		<!-- Footer -->
+		<footer class="border-secondary-100 border-t py-12 text-center">
+			<p class="font-body text-ink-300 text-sm leading-relaxed">
+				Updated {new Date().toLocaleDateString()} • <a
+					href="/sitemap-index.xml"
+					class="hover:text-quaternary-700 underline-hover">View XML Sitemap</a
+				>
+			</p>
+		</footer>
 	</div>
 </PrimaryLayout>
