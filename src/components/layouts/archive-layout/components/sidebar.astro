@@ -6,7 +6,7 @@ const { getAllCategories } = useWordPressAPI;
 const categories = [...(await getAllCategories()).filter((category) => category.name !== "Uncategorized")];
 ---
 
-<aside class="sticky top-24 h-fit space-y-12 self-start">
+<aside class="h-fit space-y-12 lg:sticky lg:top-24 lg:self-start">
 	<!-- Search -->
 	<!-- <div class="space-y-4">
 		<h2 class="font-display text-secondary-500 text-xl font-semibold">Search</h2>

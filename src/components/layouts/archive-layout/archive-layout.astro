@@ -31,8 +31,10 @@ const { title, description, canonical, ogImage, noIndex, schemaMarkup, posts, ca
 	schemaMarkup={schemaMarkup}
 >
 	<div class="mx-auto grid max-w-7xl gap-16 px-4 py-24 lg:grid-cols-[280px_1fr] lg:px-12">
-		<Sidebar />
-		<section class="space-y-12">
+		<div class="order-2 lg:order-1">
+			<Sidebar />
+		</div>
+		<section class="order-1 lg:order-2 space-y-12">
 			<header class="space-y-4 text-center lg:text-left">
 				<Heading
 					level={1}
