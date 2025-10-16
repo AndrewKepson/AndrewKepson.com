@@ -59,8 +59,10 @@ export interface ParsedNode {
 		title?: string;
 		code: string;
 		caption?: string;
+		language?: string;
 	};
 	code?: string;
+	codeLanguage?: string;
 }
 
 export enum WP_BLOCK_CLASSES {

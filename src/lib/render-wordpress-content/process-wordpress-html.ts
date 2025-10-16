@@ -56,6 +56,46 @@ function cloneAttributes(node?: AnyNode | null): Record<string, string> | undefi
 
 const THEME_VARIANTS: ThemeVariant[] = ["primary", "secondary", "tertiary", "quaternary", "offwhite", "ink"];
 
+const LANGUAGE_ALIASES: Record<string, string> = {
+	js: "javascript",
+	cjs: "javascript",
+	mjs: "javascript",
+	ts: "typescript",
+	jsx: "tsx",
+	tsx: "tsx",
+	sh: "bash",
+	bash: "bash",
+	shell: "bash",
+	py: "python",
+	ps: "powershell",
+	ps1: "powershell",
+	powershell: "powershell",
+	yml: "yaml",
+	yaml: "yaml",
+	jsonc: "json",
+	json5: "json",
+	css: "css",
+	scss: "scss",
+	sass: "scss",
+	cs: "csharp",
+	"c#": "csharp",
+	"f#": "fsharp",
+	cpp: "cpp",
+	c: "c",
+	objc: "objective-c",
+	"objective-c": "objective-c",
+	html: "html",
+	xml: "xml",
+	md: "markdown",
+	markdown: "markdown",
+	svelte: "svelte",
+	vue: "vue",
+};
+
+const KNOWN_LANGUAGE_TOKENS = Array.from(
+	new Set([...Object.keys(LANGUAGE_ALIASES), ...Object.values(LANGUAGE_ALIASES)])
+);
+
 function parseThemeVariant(value?: string | null): ThemeVariant | undefined {
 	const normalized = value?.trim().toLowerCase() as ThemeVariant | undefined;
 	if (!normalized) {
@@ -80,6 +120,125 @@ function parseVariantFromClass(classAttr?: string | null): ThemeVariant | undefi
 		if (THEME_VARIANTS.includes(candidate)) {
 			return candidate;
 		}
+	}
+
+	return undefined;
+}
+
+function normalizeLanguage(lang?: string | null): string | undefined {
+	if (!lang) {
+		return undefined;
+	}
+
+	const normalized = lang.trim().toLowerCase();
+	if (!normalized) {
+		return undefined;
+	}
+
+	return LANGUAGE_ALIASES[normalized] ?? normalized;
+}
+
+function inferLanguageFromTitle(title?: string | null): string | undefined {
+	if (!title) {
+		return undefined;
+	}
+
+	const trimmed = title.trim();
+	if (!trimmed) {
+		return undefined;
+	}
+
+	const extensionMatch = trimmed.match(/\.([a-z0-9+#]+)(?:\s|$)/i);
+	if (extensionMatch?.[1]) {
+		const normalized = normalizeLanguage(extensionMatch[1]);
+		if (normalized) {
+			return normalized;
+		}
+	}
+
+	const lowerTitle = trimmed.toLowerCase();
+	for (const token of KNOWN_LANGUAGE_TOKENS) {
+		if (lowerTitle.includes(token)) {
+			const normalized = normalizeLanguage(token);
+			if (normalized) {
+				return normalized;
+			}
+		}
+	}
+
+	return undefined;
+}
+
+function extractLanguageFromClasses(classAttr?: string | null): string | undefined {
+	if (!classAttr) {
+		return undefined;
+	}
+
+	for (const token of classAttr.split(/\s+/)) {
+		const lower = token.toLowerCase();
+		const classMatch = lower.match(/^(?:language|lang|brush)-([a-z0-9+#]+)/);
+		if (classMatch?.[1]) {
+			const normalized = normalizeLanguage(classMatch[1]);
+			if (normalized) {
+				return normalized;
+			}
+		}
+
+		const alias = LANGUAGE_ALIASES[lower];
+		if (alias) {
+			return alias;
+		}
+	}
+
+	return undefined;
+}
+
+function extractLanguageFromNode($element: cheerio.Cheerio<any>): string | undefined {
+	const attrsToCheck = ["data-language", "data-lang", "data-code-language", "data-language-code"];
+
+	for (const attr of attrsToCheck) {
+		const value = normalizeLanguage($element.attr(attr));
+		if (value) {
+			return value;
+		}
+	}
+
+	const ariaLabel = $element.attr("aria-label");
+	if (ariaLabel) {
+		const match = ariaLabel.match(/code\s+language:\s*([a-z0-9+#]+)/i);
+		if (match?.[1]) {
+			const normalized = normalizeLanguage(match[1]);
+			if (normalized) {
+				return normalized;
+			}
+		}
+	}
+
+	const classLanguage = extractLanguageFromClasses($element.attr("class"));
+	if (classLanguage) {
+		return classLanguage;
+	}
+
+	const dataAttributeLanguage = $element.attr("data-language");
+	if (dataAttributeLanguage) {
+		const normalized = normalizeLanguage(dataAttributeLanguage);
+		if (normalized) {
+			return normalized;
+		}
+	}
+
+	return undefined;
+}
+
+function extractLanguage($element: cheerio.Cheerio<any>): string | undefined {
+	let current = $element;
+	for (let depth = 0; depth < 4 && current.length > 0; depth += 1) {
+		const language = extractLanguageFromNode(current);
+		if (language) {
+			return language;
+		}
+
+		current = current.parent();
 	}
 
 	return undefined;
@@ -119,6 +278,9 @@ export function processWpCodeSnippetBlock($: cheerio.CheerioAPI, el: unknown): P
 	const title = $figure.find("span").first().text().trim() || undefined;
 	const caption = $figure.find("figcaption").first().text().trim() || undefined;
 
+	const language =
+		extractLanguage($code) ?? extractLanguage($scope) ?? extractLanguage($block) ?? inferLanguageFromTitle(title);
+
 	return {
 		type: "code-snippet",
 		html: $.html(el as any),
@@ -126,6 +288,7 @@ export function processWpCodeSnippetBlock($: cheerio.CheerioAPI, el: unknown): P
 			title,
 			code: codeText,
 			caption,
+			language,
 		},
 	};
 }
@@ -139,10 +302,17 @@ export function processWpCodeBlock($: cheerio.CheerioAPI, el: unknown): ParsedNo
 	const rawHtml = codeEl.html() ?? "";
 	const cleanText = cheerio.load(`<div>${rawHtml}</div>`)("div").text();
 
+	const normalizedLanguage =
+		extractLanguage(codeEl) ??
+		extractLanguage($(el as any)) ??
+		inferLanguageFromTitle($(el as any).attr("title")) ??
+		inferLanguageFromTitle(codeEl.attr("title"));
+
 	return {
 		type: "code",
 		html: $.html(el as any),
 		code: cleanText.trim(),
+		codeLanguage: normalizedLanguage,
 	};
 }
 

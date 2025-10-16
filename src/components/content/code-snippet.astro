@@ -1,18 +1,56 @@
 ---
+import { codeToHtml } from "shiki";
+
 export interface CodeSnippetProps {
 	title?: string;
 	code: string;
 	caption?: string;
+	language?: string;
 }
 
-const { title, code, caption } = Astro.props as CodeSnippetProps;
+const THEME = "github-dark";
+const DEFAULT_LANGUAGE = "text";
+
+const { title, code, caption, language } = Astro.props as CodeSnippetProps;
+
+function escapeHtml(value: string): string {
+	return value
+		.replaceAll("&", "&amp;")
+		.replaceAll("<", "&lt;")
+		.replaceAll(">", "&gt;")
+		.replaceAll('"', "&quot;")
+		.replaceAll("'", "&#39;");
+}
+
+async function highlight(source: string, lang?: string): Promise<string> {
+	try {
+		return await codeToHtml(source, {
+			lang: lang ?? DEFAULT_LANGUAGE,
+			theme: THEME,
+		});
+	} catch (error) {
+		if (lang && lang !== DEFAULT_LANGUAGE) {
+			try {
+				return await codeToHtml(source, {
+					lang: DEFAULT_LANGUAGE,
+					theme: THEME,
+				});
+			} catch (fallbackError) {
+				console.error("Failed to highlight code with fallback language:", fallbackError);
+			}
+		}
+		console.error("Failed to highlight code:", error);
+		return `<pre class="shiki plain"><code>${escapeHtml(source)}</code></pre>`;
+	}
+}
+
+const highlightedHtml = await highlight(code, language);
 ---
 
 <figure
 	class:list={[
 		"component-code-snippet",
-		"bg-primary-500 border-secondary-100 my-8 overflow-hidden rounded-[8px] border shadow-sm",
-		"[.prose figure:is(.component-code-snippet) pre]:bg-transparent"
+		"bg-primary-500 border-secondary-100 my-8 overflow-hidden rounded-[8px] border shadow-sm"
 	]}
 	x-data="{
 		async copy() {
@@ -61,9 +99,11 @@ const { title, code, caption } = Astro.props as CodeSnippetProps;
 			Copy
 		</button>
 	</div>
-	<pre
-		class="font-code text-ink-400 overflow-x-auto px-6 py-4 text-sm leading-relaxed">
-		<code data-code x-ref="code">{code}</code>
-	</pre>
+	<div
+		class="font-code text-ink-400 prose-code:text-inherit prose-pre:bg-transparent prose-pre:p-0 overflow-x-auto px-6 py-4 text-sm leading-relaxed"
+		data-code
+		x-ref="code"
+		set:html={highlightedHtml}
+	></div>
 	{caption && <figcaption class="font-body text-ink-300 px-6 pb-4 text-xs italic">{caption}</figcaption>}
 </figure>
