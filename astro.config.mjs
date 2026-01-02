@@ -6,9 +6,18 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 
 import alpinejs from "@astrojs/alpinejs";
+import pagefind from "astro-pagefind";
 
 export default defineConfig({
-	integrations: [sitemap(), alpinejs()],
+	integrations: [
+		sitemap(),
+		alpinejs(),
+		pagefind({
+			indexConfig: {
+				rootSelector: "[data-pagefind-body]",
+			},
+		}),
+	],
 	vite: {
 		plugins: [tailwindcss()],
 		resolve: {

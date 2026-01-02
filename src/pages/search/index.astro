@@ -1,0 +1,119 @@
+---
+import PrimaryLayout from "@components/layouts/primary-layout.astro";
+import Heading from "@components/ui/typography/heading.astro";
+import Search from "astro-pagefind/components/Search";
+---
+
+<PrimaryLayout title="Search" description="Search through blog posts by keyword." canonical="/search/">
+	<section class="component-search-page bg-offwhite-500">
+		<div class="mx-auto w-full max-w-5xl space-y-12 px-4 py-24 sm:px-8">
+			<header class="space-y-4 text-center">
+				<Heading
+					level={1}
+					text="Search the Blog"
+					class="font-display text-secondary-500 text-4xl leading-tight font-semibold md:text-5xl"
+				/>
+				<p class="font-body text-ink-400 mx-auto max-w-2xl text-lg leading-relaxed">
+					Look up essays, notes, and reflections across the archive.
+				</p>
+			</header>
+			<div class="search-pagefind">
+				<Search
+					className="search-pagefind__ui"
+					uiOptions={{
+						showSubResults: true,
+						showImages: false,
+					}}
+				/>
+			</div>
+		</div>
+	</section>
+</PrimaryLayout>
+
+<style is:global>
+	.search-pagefind {
+		--pagefind-ui-font: var(--font-body);
+		--pagefind-ui-text: var(--color-ink-500);
+		--pagefind-ui-background: var(--color-offwhite-500);
+		--pagefind-ui-border: var(--color-secondary-200);
+		--pagefind-ui-primary: var(--color-secondary-500);
+		--pagefind-ui-tag: var(--color-primary-500);
+		--pagefind-ui-border-radius: 6px;
+		--pagefind-ui-border-width: 1px;
+		--pagefind-ui-scale: 0.95;
+	}
+
+	.search-pagefind .pagefind-ui__search-input {
+		font-family: var(--font-body);
+		font-weight: 500;
+		color: var(--color-ink-500);
+	}
+
+	.search-pagefind .pagefind-ui__search-input::placeholder {
+		color: var(--color-ink-300);
+		opacity: 1;
+	}
+
+	.search-pagefind .pagefind-ui__result-title {
+		font-family: var(--font-display);
+		color: var(--color-secondary-500);
+	}
+
+	.search-pagefind .pagefind-ui__result-link {
+		color: inherit;
+	}
+
+	.search-pagefind .pagefind-ui__result-excerpt {
+		color: var(--color-ink-400);
+	}
+
+	.search-pagefind .pagefind-ui__message {
+		font-family: var(--font-display);
+		color: var(--color-secondary-500);
+	}
+</style>
+
+<script>
+	const queryParam = new URLSearchParams(window.location.search).get("q") ?? "";
+
+	const syncQueryToPagefind = () => {
+		if (!queryParam) {
+			return false;
+		}
+
+		const input = document.querySelector<HTMLInputElement>(".pagefind-ui__search-input");
+		if (!input) {
+			return false;
+		}
+
+		input.value = queryParam;
+		input.dispatchEvent(new Event("input", { bubbles: true }));
+		return true;
+	};
+
+	const initQuerySync = () => {
+		if (syncQueryToPagefind()) {
+			return;
+		}
+
+		const container = document.querySelector(".search-pagefind");
+		if (!container) {
+			return;
+		}
+
+		const observer = new MutationObserver(() => {
+			if (syncQueryToPagefind()) {
+				observer.disconnect();
+			}
+		});
+
+		observer.observe(container, { childList: true, subtree: true });
+		setTimeout(() => observer.disconnect(), 5000);
+	};
+
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", initQuerySync);
+	} else {
+		initQuerySync();
+	}
+</script>

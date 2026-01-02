@@ -1,5 +1,6 @@
 ---
 import { useWordPressAPI } from "@lib/hooks";
+import SearchForm from "@components/ui/forms/search-form.astro";
 
 const { getAllCategories } = useWordPressAPI;
 
@@ -8,14 +9,10 @@ const categories = [...(await getAllCategories()).filter((category) => category.
 
 <aside class="h-fit space-y-12 lg:sticky lg:top-24 lg:self-start">
 	<!-- Search -->
-	<!-- <div class="space-y-4">
+	<div class="space-y-4">
 		<h2 class="font-display text-secondary-500 text-xl font-semibold">Search</h2>
-		<input
-			type="text"
-			placeholder="Search articles..."
-			class="border-secondary-200 bg-offwhite-500 text-ink-500 placeholder-ink-300 font-body focus:ring-quaternary-400 focus:border-quaternary-400 w-full rounded-[6px] border px-4 py-3 text-sm focus:ring-2 focus:outline-none"
-		/>
-	</div> -->
+		<SearchForm />
+	</div>
 	<!-- Categories -->
 	<div class="space-y-4">
 		<h3 class="font-display text-secondary-500 text-lg font-semibold">Categories</h3>

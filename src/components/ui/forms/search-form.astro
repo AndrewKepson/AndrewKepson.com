@@ -1,0 +1,60 @@
+---
+interface Props {
+	id?: string;
+	action?: string;
+	label?: string;
+	placeholder?: string;
+	query?: string;
+	buttonText?: string;
+	showButton?: boolean;
+	class?: string;
+	inputClass?: string;
+	buttonClass?: string;
+	labelClass?: string;
+}
+
+const {
+	id,
+	action = "/search/",
+	label = "Search articles",
+	placeholder = "Search articles...",
+	query = "",
+	buttonText = "Search",
+	showButton = true,
+	class: classes,
+	inputClass,
+	buttonClass,
+	labelClass = "sr-only",
+} = Astro.props as Props;
+
+const inputId = id ? `${id}-input` : "search-input";
+---
+
+<form
+	id={id}
+	action={action}
+	method="get"
+	class:list={["component-search-form", "space-y-3", classes]}
+	role="search"
+>
+	<label for={inputId} class={labelClass}>{label}</label>
+	<input
+		id={inputId}
+		type="search"
+		name="q"
+		value={query}
+		placeholder={placeholder}
+		class:list={[
+			"border-secondary-200 bg-offwhite-500 text-ink-500 placeholder-ink-300 font-body focus:ring-quaternary-400 focus:border-quaternary-400 w-full rounded-[6px] border px-4 py-3 text-sm focus:ring-2 focus:outline-none",
+			inputClass,
+		]}
+	/>
+	{showButton && (
+		<button
+			type="submit"
+			class:list={["button-base theme-transition button-secondary w-full", buttonClass]}
+		>
+			{buttonText}
+		</button>
+	)}
+</form>
