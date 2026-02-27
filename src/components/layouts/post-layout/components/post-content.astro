@@ -33,7 +33,7 @@ const headings = getHeadingsFromMarkdown(post?.content) ?? [];
 		</p> -->
 		<div class="bg-secondary-500 mx-auto mt-8 h-[2px] w-20 opacity-30"></div>
 	</header>
-	<!-- Hero Image -->
+	<!-- Featured Image -->
 	<div class="relative mx-auto mb-24 max-w-6xl overflow-hidden rounded-[12px] px-4 sm:px-8">
 		<Image
 			src={post?.featuredImage?.url}
@@ -41,6 +41,9 @@ const headings = getHeadingsFromMarkdown(post?.content) ?? [];
 			width={1200}
 			height={700}
 			class="w-full rounded-[12px] object-cover brightness-[0.97] contrast-[1.03]"
+			loading="eager"
+			fetchpriority="high"
+			decoding="sync"
 		/>
 	</div>
 	{
