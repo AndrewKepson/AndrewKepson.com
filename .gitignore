@@ -22,3 +22,5 @@ pnpm-debug.log*
 
 .vscode
 .llm-rules
+# Local Netlify folder
+.netlify
