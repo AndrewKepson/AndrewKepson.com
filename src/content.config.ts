@@ -1,6 +1,6 @@
 import { defineCollection } from "astro:content";
 import { useWordPressAPI } from "@lib/hooks";
-import { pageSchema, postSchema, categorySchema } from "./wordPressSchema";
+import { pageSchema, postSchema, categorySchema } from "./content/wordPressSchema";
 
 export const pagesCollection = defineCollection({
 	schema: pageSchema,
