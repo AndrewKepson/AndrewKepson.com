@@ -111,6 +111,7 @@ import { SOCIAL_LINKS } from "@lib/store";
 		<!-- Subscribe / Sitemap -->
 		<div class="space-y-4">
 			<h2 class="font-display text-secondary-500 text-lg font-semibold">Stay Connected</h2>
+			{import.meta.env.CMS_VALIDATION === "1" ? <p>Forms are disabled in this preview.</p> : (
 			<form class="space-y-3" name="Subscribe" method="POST" action="/contact/thank-you/" data-netlify="true">
 				<input
 					type="email"
@@ -120,6 +121,7 @@ import { SOCIAL_LINKS } from "@lib/store";
 				/>
 				<button type="submit" class="button-base theme-transition button-secondary w-full"> Subscribe </button>
 			</form>
+			)}
 		</div>
 	</div>
 	<!-- Bottom bar -->

@@ -12,6 +12,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const WP_API_URL = process.env.WPGRAPHQL_ENDPOINT;
+const requireCompleteContent = process.env.CMS_VALIDATION === "1";
 
 export const fetchWordPressAPI = async <T = unknown>(
 	query: string,
@@ -82,7 +83,10 @@ const paginatedQuery = async <T, U = T>(
 	while (hasMore && allItems.length < limit) {
 		try {
 			const response = await fetchBatch();
-			if (!response) break;
+			if (!response) {
+				if (requireCompleteContent) throw new Error("Missing paginated CMS response");
+				break;
+			}
 
 			const newItems = response.edges.map((edge) => dataTransformer(edge.node));
 			allItems = [...allItems, ...newItems];
@@ -97,6 +101,7 @@ const paginatedQuery = async <T, U = T>(
 			}
 		} catch (error) {
 			console.error("Failed to fetch items:", error);
+			if (requireCompleteContent) throw error;
 			break;
 		}
 	}

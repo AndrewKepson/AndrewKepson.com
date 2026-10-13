@@ -3,6 +3,7 @@
 	<p class="font-body text-ink-400 text-sm leading-relaxed">
 		Thoughtful essays on web development, SEO, and automation — sent occasionally, never spammed.
 	</p>
+	{import.meta.env.CMS_VALIDATION === "1" ? <p>Forms are disabled in this preview.</p> : (
 	<form name="Subscribe" method="POST" action="/contact/thank-you/" data-netlify="true" class="max-w-full space-y-3">
 		<input
 			type="email"
@@ -12,4 +13,5 @@
 		/>
 		<button type="submit" class="button-base theme-transition button-secondary w-full"> Subscribe </button>
 	</form>
+	)}
 </div>

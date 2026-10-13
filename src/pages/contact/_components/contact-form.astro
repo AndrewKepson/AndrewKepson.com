@@ -7,6 +7,7 @@
 			</p>
 		</header>
 		<!-- Contact Form -->
+		{import.meta.env.CMS_VALIDATION === "1" ? <p>Forms are disabled in this preview.</p> : (
 		<form
 			class="space-y-6"
 			x-data="{ open: false, selected: 'Select an option' }"
@@ -119,5 +120,6 @@
 			</div>
 			<button type="submit" class="button-base theme-transition button-secondary"> Send Message </button>
 		</form>
+		)}
 	</div>
 </section>

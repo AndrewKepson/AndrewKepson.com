@@ -67,6 +67,7 @@ const categories = [...(await getAllCategories()).filter((category) => category.
 		<p class="font-body text-ink-400 text-sm leading-relaxed">
 			Receive new essays and reflections directly to your inbox.
 		</p>
+		{import.meta.env.CMS_VALIDATION === "1" ? <p>Forms are disabled in this preview.</p> : (
 		<form name="Subscribe" method="POST" action="/contact/thank-you/" data-netlify="true" class="space-y-3">
 			<input
 				type="email"
@@ -76,5 +77,6 @@ const categories = [...(await getAllCategories()).filter((category) => category.
 			/>
 			<button type="submit" class="button-base theme-transition button-secondary w-full"> Subscribe </button>
 		</form>
+		)}
 	</div>
 </aside>

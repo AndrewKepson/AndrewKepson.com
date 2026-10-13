@@ -29,7 +29,10 @@ export default defineConfig({
 	trailingSlash: "always",
 	site: "https://andrewkepson.com",
 	image: {
-		domains: ["headless.andrewkepson.com"],
+		domains: [
+			"headless.andrewkepson.com",
+			...(process.env.CMS_VALIDATION === "1" ? ["cms-pilot.andrewkepson.com"] : []),
+		],
 	},
 	prefetch: true,
 	compressHTML: true,

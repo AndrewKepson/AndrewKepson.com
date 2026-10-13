@@ -59,12 +59,13 @@ import Header from "@components/layouts/header/header.astro";
 import Footer from "@components/layouts/footer/footer.astro";
 
 const { title, description, canonical, ogImage, noIndex, schemaMarkup } = Astro.props;
+const isCmsValidation = import.meta.env.CMS_VALIDATION === "1";
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		{isProduction && ( 
+		{isProduction && !isCmsValidation && (
 			<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -85,7 +86,7 @@ const { title, description, canonical, ogImage, noIndex, schemaMarkup } = Astro.
 		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
 		<link rel="sitemap" href="/sitemap-index.xml" />
 		{canonical && <link rel="canonical" href={`${siteUrl}${canonical}`} />}
-		{noIndex && <meta name="robots" content="noindex" />}
+		{(noIndex || isCmsValidation) && <meta name="robots" content="noindex" />}
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		{schemaMarkup ? <Fragment set:html={schemaMarkup} /> : null}
