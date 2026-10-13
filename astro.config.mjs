@@ -8,6 +8,17 @@ import sitemap from "@astrojs/sitemap";
 import alpinejs from "@astrojs/alpinejs";
 import pagefind from "astro-pagefind";
 
+if (process.env.CMS_VALIDATION === "1" && process.env.CMS_VALIDATION_AUTH) {
+	const fetchWithoutCmsAuth = globalThis.fetch;
+	globalThis.fetch = (input, init) => {
+		const request = new Request(input, init);
+		if (new URL(request.url).origin === "https://cms-pilot.andrewkepson.com") {
+			request.headers.set("Authorization", process.env.CMS_VALIDATION_AUTH);
+		}
+		return fetchWithoutCmsAuth(request);
+	};
+}
+
 export default defineConfig({
 	integrations: [
 		sitemap(),
