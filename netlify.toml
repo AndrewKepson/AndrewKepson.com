@@ -1,6 +1,11 @@
 [build]
-  command = "pnpm run build"
+  command = "node scripts/protect-cms-validation.mjs check && pnpm run build && node scripts/protect-cms-validation.mjs write"
   publish = "dist"
 
 [build.environment]
   NODE_VERSION = "22"
+
+[context."codex/andrew-cms-validation".environment]
+  CMS_VALIDATION = "1"
+  WPGRAPHQL_ENDPOINT = "https://cms-pilot.andrewkepson.com/graphql"
+  ASTRO_TELEMETRY_DISABLED = "1"
